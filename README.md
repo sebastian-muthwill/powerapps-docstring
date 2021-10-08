@@ -1,1 +1,26 @@
 # powerapps-docstring
+
+PowerApps-docstring ist an console based, pipeline ready application that automatically generates user and technical documentation for PowerApps.
+
+**Currently in "call for demands stage"**
+
+## function ideas
+- screenflow from navigations
+- screen descriptions from comments
+- used functions  (configurable)
+- comments
+- used connections
+- output
+  ○ user and technical documentation
+  ○ markdown
+  ○ html
+  ○ pdf
+- handels
+  ○ zip
+  ○ mssap
+  ○ src
+- usable via DevOps CI-CD pipeline
+
+## Todos
+- collect ideas
+- create first alpha version
