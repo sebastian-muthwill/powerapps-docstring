@@ -5,6 +5,7 @@ PowerApps-docstring ist an console based, pipeline ready application that automa
 **Currently in "call for demands stage"**
 
 ## function ideas
+If you would like to submit your idea, please comment in this issue: https://github.com/sebastian-muthwill/powerapps-docstring/issues/1
 - screenflow from navigations
 - screen descriptions from comments
 - used functions  (configurable)
