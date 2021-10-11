@@ -1,0 +1,17 @@
+# Holds all objects and their corresponding propperties that are considered
+# for documentation (sequence has no influence)
+RelevantObjects:
+    #button: [OnSelect, Text]
+    #barcodeScanner: [OnScan]
+    #form: [DataSource, Item]
+    gallery: [Items, OnSelect]
+    #image: [Image, OnSelect]
+    #icon.ArrowsUpDown: [OnSelect, Icon]
+    #icon.Cancel: [OnSelect, Icon]
+    #icon.ChevronRight: [OnSelect, Icon]
+    #icon.Reload: [OnSelect, Icon]
+    #icon.Settings: [OnSelect, Icon]
+    #label: [OnSelect, Text]
+    screen: [OnVisible]
+    #text: [OnSelect]
+    #typedDataCard: [DataField, Default, Update]
