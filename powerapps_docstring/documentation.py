@@ -92,7 +92,8 @@ class Docstring():
         # write app info
         if on_start != None:
             appinfo = self._extract_parts_from_propperty(on_start)
-            self.md_file.new_paragraph(appinfo[1], )
+            if appinfo[1] != None:
+                self.md_file.new_paragraph(appinfo[1])
             self.md_file.new_line("")
             self.md_file.new_header(level=2, title="OnStart")
             self.md_file.insert_code(appinfo[2])
