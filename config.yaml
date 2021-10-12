@@ -1,11 +1,11 @@
 # Holds all objects and their corresponding propperties that are considered
 # for documentation (sequence has no influence)
 RelevantObjects:
-    #button: [OnSelect, Text]
-    #barcodeScanner: [OnScan]
-    #form: [DataSource, Item]
-    gallery: [Items, OnSelect]
-    #image: [Image, OnSelect]
+    button: [OnSelect, Text]
+    barcodeScanner: [OnScan]
+    form: [DataSource, Item]
+    gallery: [OnSelect, Items]
+    image: [OnSelect, Image]
     #icon.ArrowsUpDown: [OnSelect, Icon]
     #icon.Cancel: [OnSelect, Icon]
     #icon.ChevronRight: [OnSelect, Icon]
@@ -13,5 +13,5 @@ RelevantObjects:
     #icon.Settings: [OnSelect, Icon]
     #label: [OnSelect, Text]
     screen: [OnVisible]
-    #text: [OnSelect]
+    text: [OnSelect]
     #typedDataCard: [DataField, Default, Update]
