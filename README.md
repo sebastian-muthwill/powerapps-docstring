@@ -39,10 +39,6 @@ If you would like to submit your idea, please comment this issue: https://github
   - src
 - usable via Azure DevOps CI-CD pipeline
 
-## Todos
-- [ ] collect ideas
-- [x] create first alpha version
-
 ## Follow this topic
 [Twitter](https://twitter.com/waszumkuckuck)
 
