@@ -1,0 +1,212 @@
+SketchScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Create a sketch during a meeting.*/
+        Set(ShowSketchSaved, false)
+    Orientation: =If(SketchScreen.Width < SketchScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= SketchScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    SketchCanvas As inkControl:
+        BorderThickness: =0
+        Height: =705
+        OnSelect: =Set(ShowSketchSaved, false)
+        Width: =1291
+        X: =75
+        Y: =63
+        ZIndex: =7
+
+    SketchNavBar As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =13
+
+        AppLogo2 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppLogo2.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppLogo2.BorderColor, 20%)
+            HoverFill: =ColorFade(AppLogo2.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppLogo2.BorderColor, -20%)
+            PressedFill: =ColorFade(AppLogo2.Fill, -20%)
+            Width: =75
+            ZIndex: =2
+
+        HomeMenuBkg_2 As rectangle:
+            DisabledFill: =HomeMenuBkg_2.Fill
+            Fill: =RGBA(74, 91, 104, 1)
+            FocusedBorderColor: =HomeMenuBkg_2.BorderColor
+            Height: =702
+            HoverFill: =HomeMenuBkg_2.Fill
+            PressedFill: =HomeMenuBkg_2.Fill
+            Width: =75
+            Y: =66
+            ZIndex: =3
+
+        NavHome2 As image:
+            Fill: =RGBA(44, 48, 52, 0)
+            FocusedBorderColor: =NavHome2.BorderColor
+            Height: =NavHome2.Width
+            HoverBorderColor: =ColorFade(NavHome2.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_2.Fill, 20%)
+            Image: ='nav-notes'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(HomeScreen, None)
+            PressedBorderColor: =ColorFade(NavHome2.BorderColor, -20%)
+            PressedFill: =ColorFade(NavHome2.Fill, -20%)
+            Width: =HomeMenuBkg_2.Width
+            Y: =66
+            ZIndex: =4
+
+        NavSketch2 As image:
+            Fill: =RGBA(44, 48, 52, 1)
+            FocusedBorderColor: =NavSketch2.BorderColor
+            Height: =NavSketch2.Width
+            HoverBorderColor: =ColorFade(NavSketch2.BorderColor, 20%)
+            HoverFill: =NavSketch2.Fill
+            Image: ='nav-sketch'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(NavSketch2.BorderColor, -20%)
+            PressedFill: =ColorFade(NavSketch2.Fill, -20%)
+            Width: =HomeMenuBkg_2.Width
+            Y: =141
+            ZIndex: =5
+
+        NavPhotos2 As image:
+            FocusedBorderColor: =NavPhotos2.BorderColor
+            Height: =NavPhotos2.Width
+            HoverBorderColor: =ColorFade(NavPhotos2.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_2.Fill, 20%)
+            Image: ='nav-camera'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(CameraScreen, None)
+            PressedBorderColor: =ColorFade(NavPhotos2.BorderColor, -20%)
+            PressedFill: =ColorFade(NavPhotos2.Fill, -20%)
+            Width: =HomeMenuBkg_2.Width
+            Y: =216
+            ZIndex: =6
+
+    SketchBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =13
+
+        BackgroundBanner As rectangle:
+            DisabledFill: =BackgroundBanner.Fill
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =BackgroundBanner.BorderColor
+            Height: =66
+            HoverFill: =BackgroundBanner.Fill
+            PressedFill: =BackgroundBanner.Fill
+            Width: =1366
+            ZIndex: =1
+
+        SaveSketch As button:
+            BorderColor: =SaveSketch.Color
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(SaveSketch.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =SaveSketch.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(SaveSketch.BorderColor, 20%)
+            HoverColor: =SaveSketch.Color
+            HoverFill: =ColorFade(SaveSketch.Fill, 20%)
+            OnSelect: |-
+                =/*store sketches in sketch collection*/
+                Set(SketchNumber, SketchNumber + 1);
+                Collect(Sketches, {Image:SketchCanvas.Image, Name: "Sketch" & SketchNumber & ".jpg"});
+                Reset(SketchCanvas);
+                Set(ShowSketchSaved, true)
+            PaddingLeft: =37
+            PaddingRight: =0
+            PressedBorderColor: =SaveSketch.Fill
+            PressedColor: =SaveSketch.Fill
+            PressedFill: =SaveSketch.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =10.5
+            Text: ="Save sketch"
+            Visible: =!ShowSketchSaved
+            Width: =200
+            X: =620
+            Y: =13
+            ZIndex: =8
+
+        SaveSketchIcon As icon.Save:
+            Color: =SaveSketch.Color
+            DisabledFill: =SaveSketchIcon.Fill
+            FocusedBorderColor: =SaveSketchIcon.BorderColor
+            Height: =22
+            HoverBorderColor: =ColorFade(SaveSketchIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(SaveSketchIcon.Color, 20%)
+            HoverFill: =SaveSketchIcon.Fill
+            Icon: =Icon.Save
+            OnSelect: =Select(SaveSketch)
+            PressedBorderColor: =ColorFade(SaveSketchIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(SaveSketchIcon.Color, -20%)
+            PressedFill: =SaveSketchIcon.Fill
+            Visible: =!ShowSketchSaved
+            Width: =22
+            X: =636
+            Y: =24
+            ZIndex: =9
+
+        SavedIndicator2 As icon.Check:
+            Color: =RGBA(96, 181, 2, 1)
+            DisabledFill: =SavedIndicator2.Fill
+            FocusedBorderColor: =SavedIndicator2.BorderColor
+            Height: =22
+            HoverBorderColor: =ColorFade(SavedIndicator2.BorderColor, 20%)
+            HoverColor: =ColorFade(SavedIndicator2.Color, 20%)
+            HoverFill: =SavedIndicator2.Fill
+            Icon: =Icon.Check
+            PressedBorderColor: =ColorFade(SavedIndicator2.BorderColor, -20%)
+            PressedColor: =ColorFade(SavedIndicator2.Color, -20%)
+            PressedFill: =SavedIndicator2.Fill
+            Visible: =ShowSketchSaved
+            Width: =22
+            X: =674
+            Y: =21
+            ZIndex: =10
+
+        SavedIndicator1 As circle:
+            BorderColor: =SavedIndicator2.Color
+            BorderThickness: =2
+            DisabledFill: =SavedIndicator1.Fill
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =SavedIndicator1.BorderColor
+            Height: =36
+            HoverFill: =SavedIndicator1.Fill
+            PressedFill: =SavedIndicator1.Fill
+            Visible: =ShowSketchSaved
+            Width: =36
+            X: =667
+            Y: =15
+            ZIndex: =11
+
+        SavedIndicator As label:
+            FocusedBorderColor: =SavedIndicator.BorderColor
+            FontWeight: =Semibold
+            Height: =34
+            HoverBorderColor: =SavedIndicator.BorderColor
+            HoverColor: =SavedIndicator.Color
+            HoverFill: =SavedIndicator.Fill
+            PressedBorderColor: =SavedIndicator.BorderColor
+            PressedColor: =SavedIndicator.Color
+            PressedFill: =SavedIndicator.Fill
+            Size: =12
+            Text: ="Saved!"
+            Visible: =ShowSketchSaved
+            Width: =120
+            X: =710
+            Y: =14
+            ZIndex: =12
+

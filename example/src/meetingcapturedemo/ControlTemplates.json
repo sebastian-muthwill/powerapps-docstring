@@ -1,0 +1,805 @@
+{
+  "AppConditional0": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/conditional",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "AppConditional0",
+    "OverridableProperties": {
+      "ConditionProperties": {
+        "App_INTERNAL_PROPERTY_NAME_0": {
+          "ConditionExpression": "true",
+          "DisplayName": "Rule1",
+          "IsAvailableConditionProperty": false
+        },
+        "App_INTERNAL_PROPERTY_NAME_1": {
+          "ConditionExpression": "true",
+          "DisplayName": "Rule2",
+          "IsAvailableConditionProperty": false
+        },
+        "App_INTERNAL_PROPERTY_NAME_10": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_10",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_100": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_100",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_101": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_101",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_102": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_102",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_103": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_103",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_104": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_104",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_105": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_105",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_106": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_106",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_107": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_107",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_108": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_108",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_109": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_109",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_11": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_11",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_110": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_110",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_111": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_111",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_112": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_112",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_113": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_113",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_114": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_114",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_115": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_115",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_116": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_116",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_117": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_117",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_118": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_118",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_119": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_119",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_12": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_12",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_120": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_120",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_121": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_121",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_122": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_122",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_123": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_123",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_124": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_124",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_125": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_125",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_126": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_126",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_13": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_13",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_14": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_14",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_15": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_15",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_16": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_16",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_17": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_17",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_18": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_18",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_19": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_19",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_2": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_2",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_20": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_20",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_21": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_21",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_22": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_22",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_23": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_23",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_24": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_24",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_25": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_25",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_26": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_26",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_27": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_27",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_28": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_28",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_29": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_29",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_3": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_3",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_30": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_30",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_31": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_31",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_32": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_32",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_33": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_33",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_34": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_34",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_35": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_35",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_36": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_36",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_37": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_37",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_38": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_38",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_39": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_39",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_4": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_4",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_40": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_40",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_41": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_41",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_42": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_42",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_43": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_43",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_44": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_44",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_45": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_45",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_46": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_46",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_47": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_47",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_48": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_48",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_49": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_49",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_5": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_5",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_50": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_50",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_51": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_51",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_52": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_52",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_53": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_53",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_54": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_54",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_55": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_55",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_56": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_56",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_57": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_57",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_58": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_58",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_59": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_59",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_6": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_6",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_60": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_60",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_61": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_61",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_62": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_62",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_63": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_63",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_64": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_64",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_65": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_65",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_66": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_66",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_67": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_67",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_68": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_68",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_69": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_69",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_7": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_7",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_70": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_70",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_71": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_71",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_72": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_72",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_73": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_73",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_74": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_74",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_75": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_75",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_76": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_76",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_77": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_77",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_78": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_78",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_79": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_79",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_8": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_8",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_80": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_80",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_81": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_81",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_82": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_82",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_83": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_83",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_84": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_84",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_85": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_85",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_86": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_86",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_87": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_87",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_88": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_88",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_89": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_89",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_9": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_9",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_90": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_90",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_91": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_91",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_92": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_92",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_93": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_93",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_94": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_94",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_95": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_95",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_96": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_96",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_97": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_97",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_98": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_98",
+          "IsAvailableConditionProperty": true
+        },
+        "App_INTERNAL_PROPERTY_NAME_99": {
+          "DisplayName": "App_INTERNAL_PROPERTY_NAME_99",
+          "IsAvailableConditionProperty": true
+        }
+      }
+    },
+    "Version": "1.0"
+  },
+  "appinfo": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/appinfo",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "appinfo",
+    "OverridableProperties": {},
+    "Version": "1.0"
+  },
+  "button": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/button",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "button",
+    "OverridableProperties": {},
+    "Version": "2.1.0"
+  },
+  "camera": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/camera",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "camera",
+    "OverridableProperties": {},
+    "Version": "2.4.0"
+  },
+  "checkbox": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/checkbox",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "checkbox",
+    "OverridableProperties": {},
+    "Version": "2.1.0"
+  },
+  "circle": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/shapes/circle",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "circle",
+    "OverridableProperties": {},
+    "Version": "2.2.0"
+  },
+  "datepicker": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/datepicker",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "datepicker",
+    "OverridableProperties": {},
+    "Version": "2.5.0"
+  },
+  "dropdown": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/dropdown",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "dropdown",
+    "OverridableProperties": {},
+    "Version": "2.3.0"
+  },
+  "gallery": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/gallery",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "gallery",
+    "OverridableProperties": {},
+    "Version": "2.12.0"
+  },
+  "galleryTemplate": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/galleryTemplate",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "galleryTemplate",
+    "OverridableProperties": {},
+    "Version": "1.0"
+  },
+  "group": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/group",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "group",
+    "OverridableProperties": {},
+    "Version": "1"
+  },
+  "groupContainer": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/groupContainer",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "groupContainer",
+    "Version": "1.0"
+  },
+  "htmlViewer": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/htmlViewer",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "htmlViewer",
+    "OverridableProperties": {},
+    "Version": "2.1.0"
+  },
+  "icon": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/icon",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "icon",
+    "OverridableProperties": {},
+    "Version": "2.4.0"
+  },
+  "image": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/image",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "image",
+    "OverridableProperties": {},
+    "Version": "2.2.0"
+  },
+  "inkControl": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/inkControl",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "inkControl",
+    "OverridableProperties": {},
+    "Version": "2.2.0"
+  },
+  "label": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/label",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "label",
+    "OverridableProperties": {},
+    "Version": "2.4.0"
+  },
+  "rectangle": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/shapes/rectangle",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "rectangle",
+    "OverridableProperties": {},
+    "Version": "2.2.0"
+  },
+  "screen": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/screen",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "screen",
+    "OverridableProperties": {},
+    "Version": "1.0"
+  },
+  "text": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/text",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "text",
+    "OverridableProperties": {},
+    "Version": "2.3.1"
+  },
+  "timer": {
+    "CustomGroupControlTemplateName": "",
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/timer",
+    "IsComponentTemplate": false,
+    "IsCustomGroupControlTemplate": false,
+    "IsPcfControl": false,
+    "IsPremiumPcfControl": false,
+    "IsWidgetTemplate": true,
+    "LastModifiedTimestamp": "0",
+    "Name": "timer",
+    "OverridableProperties": {},
+    "Version": "2.1.0"
+  }
+}

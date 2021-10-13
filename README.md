@@ -2,7 +2,7 @@
 
 PowerApps-docstring is a console based, pipeline ready application that automatically generates user and technical documentation for PowerApps.
 
-[v0.1.0-alpha version available](https://github.com/sebastian-muthwill/powerapps-docstring/releases/tag/v0.1.0-alpha)
+[powerapps-docstring alpha](https://github.com/sebastian-muthwill/powerapps-docstring/releases/latest)
 
 ## Purpose of this application
 Documentation of Microsoft Power Apps is an important building block in the software lifecycle. As in the traditional software development process, the developed Power App should also be documented propperly to ensure further development/support and maintenance as well as onboarding of new developers.
@@ -16,30 +16,39 @@ This application shall solve this problem by providing a way to:
 - create documentation based on an exported app
 
 ## Getting started
-1. clone repository `git clone https://....` and change into directory `cd powerapps-docstring`
+1. clone repository `git clone https://github.com/sebastian-muthwill/powerapps-docstring.git` and change into directory `cd powerapps-docstring`
 2. install requirements with `pip install -r requirements.txt`
-3. run with `python3 main.py -s path/to/src/folder -o path/to/output/folder`
+3. run with `python3 main.py -s example/srcmeetingcapturedemo -o example`
+
+Once the application finished successfully the documentation file is created in the specified folder in markdown format.
+
+### Example
+The example [Meeting Capture Demo-doc.md](example/Meeting Capture Demo-doc.md) is based on the template "Meeting Capture App" provided by Microsoft. The app has not been modified except docstrings have been added within the `OnVisible` propperties of each screen as well as `OnStart`. The source files are also available in the example folder.
+
+### Known issues / optimizations
+- screens are not in the order as in Power Apps Studio see: #10
+- mermaid graph looks wierd whe to many screens and is not displayed in github since github currently does not support mermaid
+- currently not tested with modell driven apps
 
 ## Feature ideas
-If you would like to submit your idea, please comment this issue: https://github.com/sebastian-muthwill/powerapps-docstring/issues/1
+If you would like to submit your idea, feel free to create an issue.
 
-- screenflow from navigations
-- screen descriptions from comments
-- used functions  (configurable)
-- comments
-- used connections
+- ~~screen descriptions from comments~~
+- ~~screenflow from navigations~~
+- ~~used functions  (configurable)~~
+- ~~used connections~~
 - output
-  - user and technical documentation
-  - markdown
+  - user ~~and technical~~ documentation
+  - ~~markdown~~
   - html
   - pdf
-- handels the following formats:
+- handle following formats:
   - zip
   - mssap
-  - src
-- usable via Azure DevOps CI-CD pipeline
+  - ~~src~~
+- usable via Azure DevOps CI-CD pipeline (not tested yet)
 
 ## Follow this topic
-[Twitter](https://twitter.com/waszumkuckuck)
+Get in touch with me on: [Twitter](https://twitter.com/waszumkuckuck)
 
 #powerapps_docstring #PowerAtelier #CloudCouchRocks 

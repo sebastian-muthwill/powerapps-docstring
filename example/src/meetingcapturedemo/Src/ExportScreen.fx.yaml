@@ -1,0 +1,999 @@
+ExportScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Export creation screen
+        Select where to export to.
+        Possible exports:
+        - OneNote
+        - Office Planner
+        - Email
+        */
+        If(IsEmpty(EmailRecipients), 
+            ClearCollect(EmailRecipients, AttendeeGallery1.AllItems)
+        );
+        If(IsEmpty(OneNoteBooks), ClearCollect(OneNoteBooks,'OneNote(Business)'.GetNotebooks()));
+        If(!IsEmpty(OneNoteBooks),ClearCollect(OneNoteSections,'OneNote(Business)'.GetSectionsInNotebook(OneNoteBookSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BKey').value));
+        If(IsEmpty(PlannerPlans), ClearCollect(PlannerPlans, Planner.ListMyPlans().value));
+        If(!IsEmpty(PlannerPlans),ClearCollect(PlannerBuckets,Planner.ListBuckets(PlannerPlanSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1Bid').value))
+    Orientation: =If(ExportScreen.Width < ExportScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= ExportScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    ExportBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =55
+
+        ExportMeetingSubject As label:
+            Align: =Center
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =ExportMeetingSubject.BorderColor
+            FontWeight: =Semibold
+            Height: =AppLogo4.Height + 1
+            HoverBorderColor: =ExportMeetingSubject.BorderColor
+            HoverColor: =ExportMeetingSubject.Color
+            HoverFill: =ExportMeetingSubject.Fill
+            PressedBorderColor: =ExportMeetingSubject.BorderColor
+            PressedColor: =ExportMeetingSubject.Color
+            PressedFill: =ExportMeetingSubject.Fill
+            Size: =12
+            Text: =SelectedMeeting.Subject
+            Width: =1366
+            ZIndex: =1
+
+        AppLogo7 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppLogo7.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppLogo7.BorderColor, 20%)
+            HoverFill: =ColorFade(AppLogo7.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppLogo7.BorderColor, -20%)
+            PressedFill: =ColorFade(AppLogo7.Fill, -20%)
+            Width: =75
+            ZIndex: =2
+
+        ExportPrev As icon.ArrowLeft:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =ExportPrev.Fill
+            FocusedBorderColor: =ExportPrev.BorderColor
+            FocusedBorderThickness: =0
+            Height: =40
+            HoverBorderColor: =ColorFade(ExportPrev.BorderColor, 20%)
+            HoverColor: =ColorFade(ExportPrev.Color, 20%)
+            HoverFill: =ExportPrev.Fill
+            Icon: =Icon.ArrowLeft
+            OnSelect: =Navigate(HomeScreen, None)
+            PaddingBottom: =9
+            PaddingLeft: =9
+            PaddingRight: =9
+            PaddingTop: =9
+            PressedBorderColor: =ColorFade(ExportPrev.BorderColor, -20%)
+            PressedColor: =ColorFade(ExportPrev.Color, -20%)
+            PressedFill: =ExportPrev.Fill
+            Width: =40
+            X: =93+0
+            Y: =13+0
+            ZIndex: =3
+
+        ExportBannerHeader As label:
+            FocusedBorderColor: =ExportBannerHeader.BorderColor
+            FontWeight: =Lighter
+            Height: =49
+            HoverBorderColor: =ExportBannerHeader.BorderColor
+            HoverColor: =ExportBannerHeader.Color
+            HoverFill: =ExportBannerHeader.Fill
+            PressedBorderColor: =ExportBannerHeader.BorderColor
+            PressedColor: =ExportBannerHeader.Color
+            PressedFill: =ExportBannerHeader.Fill
+            Size: =27
+            Text: ="Export " & SelectedMeeting.Subject
+            Width: =1251
+            X: =70+0
+            Y: =115
+            ZIndex: =4
+
+        Rectangle6_4 As rectangle:
+            DisabledFill: =Rectangle6_4.Fill
+            Fill: =RGBA(227, 227, 227, 1)
+            FocusedBorderColor: =Rectangle6_4.BorderColor
+            FocusedBorderThickness: =0
+            Height: =1
+            HoverFill: =Rectangle6_4.Fill
+            PressedFill: =Rectangle6_4.Fill
+            Width: =ExportBannerHeader.Width
+            X: =ExportBannerHeader.X
+            Y: =184
+            ZIndex: =5
+
+        ExportQuestion As label:
+            Color: =RGBA(44, 48, 52, 1)
+            FocusedBorderColor: =ExportQuestion.BorderColor
+            HoverBorderColor: =ExportQuestion.BorderColor
+            HoverColor: =ExportQuestion.Color
+            HoverFill: =ExportQuestion.Fill
+            PressedBorderColor: =ExportQuestion.BorderColor
+            PressedColor: =ExportQuestion.Color
+            PressedFill: =ExportQuestion.Fill
+            Text: ="Where would you like to export to?"
+            Width: =335
+            X: =70
+            Y: =189
+            ZIndex: =6
+
+        DataLossWarnText As label:
+            Color: =RGBA(237, 41, 85, 1)
+            Fill: =RGBA(237, 41, 85, 0.15)
+            FocusedBorderColor: =DataLossWarnText.BorderColor
+            Height: =50
+            HoverBorderColor: =DataLossWarnText.BorderColor
+            HoverColor: =DataLossWarnText.Color
+            HoverFill: =DataLossWarnText.Fill
+            PaddingBottom: =10
+            PaddingLeft: =62
+            PaddingRight: =27
+            PaddingTop: =9
+            PressedBorderColor: =DataLossWarnText.BorderColor
+            PressedColor: =DataLossWarnText.Color
+            PressedFill: =DataLossWarnText.Fill
+            Size: =10.5
+            Text: ="Unless you select an export location, your meeting notes, attachments, and tasks will be lost once you exit the application."
+            Visible: =!CheckOneNote.Value && !CheckEmail.Value && !CheckPlanner.Value
+            Width: =553
+            X: =76
+            Y: =234
+            ZIndex: =30
+
+        DataLossWarnIcon As icon.Warning:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =DataLossWarnIcon.Fill
+            FocusedBorderColor: =DataLossWarnIcon.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(DataLossWarnIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(DataLossWarnIcon.Color, 20%)
+            HoverFill: =DataLossWarnIcon.Fill
+            Icon: =Icon.Warning
+            PressedBorderColor: =ColorFade(DataLossWarnIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(DataLossWarnIcon.Color, -20%)
+            PressedFill: =DataLossWarnIcon.Fill
+            Visible: =!CheckOneNote.Value && !CheckEmail.Value && !CheckPlanner.Value
+            Width: =24
+            X: =95
+            Y: =DataLossWarnText.Y + DataLossWarnText.Height/2 - DataLossWarnIcon.Height/2
+            ZIndex: =31
+
+        ExportButton As button:
+            BorderColor: =ColorFade(ExportButton.Fill, -15%)
+            DisabledBorderColor: =ExportButton.DisabledFill
+            DisabledColor: =White
+            DisplayMode: |-
+                =If(And(Not(CheckOneNote.Value && (IsBlank(SelectedNoteBook) || IsBlank(SelectedSection))),
+                Not(CheckPlanner.Value && (IsBlank(SelectedPlan) || IsBlank(SelectedBucket))),
+                Not(CheckEmail.Value && (CountRows(EmailRecipients) = 0)),
+                CheckOneNote.Value || CheckPlanner.Value || CheckEmail.Value),Edit,Disabled)
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =ExportButton.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(ExportButton.BorderColor, 20%)
+            HoverColor: =ExportButton.Color
+            HoverFill: =ColorFade(ExportButton.Fill, 20%)
+            OnSelect: |-
+                =Set(ShowOverlay, true);
+                Navigate(ExportPopUpsScreen, None)
+            PaddingBottom: =0
+            PaddingLeft: =40
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =ExportButton.Fill
+            PressedColor: =ExportButton.Fill
+            PressedFill: =ExportButton.Color
+            Size: =10.5
+            Text: ="Export"
+            Width: =125
+            X: =1196
+            Y: =115
+            ZIndex: =41
+
+        ExportIcon As image:
+            FocusedBorderColor: =ExportIcon.BorderColor
+            Height: =23
+            HoverBorderColor: =ColorFade(ExportIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(ExportIcon.Fill, 20%)
+            Image: =export
+            OnSelect: =Select(ExportButton)
+            PressedBorderColor: =ColorFade(ExportIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(ExportIcon.Fill, -20%)
+            Width: =26
+            X: =ExportButton.X + 15
+            Y: =ExportButton.Y + ExportButton.Height/2 - ExportIcon.Height/2
+            ZIndex: =42
+
+    ExportOneNote As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =55
+
+        CheckOneNote As checkbox:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxBackgroundFill: =RGBA(255,255,255,1)
+            CheckboxBorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxSize: =45
+            CheckmarkFill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =CheckOneNote.BorderColor
+            FocusedBorderThickness: =0
+            HoverBorderColor: =ColorFade(CheckOneNote.BorderColor, 30%)
+            HoverFill: =ColorFade(CheckOneNote.Fill, 30%)
+            OnUncheck: |-
+                =Set(SelectedNoteBook, Blank());
+                Set(SelectedSection, Blank())
+            PressedBorderColor: =ColorFade(CheckOneNote.BorderColor, -30%)
+            PressedFill: =ColorFade(CheckOneNote.Fill, -30%)
+            Text: =""
+            Width: =63
+            X: =70
+            Y: =If(!CheckOneNote.Value && !CheckEmail.Value && !CheckPlanner.Value, 298, 248)
+            ZIndex: =7
+
+        OneNoteIcon As image:
+            FocusedBorderColor: =OneNoteIcon.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(OneNoteIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(OneNoteIcon.Fill, 20%)
+            Image: ='one-note'
+            PressedBorderColor: =ColorFade(OneNoteIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(OneNoteIcon.Fill, -20%)
+            Width: =24
+            X: =133
+            Y: =CheckOneNote.Y + 15
+            ZIndex: =10
+
+        OneNoteHeader As label:
+            FocusedBorderColor: =OneNoteHeader.BorderColor
+            FontWeight: =Semibold
+            Height: =54
+            HoverBorderColor: =OneNoteHeader.BorderColor
+            HoverColor: =OneNoteHeader.Color
+            HoverFill: =OneNoteHeader.Fill
+            PressedBorderColor: =OneNoteHeader.BorderColor
+            PressedColor: =OneNoteHeader.Color
+            PressedFill: =OneNoteHeader.Fill
+            Size: =15
+            Text: ="OneNote"
+            Width: =176
+            X: =166
+            Y: =CheckOneNote.Y
+            ZIndex: =11
+
+        OneNoteExportDescript As label:
+            FocusedBorderColor: =OneNoteExportDescript.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =OneNoteExportDescript.BorderColor
+            HoverColor: =OneNoteExportDescript.Color
+            HoverFill: =OneNoteExportDescript.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =OneNoteExportDescript.BorderColor
+            PressedColor: =OneNoteExportDescript.Color
+            PressedFill: =OneNoteExportDescript.Fill
+            Size: =10.5
+            Text: ="Export meeting summary, notes, attachments, and tasks to your OneNote."
+            Width: =507
+            X: =133
+            Y: =CheckOneNote.Y + CheckOneNote.Height - 3
+            ZIndex: =12
+
+        ShowOneNoteSelection As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(ShowOneNoteSelection.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =ShowOneNoteSelection.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(ShowOneNoteSelection.BorderColor, 20%)
+            HoverColor: =ShowOneNoteSelection.Color
+            HoverFill: =ColorFade(ShowOneNoteSelection.Fill, 20%)
+            OnSelect: |-
+                =Set(ShowOneNote, true);
+                Navigate(ExportPopUpsScreen, None);
+                /*retrieves OneNote sections of (pre)selected OneNote book (if user hasn't selected one yet)*/
+                ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteBookSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BKey').value)
+            PressedBorderColor: =ShowOneNoteSelection.Fill
+            PressedColor: =ShowOneNoteSelection.Fill
+            PressedFill: =ShowOneNoteSelection.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: =If(ExportToOneNote.Height > 0, "Select new location", "Select Location")
+            Visible: =CheckOneNote.Value
+            Width: =170
+            X: =133
+            Y: =ExportToOneNote.Y + ExportToOneNote.Height + 20
+            ZIndex: =13
+
+        OneNoteDataLossDescript As label:
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =OneNoteDataLossDescript.BorderColor
+            HoverBorderColor: =OneNoteDataLossDescript.BorderColor
+            HoverColor: =OneNoteDataLossDescript.Color
+            HoverFill: =OneNoteDataLossDescript.Fill
+            PaddingLeft: =57
+            PressedBorderColor: =OneNoteDataLossDescript.BorderColor
+            PressedColor: =OneNoteDataLossDescript.Color
+            PressedFill: =OneNoteDataLossDescript.Fill
+            Size: =9
+            Text: ="Photos and sketches cannot be exported to OneNote. ‘Export to Email’ to prevent attachments from being lost."
+            Visible: =CheckOneNote.Value && !CheckEmail.Value
+            Width: =480
+            X: =133
+            Y: =CheckOneNote.Y + CheckOneNote.Height + 132
+            ZIndex: =28
+
+        OneNoteDataLossWarn As icon.Warning:
+            Color: =RGBA(44, 48, 52, 1)
+            DisabledFill: =OneNoteDataLossWarn.Fill
+            FocusedBorderColor: =OneNoteDataLossWarn.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(OneNoteDataLossWarn.BorderColor, 20%)
+            HoverColor: =ColorFade(OneNoteDataLossWarn.Color, 20%)
+            HoverFill: =OneNoteDataLossWarn.Fill
+            Icon: =Icon.Warning
+            PressedBorderColor: =ColorFade(OneNoteDataLossWarn.BorderColor, -20%)
+            PressedColor: =ColorFade(OneNoteDataLossWarn.Color, -20%)
+            PressedFill: =OneNoteDataLossWarn.Fill
+            Visible: =CheckOneNote.Value && !CheckEmail.Value
+            Width: =24
+            X: =148
+            Y: =OneNoteDataLossDescript.Y + OneNoteDataLossDescript.Height/2 - OneNoteDataLossWarn.Height/2
+            ZIndex: =29
+
+        OneNoteExportLocation As label:
+            FocusedBorderColor: =OneNoteExportLocation.BorderColor
+            Height: =28
+            HoverBorderColor: =OneNoteExportLocation.BorderColor
+            HoverColor: =OneNoteExportLocation.Color
+            HoverFill: =OneNoteExportLocation.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =OneNoteExportLocation.BorderColor
+            PressedColor: =OneNoteExportLocation.Color
+            PressedFill: =OneNoteExportLocation.Fill
+            Size: =10.5
+            Text: =SelectedNoteBook.Value & " - " & SelectedSection.'data-ADB4D7A662F548B49FAC2B986E348A1Bname'
+            Visible: =CheckOneNote.Value && ExportToOneNote.Height > 0
+            Width: =423
+            X: =ExportToOneNote.X + ExportToOneNote.Width
+            Y: =ExportToOneNote.Y
+            ZIndex: =32
+
+        ExportToOneNote As label:
+            Color: =RGBA(155, 155, 155, 1)
+            FocusedBorderColor: =ExportToOneNote.BorderColor
+            Height: =If(IsBlank(SelectedSection), 0, 28)
+            HoverBorderColor: =ExportToOneNote.BorderColor
+            HoverColor: =ExportToOneNote.Color
+            HoverFill: =ExportToOneNote.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =ExportToOneNote.BorderColor
+            PressedColor: =ExportToOneNote.Color
+            PressedFill: =ExportToOneNote.Fill
+            Size: =10.5
+            Text: |-
+                ="Export to:"
+            Visible: =CheckOneNote.Value
+            Width: =73
+            X: =133
+            Y: =CheckOneNote.Y + CheckOneNote.Height + 27
+            ZIndex: =33
+
+        Rectangle7 As rectangle:
+            DisabledFill: =Rectangle7.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =Rectangle7.BorderColor
+            Height: =2
+            HoverFill: =Rectangle7.Fill
+            PressedFill: =Rectangle7.Fill
+            Visible: =CheckOneNote.Value && ExportToOneNote.Height > 0
+            Width: =OneNoteExportLocation.Width + ExportToOneNote.Width
+            X: =ExportToOneNote.X
+            Y: =ExportToOneNote.Y
+            ZIndex: =34
+
+        Rectangle7_1 As rectangle:
+            DisabledFill: =Rectangle7_1.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =Rectangle7_1.BorderColor
+            Height: =2
+            HoverFill: =Rectangle7_1.Fill
+            PressedFill: =Rectangle7_1.Fill
+            Visible: =CheckOneNote.Value && ExportToOneNote.Height > 0
+            Width: =OneNoteExportLocation.Width + ExportToOneNote.Width
+            X: =ExportToOneNote.X
+            Y: =ExportToOneNote.Y + ExportToOneNote.Height
+            ZIndex: =35
+
+    ExportEmail As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =55
+
+        CheckEmail As checkbox:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxBackgroundFill: =RGBA(255,255,255,1)
+            CheckboxBorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxSize: =45
+            CheckmarkFill: =RGBA(237, 41, 85, 1)
+            Default: =true
+            FocusedBorderColor: =CheckEmail.BorderColor
+            FocusedBorderThickness: =0
+            HoverBorderColor: =ColorFade(CheckEmail.BorderColor, 30%)
+            HoverFill: =ColorFade(CheckEmail.Fill, 30%)
+            PressedBorderColor: =ColorFade(CheckEmail.BorderColor, -30%)
+            PressedFill: =ColorFade(CheckEmail.Fill, -30%)
+            Text: =""
+            Width: =63
+            X: =CheckOneNote.X + 635
+            Y: =CheckOneNote.Y
+            ZIndex: =9
+
+        EmailIcon As image:
+            FocusedBorderColor: =EmailIcon.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(EmailIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(EmailIcon.Fill, 20%)
+            Image: =outlook
+            PressedBorderColor: =ColorFade(EmailIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(EmailIcon.Fill, -20%)
+            Width: =24
+            X: =768
+            Y: =CheckEmail.Y + 18
+            ZIndex: =18
+
+        EmailHeader As label:
+            FocusedBorderColor: =EmailHeader.BorderColor
+            FontWeight: =Semibold
+            Height: =54
+            HoverBorderColor: =EmailHeader.BorderColor
+            HoverColor: =EmailHeader.Color
+            HoverFill: =EmailHeader.Fill
+            PressedBorderColor: =EmailHeader.BorderColor
+            PressedColor: =EmailHeader.Color
+            PressedFill: =EmailHeader.Fill
+            Size: =15
+            Text: ="Email"
+            Width: =176
+            X: =801
+            Y: =CheckEmail.Y
+            ZIndex: =19
+
+        EmailExportDescript As label:
+            FocusedBorderColor: =EmailExportDescript.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =EmailExportDescript.BorderColor
+            HoverColor: =EmailExportDescript.Color
+            HoverFill: =EmailExportDescript.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =EmailExportDescript.BorderColor
+            PressedColor: =EmailExportDescript.Color
+            PressedFill: =EmailExportDescript.Fill
+            Size: =10.5
+            Text: ="Email meeting summary, notes, attachments, and tasks to the attendees."
+            Width: =507
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height - 3
+            ZIndex: =20
+
+        RecipientGalleryBkg As button:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Color: =RGBA(227, 227, 227, 1)
+            DisabledBorderColor: =ColorFade(RecipientGalleryBkg.BorderColor, 70%)
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =RecipientGalleryBkg.BorderColor
+            Height: =130
+            HoverBorderColor: =ColorFade(RecipientGalleryBkg.BorderColor, 20%)
+            HoverColor: =RecipientGalleryBkg.Color
+            HoverFill: =ColorFade(RecipientGalleryBkg.Fill, 20%)
+            PressedBorderColor: =RecipientGalleryBkg.Fill
+            PressedColor: =RecipientGalleryBkg.Fill
+            PressedFill: =RecipientGalleryBkg.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Text: =""
+            Width: =521
+            X: =768
+            Y: =EmailRecipientsGallery.Y
+            ZIndex: =21
+
+        AttendeeCount As label:
+            FocusedBorderColor: =AttendeeCount.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =AttendeeCount.BorderColor
+            HoverColor: =AttendeeCount.Color
+            HoverFill: =AttendeeCount.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AttendeeCount.BorderColor
+            PressedColor: =AttendeeCount.Color
+            PressedFill: =AttendeeCount.Fill
+            Size: =10.5
+            Text: ="Attendees (" & CountRows(EmailRecipients) & ")"
+            Visible: =CheckEmail.Value
+            Width: =507
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height + 27
+            ZIndex: =22
+
+        EmailRecipientsGallery As gallery.galleryVertical:
+            DisabledBorderColor: =EmailRecipientsGallery.BorderColor
+            DisabledFill: =EmailRecipientsGallery.Fill
+            Height: =130
+            HoverBorderColor: =EmailRecipientsGallery.BorderColor
+            HoverFill: =EmailRecipientsGallery.Fill
+            Items: =EmailRecipients
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =EmailRecipientsGallery.BorderColor
+            PressedBorderColor: =EmailRecipientsGallery.BorderColor
+            PressedFill: =EmailRecipientsGallery.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =10
+            TemplateSize: =50
+            Visible: =CheckEmail.Value
+            Width: =521
+            WrapCount: =2
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height + 62
+            ZIndex: =23
+
+            RecipientName1 As button:
+                Align: =If(MultiRecipients, Left, Center)
+                BorderColor: =RGBA(237, 41, 85, 1)
+                BorderThickness: =1
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledBorderColor: =ColorFade(RecipientName1.BorderColor, 70%)
+                Fill: =RGBA(237, 41, 85, 0.15)
+                FocusedBorderColor: =RecipientName1.BorderColor
+                FocusedBorderThickness: =1
+                FontWeight: =Normal
+                Height: =44
+                HoverBorderColor: =ColorFade(RecipientName1.BorderColor, 20%)
+                HoverColor: =RecipientName1.Color
+                HoverFill: =ColorFade(RecipientName1.Fill, 20%)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =15
+                PaddingRight: =40
+                PaddingTop: =0
+                PressedBorderColor: =RecipientName1.Fill
+                PressedColor: =RecipientName1.Color
+                PressedFill: =RecipientName1.Fill
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Size: =10.5
+                Text: =ThisItem.DisplayName
+                Width: =Parent.TemplateWidth
+                X: =0.5
+                Y: =6
+                ZIndex: =1
+
+            RemoveIcon1 As icon.Cancel:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =RemoveIcon1.Fill
+                FocusedBorderColor: =RemoveIcon1.BorderColor
+                FocusedBorderThickness: =0
+                Height: =44
+                HoverBorderColor: =ColorFade(RemoveIcon1.BorderColor, 20%)
+                HoverColor: =ColorFade(RemoveIcon1.Color, 20%)
+                HoverFill: =RemoveIcon1.Fill
+                Icon: =Icon.Cancel
+                OnSelect: =Remove(EmailRecipients,ThisItem)
+                PaddingLeft: =10
+                PaddingRight: =10
+                PressedBorderColor: =ColorFade(RemoveIcon1.BorderColor, -20%)
+                PressedColor: =ColorFade(RemoveIcon1.Color, -20%)
+                PressedFill: =RemoveIcon1.Fill
+                Visible: =MultiRecipients
+                Width: =40
+                X: =205.5
+                Y: =6
+                ZIndex: =2
+
+        AddAttendee As label:
+            FocusedBorderColor: =AddAttendee.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =AddAttendee.BorderColor
+            HoverColor: =AddAttendee.Color
+            HoverFill: =AddAttendee.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AddAttendee.BorderColor
+            PressedColor: =AddAttendee.Color
+            PressedFill: =AddAttendee.Fill
+            Size: =10.5
+            Text: ="Add attendee"
+            Visible: =CheckEmail.Value
+            Width: =507
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height + 205
+            ZIndex: =24
+
+        AssnTaskSearchUser_1 As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =AssnTaskSearchUser_1.BorderColor
+            FocusedBorderThickness: =2
+            HintText: ="Search for users in your org"
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =40
+            PaddingTop: =10
+            PressedBorderColor: =AssnTaskSearchUser_1.HoverBorderColor
+            PressedColor: =AssnTaskSearchUser_1.Color
+            PressedFill: =AssnTaskSearchUser_1.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Visible: =CheckEmail.Value
+            Width: =521
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height + 235
+            ZIndex: =25
+
+        AssnTaskIcon_1 As icon.Search:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =AssnTaskIcon_1.Fill
+            FocusedBorderColor: =AssnTaskIcon_1.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(AssnTaskIcon_1.BorderColor, 20%)
+            HoverColor: =ColorFade(AssnTaskIcon_1.Color, 20%)
+            HoverFill: =AssnTaskIcon_1.Fill
+            Icon: =Icon.Search
+            PressedBorderColor: =ColorFade(AssnTaskIcon_1.BorderColor, -20%)
+            PressedColor: =ColorFade(AssnTaskIcon_1.Color, -20%)
+            PressedFill: =AssnTaskIcon_1.Fill
+            Visible: =CheckEmail.Value
+            Width: =24
+            X: =773
+            Y: =AssnTaskSearchUser_1.Y
+            ZIndex: =26
+
+        UserSearchResults As gallery.galleryVertical:
+            DisabledBorderColor: =UserSearchResults.BorderColor
+            DisabledFill: =UserSearchResults.Fill
+            Height: =153
+            HoverBorderColor: =UserSearchResults.BorderColor
+            HoverFill: =UserSearchResults.Fill
+            Items: |-
+                =If(!IsBlank(AssnTaskSearchUser_1.Text), Office365Users.SearchUser({searchTerm:Trim(AssnTaskSearchUser_1.Text), top:15}))
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =UserSearchResults.BorderColor
+            OnSelect: =If(Not(ThisItem.Id in EmailRecipients.Id), Collect(EmailRecipients, ThisItem))
+            PressedBorderColor: =UserSearchResults.BorderColor
+            PressedFill: =UserSearchResults.Fill
+            ShowScrollbar: =false
+            TemplateFill: =RGBA(0,0,0,0)
+            TemplatePadding: =15
+            TemplateSize: =40
+            Visible: =CheckEmail.Value
+            Width: =521
+            X: =768
+            Y: =CheckEmail.Y + CheckEmail.Height + 292
+            ZIndex: =27
+
+            ResultImage As image:
+                FocusedBorderColor: =ResultImage.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(ResultImage.BorderColor, 20%)
+                HoverFill: =ColorFade(ResultImage.Fill, 20%)
+                Image: |-
+                    =If(!IsBlank(AssnTaskSearchUser_1.Text) && Not(IsBlank(ThisItem.Id)) && Office365Users.UserPhotoMetadata(ThisItem.Id).HasPhoto,
+                        Office365Users.UserPhoto(ThisItem.Id),
+                        'default-profile'
+                    )
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(ResultImage.BorderColor, -20%)
+                PressedFill: =ColorFade(ResultImage.Fill, -20%)
+                Width: =40
+                X: =5
+                ZIndex: =1
+
+            ResultDisplayName As label:
+                FocusedBorderColor: =ResultDisplayName.BorderColor
+                FontWeight: =Semibold
+                Height: =19
+                HoverBorderColor: =ResultDisplayName.BorderColor
+                HoverColor: =ResultDisplayName.Color
+                HoverFill: =ResultDisplayName.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =ResultDisplayName.BorderColor
+                PressedColor: =ResultDisplayName.Color
+                PressedFill: =ResultDisplayName.Fill
+                Size: =8
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =270
+                X: =55
+                Y: =5
+                ZIndex: =2
+
+            ResultJobTitle As label:
+                FocusedBorderColor: =ResultJobTitle.BorderColor
+                Height: =14.4
+                HoverBorderColor: =ResultJobTitle.BorderColor
+                HoverColor: =ResultJobTitle.Color
+                HoverFill: =ResultJobTitle.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =ResultJobTitle.BorderColor
+                PressedColor: =ResultJobTitle.Color
+                PressedFill: =ResultJobTitle.Fill
+                Size: =8
+                Text: =ThisItem.JobTitle
+                Width: =270
+                X: =55
+                Y: =21
+                ZIndex: =3
+
+            AddUser As icon.Add:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =AddUser.Fill
+                FocusedBorderColor: =AddUser.BorderColor
+                FocusedBorderThickness: =0
+                Height: =40
+                HoverBorderColor: =ColorFade(AddUser.BorderColor, 20%)
+                HoverColor: =ColorFade(AddUser.Color, 20%)
+                HoverFill: =AddUser.Fill
+                Icon: =Icon.Add
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PaddingRight: =7
+                PaddingTop: =7
+                PressedBorderColor: =ColorFade(AddUser.BorderColor, -20%)
+                PressedColor: =ColorFade(AddUser.Color, -20%)
+                PressedFill: =AddUser.Fill
+                Visible: =Not(ThisItem.UserPrincipalName in EmailRecipients.UserPrincipalName)
+                Width: =40
+                X: =451
+                ZIndex: =4
+
+        LoadingIndicator2_1 As label:
+            Align: =Center
+            FocusedBorderColor: =LoadingIndicator2_1.BorderColor
+            HoverBorderColor: =LoadingIndicator2_1.BorderColor
+            HoverColor: =LoadingIndicator2_1.Color
+            HoverFill: =LoadingIndicator2_1.Fill
+            PressedBorderColor: =LoadingIndicator2_1.BorderColor
+            PressedColor: =LoadingIndicator2_1.Color
+            PressedFill: =LoadingIndicator2_1.Fill
+            Text: ="Searching for users..."
+            Visible: =CountRows(UserSearchResults.AllItems) < 0 && CheckEmail.Value
+            Width: =370
+            X: =836
+            Y: =667
+            ZIndex: =36
+
+    ExportPlanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =55
+
+        CheckPlanner As checkbox:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxBackgroundFill: =RGBA(255,255,255,1)
+            CheckboxBorderColor: =RGBA(237, 41, 85, 1)
+            CheckboxSize: =45
+            CheckmarkFill: =RGBA(237, 41, 85, 1)
+            Default: =If(CountRows(Tasks) > 1, true, false)
+            DisplayMode: =If(CountRows(Tasks) > 0, DisplayMode.Edit, Disabled)
+            FocusedBorderColor: =CheckPlanner.BorderColor
+            FocusedBorderThickness: =0
+            HoverBorderColor: =ColorFade(CheckPlanner.BorderColor, 30%)
+            HoverFill: =ColorFade(CheckPlanner.Fill, 30%)
+            OnUncheck: |-
+                =Set(SelectedPlan, Blank());
+                Set(SelectedBucket, Blank())
+            PressedBorderColor: =ColorFade(CheckPlanner.BorderColor, -30%)
+            PressedFill: =ColorFade(CheckPlanner.Fill, -30%)
+            Text: =""
+            Width: =63
+            X: =70
+            Y: =CheckOneNote.Y + 224
+            ZIndex: =8
+
+        PlannerIcon As image:
+            FocusedBorderColor: =PlannerIcon.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(PlannerIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(PlannerIcon.Fill, 20%)
+            Image: =planner
+            PressedBorderColor: =ColorFade(PlannerIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(PlannerIcon.Fill, -20%)
+            Width: =24
+            X: =133
+            Y: =CheckPlanner.Y + 15
+            ZIndex: =14
+
+        OfficePlanner As label:
+            FocusedBorderColor: =OfficePlanner.BorderColor
+            FontWeight: =Semibold
+            Height: =54
+            HoverBorderColor: =OfficePlanner.BorderColor
+            HoverColor: =OfficePlanner.Color
+            HoverFill: =OfficePlanner.Fill
+            PressedBorderColor: =OfficePlanner.BorderColor
+            PressedColor: =OfficePlanner.Color
+            PressedFill: =OfficePlanner.Fill
+            Size: =15
+            Text: ="Office Planner"
+            Width: =176
+            X: =166
+            Y: =CheckPlanner.Y
+            ZIndex: =15
+
+        PlannerExportDescript As label:
+            FocusedBorderColor: =PlannerExportDescript.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =PlannerExportDescript.BorderColor
+            HoverColor: =PlannerExportDescript.Color
+            HoverFill: =PlannerExportDescript.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =PlannerExportDescript.BorderColor
+            PressedColor: =PlannerExportDescript.Color
+            PressedFill: =PlannerExportDescript.Fill
+            Size: =10.5
+            Text: ="Sync assigned tasks with Office Planner"
+            Width: =507
+            X: =133
+            Y: =CheckPlanner.Y + CheckPlanner.Height - 3
+            ZIndex: =16
+
+        ShowPlannerSelection As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(ShowPlannerSelection.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =ShowPlannerSelection.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(ShowPlannerSelection.BorderColor, 20%)
+            HoverColor: =ShowPlannerSelection.Color
+            HoverFill: =ColorFade(ShowPlannerSelection.Fill, 20%)
+            OnSelect: |-
+                =Set(ShowPlanner, true);
+                Navigate(ExportPopUpsScreen, None)
+            PressedBorderColor: =ShowPlannerSelection.Fill
+            PressedColor: =ShowPlannerSelection.Fill
+            PressedFill: =ShowPlannerSelection.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: =If(PlannerExportTo.Height > 0, "Select new location", "Select Location")
+            Visible: =CheckPlanner.Value
+            Width: =170
+            X: =133
+            Y: =PlannerExportTo.Y + PlannerExportTo.Height + 20
+            ZIndex: =17
+
+        PlannerExportLocation As label:
+            FocusedBorderColor: =PlannerExportLocation.BorderColor
+            Height: =28
+            HoverBorderColor: =PlannerExportLocation.BorderColor
+            HoverColor: =PlannerExportLocation.Color
+            HoverFill: =PlannerExportLocation.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =PlannerExportLocation.BorderColor
+            PressedColor: =PlannerExportLocation.Color
+            PressedFill: =PlannerExportLocation.Fill
+            Size: =10.5
+            Text: =SelectedPlan.'data-ADB4D7A662F548B49FAC2B986E348A1Btitle' & " - " & SelectedBucket.'data-ADB4D7A662F548B49FAC2B986E348A1Bname'
+            Visible: =CheckPlanner.Value && PlannerExportTo.Height > 0
+            Width: =423
+            X: =206
+            Y: =PlannerExportTo.Y
+            ZIndex: =37
+
+        PlannerExportTo As label:
+            Color: =RGBA(155, 155, 155, 1)
+            FocusedBorderColor: =PlannerExportTo.BorderColor
+            Height: =If(IsBlank(SelectedBucket), 0, 28)
+            HoverBorderColor: =PlannerExportTo.BorderColor
+            HoverColor: =PlannerExportTo.Color
+            HoverFill: =PlannerExportTo.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =PlannerExportTo.BorderColor
+            PressedColor: =PlannerExportTo.Color
+            PressedFill: =PlannerExportTo.Fill
+            Size: =10.5
+            Text: |-
+                ="Export to:"
+            Visible: =CheckPlanner.Value
+            Width: =73
+            X: =133
+            Y: =CheckPlanner.Y + CheckPlanner.Height + 28
+            ZIndex: =38
+
+        Rectangle7_2 As rectangle:
+            DisabledFill: =Rectangle7_2.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =Rectangle7_2.BorderColor
+            Height: =2
+            HoverFill: =Rectangle7_2.Fill
+            PressedFill: =Rectangle7_2.Fill
+            Visible: =CheckPlanner.Value && PlannerExportTo.Height > 0
+            Width: =PlannerExportLocation.Width + PlannerExportTo.Width
+            X: =PlannerExportTo.X
+            Y: =PlannerExportTo.Y
+            ZIndex: =39
+
+        Rectangle7_3 As rectangle:
+            DisabledFill: =Rectangle7_3.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =Rectangle7_3.BorderColor
+            Height: =2
+            HoverFill: =Rectangle7_3.Fill
+            PressedFill: =Rectangle7_3.Fill
+            Visible: =CheckPlanner.Value && PlannerExportTo.Height > 0
+            Width: =PlannerExportLocation.Width + PlannerExportTo.Width
+            X: =PlannerExportTo.X
+            Y: =PlannerExportTo.Y + PlannerExportTo.Height
+            ZIndex: =40
+

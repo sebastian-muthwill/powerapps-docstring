@@ -1,0 +1,133 @@
+CollectionsAndVariables As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*This screen lists all collections and variables used inside the app
+        */
+    Orientation: =If(CollectionsAndVariables.Width < CollectionsAndVariables.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= CollectionsAndVariables.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Label1 As label:
+        Align: =Center
+        Fill: =RGBA(236, 236, 236, 1)
+        FocusedBorderColor: =Label1.BorderColor
+        FontWeight: =Semibold
+        Height: =80
+        HoverBorderColor: =Label1.BorderColor
+        HoverColor: =Label1.Color
+        HoverFill: =Label1.Fill
+        PressedBorderColor: =Label1.BorderColor
+        PressedColor: =Label1.Color
+        PressedFill: =Label1.Fill
+        Text: ="Collections and Variables"
+        Width: =1366
+        ZIndex: =1
+
+    Label2 As label:
+        Align: =Center
+        FocusedBorderColor: =Label2.BorderColor
+        FontWeight: =Bold
+        HoverBorderColor: =Label2.BorderColor
+        HoverColor: =Label2.Color
+        HoverFill: =Label2.Fill
+        PressedBorderColor: =Label2.BorderColor
+        PressedColor: =Label2.Color
+        PressedFill: =Label2.Fill
+        Text: ="Collections"
+        Width: =1366
+        Y: =80
+        ZIndex: =2
+
+    HtmlText1 As htmlViewer:
+        Height: =(Parent.Height-160)/2
+        HoverBorderColor: =HtmlText1.BorderColor
+        HtmlText: |-
+            ="<p><strong>MeetingsOnly - </strong>Events less than 6 hours in length (over next two days) </p>" & 
+            "<p><strong>AllFutureEvents - </strong>All Events in the next two days</p>" &
+            "<p><strong>MeetingAttendees - </strong>List of meeting's attendees </p>" & 
+            "<p><strong>MeetingAttendeesTemp - </strong>Temporary collection of meeting attendees with improper schema </p>" &
+            "<p><strong>MeetingAttendeeEmails - </strong>Email addresses of meeting attendees</p>" &
+            "<p><strong>PlannerBuckets - </strong>List of Buckets of selected Plan in Planner</p>" &
+            "<p><strong>PlannerPlans - </strong>List of Plans in Planner</p>" &
+            "<p><strong>Tasks - </strong> Tasks created during a meeting </p>" & 
+            "<p><strong>Sketches - </strong>Sketches created during a meeting</p>" &
+            "<p><strong>Photos - </strong>Photos captured during a meeting</p>" &
+            "<p><strong>EmailRecipients - </strong>List of users who will receive an email about a meeting</p>" &
+            "<p><strong>OneNoteSections - </strong>List of Sections of selected NoteBook in OneNote</p>" &
+            "<p><strong>OneNoteBooks - </strong>List of NoteBooks in OneNote</p>" &
+            "<p><strong>EmailAttachments - </strong>All images taken in app that are attached to exported emails (Photo + Sketches)</p>"&
+            "<p><strong>FollowUpMeetingAttendees - </strong>List of attendees for the follow up meeting</p>" &
+            "<p><strong>HoursList - </strong>List of times for dropdown menu</p>" &
+            "<p><strong>MeetingDurations - </strong>Duration of the meeting</p>" &
+            "<p><strong>TemplateData - </strong>Data to be injected into the OneNote and Email templates</p>" &
+            "<p><strong>Templates - </strong>OneNote and Email templates</p>" &
+            "<p><strong>MeetingTimes - </strong>List of available times for meeting</p>" &
+            "<p><strong>Indexes - </strong>Temporary list to mark indexes of attendees list in Export screen</p>"
+        PressedBorderColor: =HtmlText1.BorderColor
+        Width: =1342
+        X: =24
+        Y: =120
+        ZIndex: =3
+
+    Label2_1 As label:
+        Align: =Center
+        FocusedBorderColor: =Label2_1.BorderColor
+        FontWeight: =Bold
+        HoverBorderColor: =Label2_1.BorderColor
+        HoverColor: =Label2_1.Color
+        HoverFill: =Label2_1.Fill
+        PressedBorderColor: =Label2_1.BorderColor
+        PressedColor: =Label2_1.Color
+        PressedFill: =Label2_1.Fill
+        Text: ="Variables"
+        Width: =1366
+        Y: =424
+        ZIndex: =4
+
+    HtmlText1_1 As htmlViewer:
+        Height: =(Parent.Height-160)/2
+        HoverBorderColor: =HtmlText1_1.BorderColor
+        HtmlText: |-
+            ="<p><strong>MyCalendarID - </strong>ID of user's Outlook calendar</p>" & 
+            "<p><strong>MyUserProfile - </strong>Id of the user who opened the PowerApp</p>" &
+            "<p><strong>MyDomain - </strong>Email domain of signed in user</p>" & 
+            "<p><strong>HomeTimerStart - </strong>When app is opened</p>" &
+            "<p><strong>NumberOfCurrentMeetings - </strong>Number of meetings in progress</p>" &
+            "<p><strong>AutoSelectMeeting - </strong>Whether meeting has been autoselected (if user has 1 meeting that is current, true, else false)</p>" &
+            "<p><strong>SelectedMeeting - </strong>All meeting details for the currently selected meeting</p>" &
+            "<p><strong>ExportConfirmed - </strong>true/false. Whether user confirmed meeting capture export</p>" &
+            "<p><strong>FollowUpConfirmed - </strong>true/false. Whether user confirmed a follow up appointment</p>" &
+            "<p><strong>EmailConfirmed - </strong>true/false. Whether user confirmed sending an email from app.</p>" &
+            "<p><strong>ShowDataLossWarning - </strong>true/false. Whether to display first entry modal dialogue.</p>" &
+            "<p><strong>Loading - </strong>true/false. Triggers 'loading' messages while retrieving user data.</p>" &
+            "<p><strong>ShowOverlay - </strong>true/false. Whether to show modal overlay.</p>" &
+            "<p><strong>AttachmentDeleteConfirm - </strong>true/false. Whether user confirmed attachment deletion.</p>" &
+            "<p><strong>SelectedImage - </strong>The currently selected image.</p>" &
+            "<p><strong>ShowImageSaved - </strong>true/false. Triggers 'save successful' dialogue for photo screen</p>" &
+            "<p><strong>ShowTakenImage - </strong>true/false. Whether to show the user the most recently captured image on photo screen.</p>" &
+            "<p><strong>PhotoNumber - </strong>The current count of photos taken.</p>" &
+            "<p><strong>ShowSketchSaved</strong>true/false. Triggers 'save successful' dialogue for sketch screen.</p>" &
+            "<p><strong>SketchNumber - </strong>The current count of sketches taken.</p>" &
+            "<p><strong>SelectedMeetingDuration - </strong>Duration of selected meeting in seconds.</p>" &
+            "<p><strong>SecondsRemain - </strong>Time from now until meeting ends in seconds</p>" &
+            "<p><strong>ProgressBarPosition - </strong>Calculated value to determine progress bar's width.</p>" &
+            "<p><strong>MultiRecipients - </strong>true/false. Whether email taken from home screen has multiple recipients. Determines visibility of elements on email screen</p>" &
+            "<p><strong>SelectedUserTasks - </strong>The user assigned the selected task from the task gallery on home page</p>" &
+            "<p><strong>UserSelectedFromTasks - </strong>true/false. Whether the selected user comes from the tasks gallery.</p>" &
+            "<p><strong>SelectedTask - </strong>Task selected from task gallery.</p>" &
+            "<p><strong>SelectedUser - </strong>User selected from modal on home page.</p>" &
+            "<p><strong>SelectedNoteBook - </strong>The selected OneNote book</p>" &
+            "<p><strong>SelectedSection - </strong>The selected OneNote section</p>" &
+            "<p><strong>ShowOneNote - </strong>true/false. Whether the OneNote dialogue should be shown in export modal.</p>" &
+            "<p><strong>SelectedPlan - </strong>The selected Planner plan</p>" &
+            "<p><strong>SelectedBucket - </strong>The selected Planner bucket</p>" &
+            "<p><strong>ShowPlanner - </strong>true/false. Whether planner dialogue should be shown in export modal.</p>" &
+            "<p><strong>FollowUpStart - </strong>Start time of selected follow up meeting</p>" &
+            "<p><strong>FollowUpEnd - </strong>End time of selected follow up meeting</p>" &
+            "<p><strong>ShowMeetingTimes - </strong>true/false. Whether to show available meeting times.</p>" 
+        PressedBorderColor: =HtmlText1_1.BorderColor
+        Width: =1342
+        X: =24
+        Y: =464
+        ZIndex: =5
+

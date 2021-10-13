@@ -1,0 +1,357 @@
+ExportPopUpsScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    Orientation: =If(ExportPopUpsScreen.Width < ExportPopUpsScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= ExportPopUpsScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Image2 As image:
+        FocusedBorderColor: =Image2.BorderColor
+        Height: =768
+        HoverBorderColor: =ColorFade(Image2.BorderColor, 20%)
+        HoverFill: =ColorFade(Image2.Fill, 20%)
+        Image: =MeetingCaptureExportBkg
+        PressedBorderColor: =ColorFade(Image2.BorderColor, -20%)
+        PressedFill: =ColorFade(Image2.Fill, -20%)
+        Width: =1366
+        ZIndex: =1
+
+    Label4_3 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Label4_3.BorderColor
+        Height: =67
+        HoverBorderColor: =Label4_3.BorderColor
+        HoverColor: =Label4_3.Color
+        HoverFill: =Label4_3.Fill
+        PressedBorderColor: =Label4_3.BorderColor
+        PressedColor: =Label4_3.Color
+        PressedFill: =Label4_3.Fill
+        Text: =
+        Visible: =!CheckOneNote
+        Width: =190
+        X: =125
+        Y: =333
+        ZIndex: =2
+
+    Label4_4 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Label4_4.BorderColor
+        Height: =72
+        HoverBorderColor: =Label4_4.BorderColor
+        HoverColor: =Label4_4.Color
+        HoverFill: =Label4_4.Fill
+        PressedBorderColor: =Label4_4.BorderColor
+        PressedColor: =Label4_4.Color
+        PressedFill: =Label4_4.Fill
+        Text: =
+        Visible: =!CheckPlanner
+        Width: =212
+        X: =115
+        Y: =560
+        ZIndex: =3
+
+    Label4 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Label4.BorderColor
+        Height: =21
+        HoverBorderColor: =Label4.BorderColor
+        HoverColor: =Label4.Color
+        HoverFill: =Label4.Fill
+        PressedBorderColor: =Label4.BorderColor
+        PressedColor: =Label4.Color
+        PressedFill: =Label4.Fill
+        Text: =
+        Visible: =!CheckOneNote
+        Width: =24
+        X: =80.5
+        Y: =265
+        ZIndex: =4
+
+    Label4_1 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Label4_1.BorderColor
+        Height: =21
+        HoverBorderColor: =Label4_1.BorderColor
+        HoverColor: =Label4_1.Color
+        HoverFill: =Label4_1.Fill
+        PressedBorderColor: =Label4_1.BorderColor
+        PressedColor: =Label4_1.Color
+        PressedFill: =Label4_1.Fill
+        Text: =
+        Visible: =!CheckPlanner
+        Width: =24
+        X: =80.5
+        Y: =489
+        ZIndex: =5
+
+    Label4_2 As label:
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Label4_2.BorderColor
+        Height: =21
+        HoverBorderColor: =Label4_2.BorderColor
+        HoverColor: =Label4_2.Color
+        HoverFill: =Label4_2.Fill
+        PressedBorderColor: =Label4_2.BorderColor
+        PressedColor: =Label4_2.Color
+        PressedFill: =Label4_2.Fill
+        Text: =
+        Visible: =!CheckEmail
+        Width: =24
+        X: =713.5
+        Y: =265
+        ZIndex: =6
+
+    ExportModals_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =14
+
+        ExportOverlay_1 As rectangle:
+            DisabledFill: =ExportOverlay_1.Fill
+            Fill: =RGBA(0,0,0,.7)
+            FocusedBorderColor: =ExportOverlay_1.BorderColor
+            Height: =768
+            HoverFill: =ExportOverlay_1.Fill
+            PressedFill: =ExportOverlay_1.Fill
+            Visible: =ShowOneNote || ShowPlanner || ShowOverlay
+            Width: =1366
+            ZIndex: =7
+
+        ExportForeground_1 As rectangle:
+            DisabledFill: =ExportForeground_1.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =ExportForeground_1.BorderColor
+            Height: =371
+            HoverFill: =ExportForeground_1.Fill
+            PressedFill: =ExportForeground_1.Fill
+            Visible: =ShowOneNote || ShowPlanner || ShowOverlay
+            Width: =428
+            X: =469
+            Y: =199
+            ZIndex: =8
+
+        OverlayHeader_1 As label:
+            FocusedBorderColor: =OverlayHeader_1.BorderColor
+            FontWeight: =Lighter
+            Height: =If(ShowOverlay, 110, 60)
+            HoverBorderColor: =OverlayHeader_1.BorderColor
+            HoverColor: =OverlayHeader_1.Color
+            HoverFill: =OverlayHeader_1.Fill
+            PressedBorderColor: =OverlayHeader_1.BorderColor
+            PressedColor: =OverlayHeader_1.Color
+            PressedFill: =OverlayHeader_1.Fill
+            Size: =28
+            Text: =If(ShowOverlay, "Are you finished taking notes?", "Select Location")
+            Visible: =ShowOneNote || ShowPlanner || ShowOverlay
+            Width: =ExportForeground_1.Width - 40
+            X: =ExportForeground_1.X + 20
+            Y: =ExportForeground_1.Y + 30
+            ZIndex: =9
+
+        NotebookOrPlan_1 As label:
+            FocusedBorderColor: =NotebookOrPlan_1.BorderColor
+            FontWeight: =Semibold
+            Height: =20
+            HoverBorderColor: =NotebookOrPlan_1.BorderColor
+            HoverColor: =NotebookOrPlan_1.Color
+            HoverFill: =NotebookOrPlan_1.Fill
+            PressedBorderColor: =NotebookOrPlan_1.BorderColor
+            PressedColor: =NotebookOrPlan_1.Color
+            PressedFill: =NotebookOrPlan_1.Fill
+            Size: =10.5
+            Text: =If(ShowOneNote, "Notebook", "Plan")
+            Visible: =ShowOneNote || ShowPlanner
+            Width: =ExportForeground_1.Width - 40
+            X: =ExportForeground_1.X + 20
+            Y: =301
+            ZIndex: =10
+
+        OneNoteBookSelect_1 As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =OneNoteBookSelect_1.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            FocusedBorderColor: =OneNoteBookSelect_1.BorderColor
+            HoverBorderColor: =ColorFade(OneNoteBookSelect_1.BorderColor, 15%)
+            Items: =OneNoteBooks
+            OnChange: =ClearCollect(OneNoteSections,'OneNote(Business)'.GetSectionsInNotebook(OneNoteBookSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BKey').value)
+            PressedBorderColor: =OneNoteBookSelect_1.HoverBorderColor
+            Visible: =ShowOneNote
+            Width: =388
+            X: =489+0
+            Y: =333+0
+            ZIndex: =11
+
+        SectionsSelect_1 As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =SectionsSelect_1.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            FocusedBorderColor: =SectionsSelect_1.BorderColor
+            HoverBorderColor: =ColorFade(SectionsSelect_1.BorderColor, 15%)
+            Items: =OneNoteSections
+            PressedBorderColor: =SectionsSelect_1.HoverBorderColor
+            Visible: =ShowOneNote
+            Width: =388
+            X: =489
+            Y: =434
+            ZIndex: =12
+
+        SectionOrBucket_1 As label:
+            FocusedBorderColor: =SectionOrBucket_1.BorderColor
+            FontWeight: =Semibold
+            Height: =20
+            HoverBorderColor: =SectionOrBucket_1.BorderColor
+            HoverColor: =SectionOrBucket_1.Color
+            HoverFill: =SectionOrBucket_1.Fill
+            PressedBorderColor: =SectionOrBucket_1.BorderColor
+            PressedColor: =SectionOrBucket_1.Color
+            PressedFill: =SectionOrBucket_1.Fill
+            Size: =10.5
+            Text: =If(ShowOneNote, "Section", "Bucket")
+            Visible: =ShowOneNote || ShowPlanner
+            Width: =ExportForeground_1.Width - 40
+            X: =ExportForeground_1.X + 20
+            Y: =400
+            ZIndex: =13
+
+        ExportCancel_1 As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(ExportCancel_1.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =ExportCancel_1.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(ExportCancel_1.BorderColor, 20%)
+            HoverColor: =ExportCancel_1.Color
+            HoverFill: =ColorFade(ExportCancel_1.Fill, 20%)
+            OnSelect: |-
+                =Set(ShowOneNote, false);
+                Set(ShowPlanner, false);
+                Set(ShowOverlay, false);
+                Navigate(ExportScreen, None)
+            PressedBorderColor: =ExportCancel_1.Fill
+            PressedColor: =ExportCancel_1.Fill
+            PressedFill: =ExportCancel_1.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: =If(TaskSelected, "Delete", "Cancel")
+            Visible: =ShowOneNote || ShowPlanner || ShowOverlay
+            Width: =170
+            X: =494
+            Y: =504
+            ZIndex: =14
+
+        ExportConfirm_1 As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(ExportConfirm_1.BorderColor, 70%)
+            DisplayMode: |-
+                =If(ShowOneNote, 
+                    If(IsBlank(OneNoteBookSelect_1.SelectedText) || IsBlank(SectionsSelect_1.SelectedText), Disabled, Edit), 
+                   ShowPlanner, If(IsBlank(PlannerPlanSelect_1.SelectedText) || IsBlank(PlannerBucketSelect_1.SelectedText), Disabled, Edit),
+                   Edit
+                ) 
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =ExportConfirm_1.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(ExportConfirm_1.BorderColor, 20%)
+            HoverColor: =ExportConfirm_1.Color
+            HoverFill: =ColorFade(ExportConfirm_1.Fill, 20%)
+            OnSelect: |
+                =If(ShowOneNote,
+                    Set(ShowOneNote, false);
+                    Set(SelectedNoteBook, OneNoteBookSelect_1.SelectedText);
+                    Set(SelectedSection, SectionsSelect_1.SelectedText);
+                    Navigate(ExportScreen, None),
+                   ShowPlanner,
+                    Set(ShowPlanner, false);
+                    Set(SelectedPlan, PlannerPlanSelect_1.SelectedText);
+                    Set(SelectedBucket, PlannerBucketSelect_1.SelectedText);
+                    Navigate(ExportScreen, None),
+                   ShowOverlay,
+                    Set(ShowOverlay, false);
+                    Set(ExportConfirmed, true);
+                    Navigate(ConfirmScreen, None)
+                )
+            PressedBorderColor: =ExportConfirm_1.Fill
+            PressedColor: =ExportConfirm_1.Fill
+            PressedFill: =ExportConfirm_1.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: =If(ShowOverlay, "Yes, continue", "OK")
+            Visible: =ShowOneNote || ShowPlanner || ShowOverlay
+            Width: =170
+            X: =702
+            Y: =504
+            ZIndex: =15
+
+        PlannerPlanSelect_1 As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =PlannerPlanSelect_1.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            FocusedBorderColor: =PlannerPlanSelect_1.BorderColor
+            HoverBorderColor: =ColorFade(PlannerPlanSelect_1.BorderColor, 15%)
+            Items: =PlannerPlans
+            OnChange: =ClearCollect(PlannerBuckets,Planner.ListBuckets(PlannerPlanSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1Bid').value)
+            PressedBorderColor: =PlannerPlanSelect_1.HoverBorderColor
+            Visible: =ShowPlanner
+            Width: =388
+            X: =489+0
+            Y: =333+0
+            ZIndex: =16
+
+        PlannerBucketSelect_1 As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =PlannerBucketSelect_1.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            FocusedBorderColor: =PlannerBucketSelect_1.BorderColor
+            HoverBorderColor: =ColorFade(PlannerBucketSelect_1.BorderColor, 15%)
+            Items: =PlannerBuckets
+            PressedBorderColor: =PlannerBucketSelect_1.HoverBorderColor
+            Visible: =ShowPlanner
+            Width: =388
+            X: =489
+            Y: =434
+            ZIndex: =17
+
+        ExportConfirmText_1 As label:
+            FocusedBorderColor: =ExportConfirmText_1.BorderColor
+            FontWeight: =Lighter
+            Height: =107
+            HoverBorderColor: =ExportConfirmText_1.BorderColor
+            HoverColor: =ExportConfirmText_1.Color
+            HoverFill: =ExportConfirmText_1.Fill
+            LineHeight: =1.5
+            PressedBorderColor: =ExportConfirmText_1.BorderColor
+            PressedColor: =ExportConfirmText_1.Color
+            PressedFill: =ExportConfirmText_1.Fill
+            Size: =13.5
+            Text: ="Once you Export, your meeting summary will be shared and you will no longer have access to the edit page."
+            Visible: =ShowOverlay
+            Width: =378
+            X: =494
+            Y: =358
+            ZIndex: =18
+
