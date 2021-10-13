@@ -38,7 +38,6 @@ class Docstring():
         Returns:
             tuple: bool for contains docstring, docstring, function
         """
-        print(propperty[:3])
         if propperty[:3] == "=/*":
             start = propperty.find("/*") + len("/*")
             end = propperty.find("*/")
@@ -133,8 +132,6 @@ class Docstring():
                             end = item[start:].find(")")
                         end = end + start
                         to_screen = item[start:end]
-                        print(start, end)
-                        print(to_screen)
                         if to_screen != None and to_screen != "" and not to_screen.startswith("[@"):
                             to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
                             screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
