@@ -1,4 +1,5 @@
 import os
+import re
 from mdutils.mdutils import MdUtils
 from powerapps_docstring.parser import Parser
 
@@ -13,6 +14,16 @@ class Docstring():
         self.config = config
         self.relevant_objects = self.config["RelevantObjects"]
         self.relevant_object_keys = [f" As {x}" for x in self.relevant_objects.keys()]
+
+    def _get_screen_files(self):
+        screen_files = []
+        screens_path = self.source_path + "/Src/"
+        for file in os.listdir(screens_path):
+            if os.path.isfile(screens_path + file) & file.endswith(".yaml"):
+                if file != "App.fx.yaml":
+                    screen_files.append(file)
+        
+        return screen_files
 
     def _extract_parts_from_propperty(self, propperty) -> tuple:
         """Extracts the parts from a propperty.
@@ -67,7 +78,74 @@ class Docstring():
         for key, value in screen_objects[1].items():
             _recursive(key, value)
 
-    
+    def _create_mermaid_screenflow(self):
+
+        # from https://stackoverflow.com/a/20254842
+        def get_recursively(search_dict, field):
+            """
+            Takes a dict with nested lists and dicts,
+            and searches all dicts for a key of the field
+            provided.
+            """
+            fields_found = []
+
+            for key, value in search_dict.items():
+
+                if key == field:
+                    fields_found.append(value)
+
+                elif isinstance(value, dict):
+                    results = get_recursively(value, field)
+                    for result in results:
+                        fields_found.append(result)
+
+                elif isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, dict):
+                            more_results = get_recursively(item, field)
+                            for another_result in more_results:
+                                fields_found.append(another_result)
+
+            return fields_found
+
+        # create header for mermaid graph
+        screenflow_list = [":::mermaid", "graph LR"]
+
+        screen_files = self._get_screen_files()
+        screens_path = self.source_path + "/Src/"
+        for screen in screen_files:
+            screen_obj = self.parser.get_screen_objects(screen)
+            from_screen = screen_obj[0]
+            list_of_onselects = get_recursively(screen_obj[1], "OnSelect")
+
+            for item in list_of_onselects:
+                if "Navigate(" in item:
+
+                    item = item.strip().replace("\n", "").replace("\t", "").replace(" ", "")
+                    navigate_occurences = [m.start() for m in re.finditer('Navigate\(', item)]
+
+                    for occurence in navigate_occurences:
+                        #print(occurence)
+                        start = occurence + len("Navigate(")
+                        #print(start)
+                        end = item[start:].find(",")
+                        if end == -1:
+                            end = item[start:].find(")")
+                        end = end + start
+                        to_screen = item[start:end]
+                        print(start, end)
+                        print(to_screen)
+                        if to_screen != None and to_screen != "" and not to_screen.startswith("[@"):
+                            to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
+                            screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
+                
+
+        #print(screenflow_list)
+        screenflow_list.append(":::")
+        return screenflow_list  #"\n".join(screenflow_list)
+
+
+
     def create_documentation(self, format=None):
         if format == None:
             self.format = "markdown"
@@ -121,6 +199,10 @@ class Docstring():
         # # Screen # #
         self.md_file.new_header(level=1, title="Screens")
         # TODO: add screenflow visualization
+
+        #self.md_file.new_paragraph(self._create_mermaid_screenflow())
+        for scr_flow in self._create_mermaid_screenflow():
+            self.md_file.new_line(scr_flow)
 
         # loop thru all screens and create markdown
         screens_path = self.source_path + "/Src/"
