@@ -38,7 +38,7 @@ class Docstring():
         Returns:
             tuple: bool for contains docstring, docstring, function
         """
-        if propperty[:3] == "=/*":
+        if propperty.startswith("=/*"):
             start = propperty.find("/*") + len("/*")
             end = propperty.find("*/")
             docstring = propperty[start:end]
@@ -66,8 +66,15 @@ class Docstring():
 
                 for sub_dict_key, sub_dict_item in value.items():
                     if sub_dict_key in self.relevant_objects.get(rel_obj_key):
-                        self.md_file.new_header(level=4, title=sub_dict_key)
-                        self.md_file.insert_code(str(sub_dict_item))
+                        if sub_dict_key == "OnVisible":
+                            screen_docstring = self._extract_parts_from_propperty(sub_dict_item)
+                            # check if docstring exists then add screen docstring
+                            if screen_docstring[0]:
+                                self.md_file.new_paragraph(screen_docstring[1])
+                                sub_dict_item = screen_docstring[2]
+                        if sub_dict_item != "":
+                            self.md_file.new_header(level=4, title=sub_dict_key)
+                            self.md_file.insert_code(str(sub_dict_item))
 
                     elif type(sub_dict_item) == dict:
                         # we found another dict so start over
@@ -179,9 +186,14 @@ class Docstring():
         connections = self.parser.get_connections()
         if len(connections) > 0:
             for connection in connections.items():
+                # not all connections have an apiTier
+                try:
+                    api_tier = f" ({connection[1]['connectionRef']['apiTier']})"
+                except KeyError:
+                    api_tier = ""
 
                 self.md_file.new_line(connection[1]["connectionRef"]["displayName"] +
-                                 f" ({connection[1]['connectionRef']['apiTier']})", "b")    # Header
+                                 api_tier, "b")    # Header
                 self.md_file.new_line("")
 
                 for parameter in connection[1]["connectionParameters"].items():
