@@ -1,0 +1,12 @@
+{
+  "Content": "Image",
+  "FileName": "Basel_Cancel.svg",
+  "IsSampleData": true,
+  "IsWritable": false,
+  "Name": "Basel_Cancel",
+  "Path": "Assets\\Images\\Basel_Cancel.svg",
+  "ResourceKind": "Uri",
+  "RootPath": "ms-appx:///ctrllib/icon/images/Basel_Cancel.svg",
+  "Schema": "i",
+  "Type": "ResourceInfo"
+}

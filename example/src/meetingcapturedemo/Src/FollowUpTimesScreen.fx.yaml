@@ -1,0 +1,553 @@
+FollowUpTimesScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Collections used in galleries and drop downs on this screen
+        - MeetingDurations
+        - HoursList
+        */
+        ClearCollect(MeetingDurations,
+        {Name:"30 minutes", Minutes:30},{Name:"1 hour", Minutes:60},{Name:"90 minutes", Minutes:90},{Name:"2 hours", Minutes:120},
+        {Name:"2.5 hours", Minutes:150},{Name:"3 hours", Minutes:180},{Name:"3.5 hours", Minutes:210},{Name:"4 hours", Minutes:240});
+        
+        ClearCollect(HoursList, {Name:"12:00 am",Minutes:0}, {Name:"12:30 am",Minutes:30}, {Name:"01:00 am",Minutes:60}, {Name:"01:30 am",Minutes:90}, {Name:"02:00 am",Minutes:120}, {Name:"02:30 am",Minutes:150}, {Name:"03:00 am",Minutes:180}, {Name:"03:30 am",Minutes:210}, {Name:"04:00 am",Minutes:240, Short: "4 am"}, {Name:"04:30 am",Minutes:270}, {Name:"05:00 am",Minutes:300}, {Name:"05:30 am",Minutes:330}, {Name:"06:00 am",Minutes:360}, {Name:"06:30 am",Minutes:390}, {Name:"07:00 am",Minutes:420}, {Name:"07:30 am",Minutes:450}, {Name:"08:00 am",Minutes:480, Short: "8 am"}, {Name:"08:30 am",Minutes:510}, {Name:"09:00 am",Minutes:540}, {Name:"09:30 am",Minutes:570}, {Name:"10:00 am",Minutes:600}, {Name:"10:30 am",Minutes:630}, {Name:"11:00 am",Minutes:660}, {Name:"11:30 am",Minutes:690}, {Name:"12:00 pm",Minutes:720, Short: "12 pm"
+        }, {Name:"12:30 pm",Minutes:750}, {Name:"01:00 pm",Minutes:780}, {Name:"01:30 pm",Minutes:810}, {Name:"02:00 pm",Minutes:840}, {Name:"02:30 pm",Minutes:870}, {Name:"03:00 pm",Minutes:900}, {Name:"03:30 pm",Minutes:930}, {Name:"04:00 pm",Minutes:960, Short: "4 pm"}, {Name:"04:30 pm",Minutes:990}, {Name:"05:00 pm",Minutes:1020}, {Name:"05:30 pm",Minutes:1050}, {Name:"06:00 pm",Minutes:1080}, {Name:"06:30 pm",Minutes:1110}, {Name:"07:00 pm",Minutes:1140}, {Name:"07:30 pm",Minutes:1170}, {Name:"08:00 pm",Minutes:1200, Short: "8 pm"}, {Name:"08:30 pm",Minutes:1230}, {Name:"09:00 pm",Minutes:1260}, {Name:"09:30 pm",Minutes:1290}, {Name:"10:00 pm",Minutes:1320}, {Name:"10:30 pm",Minutes:1350}, {Name:"11:00 pm",Minutes:1380}, {Name:"11:30 pm",Minutes:1410})
+    Orientation: =If(FollowUpTimesScreen.Width < FollowUpTimesScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= FollowUpTimesScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    FollowUpTimesBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =29
+
+        Rectangle2_9 As rectangle:
+            DisabledFill: =Rectangle2_9.Fill
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =Rectangle2_9.BorderColor
+            Height: =66
+            HoverFill: =Rectangle2_9.Fill
+            PressedFill: =Rectangle2_9.Fill
+            Width: =1366
+            ZIndex: =1
+
+        AppIcon8 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppIcon8.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppIcon8.BorderColor, 20%)
+            HoverFill: =ColorFade(AppIcon8.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppIcon8.BorderColor, -20%)
+            PressedFill: =ColorFade(AppIcon8.Fill, -20%)
+            Width: =75
+            ZIndex: =2
+
+        FollowUpTimesHeader As label:
+            FocusedBorderColor: =FollowUpTimesHeader.BorderColor
+            FontWeight: =Lighter
+            Height: =49
+            HoverBorderColor: =FollowUpTimesHeader.BorderColor
+            HoverColor: =FollowUpTimesHeader.Color
+            HoverFill: =FollowUpTimesHeader.Fill
+            PressedBorderColor: =FollowUpTimesHeader.BorderColor
+            PressedColor: =FollowUpTimesHeader.Color
+            PressedFill: =FollowUpTimesHeader.Fill
+            Size: =27
+            Text: ="Schedule a follow up meeting"
+            Width: =1251
+            X: =70+0
+            Y: =115+0
+            ZIndex: =4
+
+        Rectangle6_6 As rectangle:
+            DisabledFill: =Rectangle6_6.Fill
+            Fill: =RGBA(227, 227, 227, 1)
+            FocusedBorderColor: =Rectangle6_6.BorderColor
+            FocusedBorderThickness: =0
+            Height: =1
+            HoverFill: =Rectangle6_6.Fill
+            PressedFill: =Rectangle6_6.Fill
+            Width: =FollowUpTimesHeader.Width
+            X: =FollowUpTimesHeader.X
+            Y: =FollowUpTimesHeader.Y + FollowUpTimesHeader.Height + 20
+            ZIndex: =5
+
+        SendInvite As button:
+            BorderColor: =ColorFade(SendInvite.Fill, -15%)
+            DisabledBorderColor: =ColorFade(SendInvite.BorderColor, 70%)
+            DisplayMode: =If(IsBlank(FollowUpStart) || IsBlank(FollowUpEnd),Disabled,Edit)
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =SendInvite.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(SendInvite.BorderColor, 20%)
+            HoverColor: =SendInvite.Color
+            HoverFill: =ColorFade(SendInvite.Fill, 20%)
+            OnSelect: |-
+                =/*creates calendar event for meeting*/
+                UpdateContext({requiredAttendees:Concat(FollowUpMeetingAttendees, UserPrincipalName & ";")});
+                UpdateContext({requiredAttendees:Left(requiredAttendees, Len(requiredAttendees)-1)});
+                Office365Outlook.V4CalendarPostItem(MyCalendarID, FollowUpSubject.Text, FollowUpStart, FollowUpEnd, "UTC",{importance:"Normal", body:FollowUpMessage.Text, showAs:"busy", requiredAttendees:requiredAttendees});
+                Set(FollowUpConfirmed, true);
+                Navigate(ConfirmScreen,None)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =SendInvite.Fill
+            PressedColor: =SendInvite.Fill
+            PressedFill: =SendInvite.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =11
+            Text: ="Send Invite"
+            Width: =121
+            X: =1200
+            Y: =118
+            ZIndex: =26
+
+    DateTimeSelection As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =29
+
+        Label20_10 As label:
+            FocusedBorderColor: =Label20_10.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label20_10.BorderColor
+            HoverColor: =Label20_10.Color
+            HoverFill: =Label20_10.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label20_10.BorderColor
+            PressedColor: =Label20_10.Color
+            PressedFill: =Label20_10.Fill
+            Size: =15
+            Text: ="Desired date for the meeting"
+            Width: =507
+            X: =70
+            Y: =194
+            ZIndex: =7
+
+        DatePicker1 As datepicker:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            FocusedBorderColor: =DatePicker1.BorderColor
+            HoverBorderColor: =DatePicker1.BorderColor
+            HoverFill: =DatePicker1.Fill
+            InputTextPlaceholder: =Text(Date(2001,12,31), DatePicker1.Format, DatePicker1.Language)
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =DatePicker1.BorderColor
+            PressedFill: =DatePicker1.Fill
+            Size: =11
+            X: =70
+            Y: =235
+            ZIndex: =18
+
+        Label20_12 As label:
+            FocusedBorderColor: =Label20_12.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label20_12.BorderColor
+            HoverColor: =Label20_12.Color
+            HoverFill: =Label20_12.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label20_12.BorderColor
+            PressedColor: =Label20_12.Color
+            PressedFill: =Label20_12.Fill
+            Size: =15
+            Text: ="Desired time range"
+            Width: =507
+            X: =70
+            Y: =306
+            ZIndex: =19
+
+        MeetingEndRange As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =MeetingEndRange.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            Default: =LookUp(HoursList,Minutes = 1020).Name
+            FocusedBorderColor: =MeetingEndRange.BorderColor
+            HoverBorderColor: =ColorFade(MeetingEndRange.BorderColor, 15%)
+            Items: =HoursList
+            OnChange: =
+            PressedBorderColor: =MeetingEndRange.HoverBorderColor
+            Width: =174
+            X: =263
+            Y: =430
+            ZIndex: =20
+
+        MeetingStartRange As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =MeetingStartRange.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            Default: =LookUp(HoursList,Minutes = 480).Name
+            FocusedBorderColor: =MeetingStartRange.BorderColor
+            HoverBorderColor: =ColorFade(MeetingStartRange.BorderColor, 15%)
+            Items: =HoursList
+            PressedBorderColor: =MeetingStartRange.HoverBorderColor
+            Width: =174
+            X: =70
+            Y: =430
+            ZIndex: =21
+
+        Label20_13 As label:
+            FocusedBorderColor: =Label20_13.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label20_13.BorderColor
+            HoverColor: =Label20_13.Color
+            HoverFill: =Label20_13.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label20_13.BorderColor
+            PressedColor: =Label20_13.Color
+            PressedFill: =Label20_13.Fill
+            Size: =15
+            Text: ="Meeting duration"
+            Width: =507
+            X: =70
+            Y: =513
+            ZIndex: =22
+
+        MeetingDurationSelection As dropdown:
+            BorderColor: =RGBA(155, 155, 155, 1)
+            BorderThickness: =1
+            ChevronBackground: =RGBA(0, 0, 0, 0)
+            ChevronFill: =RGBA(237, 41, 85, 1)
+            ChevronHoverBackground: =MeetingDurationSelection.ChevronBackground
+            ChevronHoverFill: =RGBA(255,255,255,1)
+            FocusedBorderColor: =MeetingDurationSelection.BorderColor
+            HoverBorderColor: =ColorFade(MeetingDurationSelection.BorderColor, 15%)
+            Items: =MeetingDurations
+            PressedBorderColor: =MeetingDurationSelection.HoverBorderColor
+            Width: =367
+            X: =70
+            Y: =566
+            ZIndex: =23
+
+        LoadAvailableTimes As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(LoadAvailableTimes.BorderColor, 70%)
+            DisplayMode: =If(MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' = MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' || MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' < MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =White
+            FocusedBorderColor: =LoadAvailableTimes.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(LoadAvailableTimes.BorderColor, 20%)
+            HoverColor: =LoadAvailableTimes.Color
+            HoverFill: =ColorFade(LoadAvailableTimes.Fill, 20%)
+            OnSelect: |-
+                =Set(Loading, true);
+                /*
+                Collects available meeting times for attendees based on user determined data from this page. Adds 'StartTime' and 'EndTime' columns to the collection as a means of simplifying the MeetingTimeSlot column
+                */
+                ClearCollect(MeetingTimes,AddColumns(Office365Outlook.FindMeetingTimes({MaxCandidates:15,MinimumAttendeePercentage: 1, MeetingDuration: MeetingDurationSelection.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes',Start:Text(DateAdd(DatePicker1.SelectedDate,MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes), UTC),End:Text(DateAdd(DatePicker1.SelectedDate, MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes), UTC),RequiredAttendees:Concat(FollowUpMeetingAttendees,UserPrincipalName & ";")}).MeetingTimeSuggestions,"StartTime",MeetingTimeSlot.Start.DateTime,
+                "EndTime",MeetingTimeSlot.End.DateTime));
+                Set(ShowMeetingTimes, true);
+                Set(Loading, false)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =LoadAvailableTimes.Fill
+            PressedColor: =LoadAvailableTimes.Fill
+            PressedFill: =LoadAvailableTimes.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =11
+            Text: ="Find Available Times"
+            Width: =287
+            X: =70
+            Y: =663
+            ZIndex: =24
+
+        TimeLine As gallery.galleryHorizontal:
+            DisabledBorderColor: =TimeLine.BorderColor
+            DisabledFill: =TimeLine.Fill
+            Height: =89
+            HoverBorderColor: =TimeLine.BorderColor
+            HoverFill: =TimeLine.Fill
+            Items: =HoursList
+            LoadingSpinnerColor: =TimeLine.BorderColor
+            PressedBorderColor: =TimeLine.BorderColor
+            PressedFill: =TimeLine.Fill
+            TemplatePadding: =0
+            TemplateSize: =8
+            Width: =395
+            X: =70
+            Y: =324
+            ZIndex: =28
+
+            TimeRangeSelected As rectangle:
+                DisabledFill: =TimeRangeSelected.Fill
+                Fill: =If(ThisItem.Minutes >= MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' && ThisItem.Minutes <= MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', RGBA(97, 114, 129, 1), RGBA(202, 212, 221, 1))
+                FocusedBorderColor: =TimeRangeSelected.BorderColor
+                Height: =3
+                HoverFill: =TimeRangeSelected.Fill
+                PressedFill: =TimeRangeSelected.Fill
+                Width: =If(ThisItem.Minutes = 1410, 2, 8)
+                X: =If(ThisItem.Minutes = 0, 2, 0)
+                Y: =58
+                ZIndex: =1
+
+            TimeTicks As rectangle:
+                DisabledFill: =TimeTicks.Fill
+                Fill: =RGBA(151, 151, 151, 1)
+                FocusedBorderColor: =TimeTicks.BorderColor
+                Height: =If(!IsBlank(ThisItem.Short), 18, Mod(ThisItem.Minutes, 60) = 0, 10, 5)
+                HoverFill: =TimeTicks.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =TimeTicks.Fill
+                Width: =2
+                X: =2
+                Y: =TimeRangeSelected.Y + TimeRangeSelected.Height/2 - TimeTicks.Height/2
+                ZIndex: =2
+
+            StartEndIndicator As circle:
+                DisabledFill: =StartEndIndicator.Fill
+                Fill: =RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =StartEndIndicator.BorderColor
+                Height: =9
+                HoverFill: =StartEndIndicator.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =StartEndIndicator.Fill
+                Visible: =And(MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' = ThisItem.Minutes || MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' = ThisItem.Minutes, HorizontalLine.Visible)
+                Width: =9
+                X: =TimeTicks.X + TimeTicks.Width/2 - StartEndIndicator.Width/2
+                Y: =TimeRangeSelected.Y + TimeRangeSelected.Height/2 - StartEndIndicator.Height/2
+                ZIndex: =3
+
+            TimeLineTimeText As label:
+                Align: =Center
+                FocusedBorderColor: =TimeLineTimeText.BorderColor
+                Height: =15
+                HoverBorderColor: =TimeLineTimeText.BorderColor
+                HoverColor: =TimeLineTimeText.Color
+                HoverFill: =TimeLineTimeText.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =TimeLineTimeText.BorderColor
+                PressedColor: =TimeLineTimeText.Color
+                PressedFill: =TimeLineTimeText.Fill
+                Size: =7
+                Text: =ThisItem.Short
+                Visible: =Mod(ThisItem.Minutes, 240) = 0
+                Width: =8+32
+                X: =-TimeLineTimeText.Width/2
+                Y: =74
+                ZIndex: =4
+
+            HorizontalLine As rectangle:
+                DisabledFill: =HorizontalLine.Fill
+                Fill: = RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =HorizontalLine.BorderColor
+                Height: =3
+                HoverFill: =HorizontalLine.Fill
+                PressedFill: =HorizontalLine.Fill
+                Visible: =ThisItem.Minutes >= MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' && ThisItem.Minutes <= MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes'
+                Width: =If(ThisItem.Minutes = 1410, 2, 8)
+                X: =TimeRangeSelected.X
+                Y: =TimeRangeSelected.Y
+                ZIndex: =5
+
+    AvailableTimesSelect As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =30
+
+        SelectAvailableTime As label:
+            FocusedBorderColor: =SelectAvailableTime.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =SelectAvailableTime.BorderColor
+            HoverColor: =SelectAvailableTime.Color
+            HoverFill: =SelectAvailableTime.Fill
+            PressedBorderColor: =SelectAvailableTime.BorderColor
+            PressedColor: =SelectAvailableTime.Color
+            PressedFill: =SelectAvailableTime.Fill
+            Size: =15
+            Text: ="Select an available time"
+            Visible: =ShowMeetingTimes
+            Width: =300
+            X: =713
+            Y: =195
+            ZIndex: =13
+
+        AvailableTimesGall As gallery.galleryVertical:
+            DisabledBorderColor: =AvailableTimesGall.BorderColor
+            DisabledFill: =AvailableTimesGall.Fill
+            Height: =488
+            HoverBorderColor: =AvailableTimesGall.BorderColor
+            HoverFill: =AvailableTimesGall.Fill
+            Items: =SortByColumns(MeetingTimes,"Confidence",Descending,"StartTime",Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =AvailableTimesGall.BorderColor
+            PressedBorderColor: =AvailableTimesGall.BorderColor
+            PressedFill: =AvailableTimesGall.Fill
+            TemplateFill: |-
+                =/*ensures top gallery item doesn't appear selected on first load*/
+                If(FollowUpStart = ThisItem.StartTime && FollowUpEnd = ThisItem.EndTime && ThisItem.IsSelected, RGBA(237, 41, 85, 0.15), RGBA(0,0,0,0))
+            TemplateSize: =96
+            Visible: =!Loading
+            Width: =646
+            X: =713
+            Y: =236
+            ZIndex: =25
+
+            AttendeeAvailabilityText As label:
+                Color: =RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =AttendeeAvailabilityText.BorderColor
+                HoverBorderColor: =AttendeeAvailabilityText.BorderColor
+                HoverColor: =AttendeeAvailabilityText.Color
+                HoverFill: =AttendeeAvailabilityText.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =AttendeeAvailabilityText.BorderColor
+                PressedColor: =AttendeeAvailabilityText.Color
+                PressedFill: =AttendeeAvailabilityText.Fill
+                Text: |-
+                    =Round(ThisItem.Confidence,1) & "% attendee availability:"
+                Width: =280
+                X: =7
+                Y: =3
+                ZIndex: =1
+
+            SelectFollowUpTime As button:
+                BorderColor: =RGBA(237, 41, 85, 1)
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledBorderColor: =ColorFade(SelectFollowUpTime.BorderColor, 70%)
+                DisplayMode: =If(MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' = MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' || MeetingEndRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes' < MeetingStartRange.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', DisplayMode.Disabled, DisplayMode.Edit)
+                Fill: =AvailableTimesGall.Fill
+                FocusedBorderColor: =SelectFollowUpTime.BorderColor
+                Height: =44
+                HoverBorderColor: =ColorFade(SelectFollowUpTime.BorderColor, 20%)
+                HoverColor: =SelectFollowUpTime.Color
+                HoverFill: =ColorFade(SelectFollowUpTime.Fill, 20%)
+                OnSelect: |-
+                    =Set(FollowUpStart,ThisItem.StartTime);
+                    Set(FollowUpEnd,ThisItem.EndTime)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =SelectFollowUpTime.Fill
+                PressedColor: =SelectFollowUpTime.Fill
+                PressedFill: =SelectFollowUpTime.Color
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Size: =13.5
+                Text: |
+                    =If(!IsBlank(ThisItem.MeetingTimeSlot), 
+                    /*
+                    Retrieved times are in UTC. This converts and displays them to local region time
+                    */
+                    Text(DateAdd(DateTimeValue(ThisItem.StartTime), -TimeZoneOffset(DateTimeValue(ThisItem.StartTime)), Minutes), "[$-en-US]hh:mm AM/PM") & " - " & 
+                    Text(DateAdd(DateTimeValue(ThisItem.EndTime), -TimeZoneOffset(DateTimeValue(ThisItem.EndTime)), Minutes), "[$-en-US]hh:mm AM/PM")
+                    )
+                Width: =280
+                X: =7
+                Y: =43
+                ZIndex: =2
+
+            UnableToAttendIcon As image:
+                FocusedBorderColor: =UnableToAttendIcon.BorderColor
+                Height: =16
+                HoverBorderColor: =ColorFade(UnableToAttendIcon.BorderColor, 20%)
+                HoverFill: =ColorFade(UnableToAttendIcon.Fill, 20%)
+                Image: ='unable-to-attend'
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(UnableToAttendIcon.BorderColor, -20%)
+                PressedFill: =ColorFade(UnableToAttendIcon.Fill, -20%)
+                Width: =16
+                X: =304
+                Y: =16
+                ZIndex: =3
+
+            UnableToAttend As label:
+                Color: =RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =UnableToAttend.BorderColor
+                FontWeight: =Semibold
+                Height: =17
+                HoverBorderColor: =UnableToAttend.BorderColor
+                HoverColor: =UnableToAttend.Color
+                HoverFill: =UnableToAttend.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =UnableToAttend.BorderColor
+                PressedColor: =UnableToAttend.Color
+                PressedFill: =UnableToAttend.Fill
+                Size: =10
+                Text: |-
+                    ="Unable to attend:"
+                Width: =218
+                X: =323
+                Y: =16
+                ZIndex: =4
+
+            CantAttend As label:
+                Color: =RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =AttendeeAvailabilityText.BorderColor
+                Height: =56
+                HoverBorderColor: =AttendeeAvailabilityText.BorderColor
+                HoverColor: =AttendeeAvailabilityText.Color
+                HoverFill: =AttendeeAvailabilityText.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AttendeeAvailabilityText.BorderColor
+                PressedColor: =AttendeeAvailabilityText.Color
+                PressedFill: =AttendeeAvailabilityText.Fill
+                Size: =8
+                Text: |-
+                    =/*
+                    Displays all attendees whose availability does not equal "Free" or "Tentative" during this time
+                    */
+                    Mid(Concat(Filter(ThisItem.AttendeeAvailability,Not(Availability = "Free" || Availability = "Tentative")),", " & LookUp(FollowUpMeetingAttendees, UserPrincipalName = Attendee.EmailAddress.Address).DisplayName), 3)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =324
+                X: =304
+                Y: =40
+                ZIndex: =5
+
+        LoadingIndicator3 As label:
+            FocusedBorderColor: =LoadingIndicator3.BorderColor
+            Height: =70
+            HoverBorderColor: =LoadingIndicator3.BorderColor
+            HoverColor: =LoadingIndicator3.Color
+            HoverFill: =LoadingIndicator3.Fill
+            PressedBorderColor: =LoadingIndicator3.BorderColor
+            PressedColor: =LoadingIndicator3.Color
+            PressedFill: =LoadingIndicator3.Fill
+            Text: ="Retrieving available times..."
+            Visible: =Loading
+            Width: =472
+            X: =800
+            Y: =445
+            ZIndex: =29
+

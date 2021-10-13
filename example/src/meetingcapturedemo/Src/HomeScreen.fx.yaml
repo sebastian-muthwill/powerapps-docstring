@@ -1,0 +1,860 @@
+HomeScreen As screen:
+    Fill: =RGBA(234, 237, 239, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*The main screen for meeting captures during a meeting.
+        
+        - create meeting notes
+        - create tasks
+        - see meeting details
+        */
+        
+        /*if any additional meeting is captured in the same session, guarantees no confirmation screens are shown in error*/
+        Set(FollowUpConfirmed, false);
+        Set(EmailConfirmed, false);
+        Set(ExportConfirmed, false)
+    Orientation: =If(HomeScreen.Width < HomeScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= HomeScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    HomeNavBar As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        AppLogo1 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppLogo1.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppLogo1.BorderColor, 20%)
+            HoverFill: =ColorFade(AppLogo1.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppLogo1.BorderColor, -20%)
+            PressedFill: =ColorFade(AppLogo1.Fill, -20%)
+            Width: =75
+            ZIndex: =1
+
+        HomeMenuBkg_1 As rectangle:
+            DisabledFill: =HomeMenuBkg_1.Fill
+            Fill: =RGBA(74, 91, 104, 1)
+            FocusedBorderColor: =HomeMenuBkg_1.BorderColor
+            Height: =702
+            HoverFill: =HomeMenuBkg_1.Fill
+            PressedFill: =HomeMenuBkg_1.Fill
+            Width: =75
+            Y: =66
+            ZIndex: =2
+
+        NavHome1 As image:
+            Fill: =RGBA(44, 48, 52, 1)
+            FocusedBorderColor: =NavHome1.BorderColor
+            Height: =NavHome1.Width
+            HoverBorderColor: =ColorFade(NavHome1.BorderColor, 20%)
+            HoverFill: =NavHome1.Fill
+            Image: ='nav-notes'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(NavHome1.BorderColor, -20%)
+            PressedFill: =ColorFade(NavHome1.Fill, -20%)
+            Width: =HomeMenuBkg_1.Width
+            Y: =66
+            ZIndex: =3
+
+        NavSketch1 As image:
+            FocusedBorderColor: =NavSketch1.BorderColor
+            Height: =NavSketch1.Width
+            HoverBorderColor: =ColorFade(NavSketch1.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_1.Fill, 20%)
+            Image: ='nav-sketch'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(SketchScreen, None)
+            PressedBorderColor: =ColorFade(NavSketch1.BorderColor, -20%)
+            PressedFill: =ColorFade(NavSketch1.Fill, -20%)
+            Width: =HomeMenuBkg_1.Width
+            Y: =141
+            ZIndex: =4
+
+        NavPhotos1 As image:
+            FocusedBorderColor: =NavPhotos1.BorderColor
+            Height: =NavPhotos1.Width
+            HoverBorderColor: =ColorFade(NavPhotos1.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_1.Fill, 20%)
+            Image: ='nav-camera'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(CameraScreen, None)
+            PressedBorderColor: =ColorFade(NavPhotos1.BorderColor, -20%)
+            PressedFill: =ColorFade(NavPhotos1.Fill, -20%)
+            Width: =HomeMenuBkg_1.Width
+            Y: =216
+            ZIndex: =5
+
+    HomeAttendees As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        AttendeesBackground As rectangle:
+            DisabledFill: =AttendeesBackground.Fill
+            Fill: =White
+            FocusedBorderColor: =AttendeesBackground.BorderColor
+            Height: =283
+            HoverFill: =AttendeesBackground.Fill
+            PressedFill: =AttendeesBackground.Fill
+            Width: =291
+            X: =123
+            Y: =180
+            ZIndex: =9
+
+        AttendeesBanner As label:
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =AttendeesBanner.BorderColor
+            FontWeight: =Semibold
+            HoverBorderColor: =AttendeesBanner.BorderColor
+            HoverColor: =AttendeesBanner.Color
+            HoverFill: =AttendeesBanner.Fill
+            PaddingLeft: =54
+            PressedBorderColor: =AttendeesBanner.BorderColor
+            PressedColor: =AttendeesBanner.Color
+            PressedFill: =AttendeesBanner.Fill
+            Size: =10.5
+            Text: ="Attendees"
+            Width: =291
+            X: =123
+            Y: =180
+            ZIndex: =10
+
+        AttendeesBannerImage As image:
+            FocusedBorderColor: =AttendeesBannerImage.BorderColor
+            Height: =25
+            HoverBorderColor: =ColorFade(AttendeesBannerImage.BorderColor, 20%)
+            HoverFill: =ColorFade(AttendeesBannerImage.Fill, 20%)
+            Image: =attendees
+            PressedBorderColor: =ColorFade(AttendeesBannerImage.BorderColor, -20%)
+            PressedFill: =ColorFade(AttendeesBannerImage.Fill, -20%)
+            Width: =28
+            X: =134
+            Y: =188
+            ZIndex: =11
+
+        AttendeeGallery1 As gallery.galleryVertical:
+            DisabledBorderColor: =AttendeeGallery1.BorderColor
+            DisabledFill: =AttendeeGallery1.Fill
+            Height: =243
+            HoverBorderColor: =AttendeeGallery1.BorderColor
+            HoverFill: =AttendeeGallery1.Fill
+            Items: =MeetingAttendees
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =AttendeeGallery1.BorderColor
+            PressedBorderColor: =AttendeeGallery1.BorderColor
+            PressedFill: =AttendeeGallery1.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =15
+            TemplateSize: =40
+            Visible: =!Loading
+            Width: =291
+            X: =123
+            Y: =220
+            ZIndex: =12
+
+            AttendeeImage As image:
+                FocusedBorderColor: =AttendeeImage.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(AttendeeImage.BorderColor, 20%)
+                HoverFill: =ColorFade(AttendeeImage.Fill, 20%)
+                Image: =If(Not(IsBlank(ThisItem.Id)) && Office365Users.UserPhotoMetadata(ThisItem.Id).HasPhoto,Office365Users.UserPhoto(ThisItem.Id),'default-profile')
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(AttendeeImage.BorderColor, -20%)
+                PressedFill: =ColorFade(AttendeeImage.Fill, -20%)
+                Width: =40
+                X: =5
+                ZIndex: =1
+
+            AttendeeDisplayName As label:
+                FocusedBorderColor: =AttendeeDisplayName.BorderColor
+                FontWeight: =Semibold
+                Height: =30
+                HoverBorderColor: =AttendeeDisplayName.BorderColor
+                HoverColor: =AttendeeDisplayName.Color
+                HoverFill: =AttendeeDisplayName.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AttendeeDisplayName.BorderColor
+                PressedColor: =AttendeeDisplayName.Color
+                PressedFill: =AttendeeDisplayName.Fill
+                Size: =8
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =181
+                X: =55
+                Y: =5
+                ZIndex: =2
+
+            AttendeeJobTitle As label:
+                FocusedBorderColor: =AttendeeJobTitle.BorderColor
+                Height: =14.4
+                HoverBorderColor: =AttendeeJobTitle.BorderColor
+                HoverColor: =AttendeeJobTitle.Color
+                HoverFill: =AttendeeJobTitle.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AttendeeJobTitle.BorderColor
+                PressedColor: =AttendeeJobTitle.Color
+                PressedFill: =AttendeeJobTitle.Fill
+                Size: =8
+                Text: =ThisItem.JobTitle
+                Width: =206
+                X: =55
+                Y: =21
+                ZIndex: =3
+
+            MailAttendeeIcon As icon.Mail:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =MailAttendeeIcon.Fill
+                FocusedBorderColor: =MailAttendeeIcon.BorderColor
+                FocusedBorderThickness: =0
+                Height: =25
+                HoverBorderColor: =ColorFade(MailAttendeeIcon.BorderColor, 20%)
+                HoverColor: =ColorFade(MailAttendeeIcon.Color, 20%)
+                HoverFill: =MailAttendeeIcon.Fill
+                Icon: =Icon.Mail
+                OnSelect: |
+                    =Select(Parent);
+                    Navigate(EmailScreen, None);
+                    Set(MultiRecipients, false);
+                    ClearCollect(EmailRecipients, AttendeeGallery1.Selected)
+                PaddingBottom: =4
+                PaddingLeft: =4
+                PaddingRight: =4
+                PaddingTop: =4
+                PressedBorderColor: =ColorFade(MailAttendeeIcon.BorderColor, -20%)
+                PressedColor: =ColorFade(MailAttendeeIcon.Color, -20%)
+                PressedFill: =MailAttendeeIcon.Fill
+                Width: =25
+                X: =236
+                ZIndex: =4
+
+        LoadingIndicator1 As label:
+            Align: =Center
+            FocusedBorderColor: =LoadingIndicator1.BorderColor
+            Height: =41
+            HoverBorderColor: =LoadingIndicator1.BorderColor
+            HoverColor: =LoadingIndicator1.Color
+            HoverFill: =LoadingIndicator1.Fill
+            PressedBorderColor: =LoadingIndicator1.BorderColor
+            PressedColor: =LoadingIndicator1.Color
+            PressedFill: =LoadingIndicator1.Fill
+            Size: =10
+            Text: ="Gathering meeting attendees..."
+            Visible: =Loading
+            Width: =260
+            X: =AttendeeGallery1.X + AttendeeGallery1.Width/2 - LoadingIndicator1.Width/2
+            Y: =291
+            ZIndex: =31
+
+        MailAllButton As button:
+            BorderColor: =MailAllButton.Color
+            BorderThickness: =1
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(MailAllButton.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =MailAllButton.BorderColor
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =ColorFade(MailAllButton.BorderColor, 20%)
+            HoverColor: =MailAllButton.Color
+            HoverFill: =ColorFade(MailAllButton.Fill, 20%)
+            OnSelect: |-
+                =Navigate(EmailScreen, None);
+                Set(MultiRecipients, true);
+                ClearCollect(EmailRecipients, AttendeeGallery1.AllItems)
+            PaddingBottom: =0
+            PaddingLeft: =20
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =MailAllButton.Fill
+            PressedColor: =MailAllButton.Fill
+            PressedFill: =MailAllButton.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =9
+            Text: ="Email"
+            Width: =74
+            X: =328
+            Y: =187
+            ZIndex: =34
+
+        MailAllIcon As icon.Mail:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =MailAllIcon.Fill
+            FocusedBorderColor: =MailAllIcon.BorderColor
+            FocusedBorderThickness: =0
+            Height: =25
+            HoverBorderColor: =ColorFade(MailAllIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(MailAllIcon.Color, 20%)
+            HoverFill: =MailAllIcon.Fill
+            Icon: =Icon.Mail
+            OnSelect: =Select(MailAllButton)
+            PaddingBottom: =4
+            PaddingLeft: =4
+            PaddingRight: =4
+            PaddingTop: =4
+            PressedBorderColor: =ColorFade(MailAllIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(MailAllIcon.Color, -20%)
+            PressedFill: =MailAllIcon.Fill
+            Width: =25
+            X: =330
+            Y: =188
+            ZIndex: =35
+
+    HomeNotes As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        NotesBanner As label:
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =NotesBanner.BorderColor
+            FontWeight: =Semibold
+            HoverBorderColor: =NotesBanner.BorderColor
+            HoverColor: =NotesBanner.Color
+            HoverFill: =NotesBanner.Fill
+            PaddingLeft: =54
+            PressedBorderColor: =NotesBanner.BorderColor
+            PressedColor: =NotesBanner.Color
+            PressedFill: =NotesBanner.Fill
+            Size: =10.5
+            Text: ="Notes"
+            Width: =430
+            X: =434
+            Y: =180
+            ZIndex: =17
+
+        NotesIcon As image:
+            FocusedBorderColor: =NotesIcon.BorderColor
+            Height: =25
+            HoverBorderColor: =ColorFade(NotesIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(NotesIcon.Fill, 20%)
+            Image: =notes
+            PressedBorderColor: =ColorFade(NotesIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(NotesIcon.Fill, -20%)
+            Width: =28
+            X: =445
+            Y: =188
+            ZIndex: =18
+
+        NotesInput As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =NotesInput.BorderColor
+            FocusedBorderThickness: =NotesInput.BorderThickness
+            Height: =508
+            HintText: ="Start typing notes for this meeting..."
+            HoverBorderColor: =RGBA(0,0,0,0)
+            HoverFill: =NotesInput.Fill
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =20
+            PaddingLeft: =20
+            PaddingRight: =20
+            PaddingTop: =20
+            PressedBorderColor: =RGBA(0,0,0,0)
+            PressedColor: =NotesInput.Color
+            PressedFill: =NotesInput.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Width: =430
+            X: =434
+            Y: =220
+            ZIndex: =19
+
+    HomeMeetingDetails As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        DetailsBackground As rectangle:
+            DisabledFill: =DetailsBackground.Fill
+            Fill: =White
+            FocusedBorderColor: =DetailsBackground.BorderColor
+            Height: =283
+            HoverFill: =DetailsBackground.Fill
+            PressedFill: =DetailsBackground.Fill
+            Width: =291
+            X: =123
+            Y: =477
+            ZIndex: =13
+
+        DetailsBanner As label:
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =DetailsBanner.BorderColor
+            HoverBorderColor: =DetailsBanner.BorderColor
+            HoverColor: =DetailsBanner.Color
+            HoverFill: =DetailsBanner.Fill
+            PaddingLeft: =54
+            PressedBorderColor: =DetailsBanner.BorderColor
+            PressedColor: =DetailsBanner.Color
+            PressedFill: =DetailsBanner.Fill
+            Text: ="Meeting Details"
+            Width: =291
+            X: =123
+            Y: =477
+            ZIndex: =14
+
+        DetailsIcon As icon.Note:
+            Color: =Black
+            DisabledFill: =DetailsIcon.Fill
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =DetailsIcon.BorderColor
+            Height: =25
+            HoverBorderColor: =ColorFade(DetailsIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(DetailsIcon.Color, 20%)
+            HoverFill: =DetailsIcon.Fill
+            Icon: =Icon.Note
+            PressedBorderColor: =ColorFade(DetailsIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(DetailsIcon.Color, -20%)
+            PressedFill: =DetailsIcon.Fill
+            Width: =28
+            X: =134
+            Y: =485
+            ZIndex: =15
+
+        MeetingBody As htmlViewer:
+            Height: =243
+            HoverBorderColor: =MeetingBody.BorderColor
+            HtmlText: =SelectedMeeting.Body
+            PressedBorderColor: =MeetingBody.BorderColor
+            Size: =9
+            Width: =291
+            X: =123
+            Y: =517
+            ZIndex: =16
+
+    HomeBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        MeetingTitle As label:
+            FocusedBorderColor: =MeetingTitle.BorderColor
+            Height: =94
+            HoverBorderColor: =MeetingTitle.BorderColor
+            HoverColor: =MeetingTitle.Color
+            HoverFill: =MeetingTitle.Fill
+            PressedBorderColor: =MeetingTitle.BorderColor
+            PressedColor: =MeetingTitle.Color
+            PressedFill: =MeetingTitle.Fill
+            Size: =15
+            Text: =SelectedMeeting.Subject
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =500
+            X: =119
+            ZIndex: =6
+
+        HomeTimeRange As label:
+            AutoHeight: =true
+            FocusedBorderColor: =HomeTimeRange.BorderColor
+            Height: =17
+            HoverBorderColor: =HomeTimeRange.BorderColor
+            HoverColor: =HomeTimeRange.Color
+            HoverFill: =HomeTimeRange.Fill
+            PressedBorderColor: =HomeTimeRange.BorderColor
+            PressedColor: =HomeTimeRange.Color
+            PressedFill: =HomeTimeRange.Fill
+            Size: =10.5
+            Text: |-
+                =Text(SelectedMeeting.Start,"[$-en-US]mmmm dd, yyyy")&" | " & Lower(Text(SelectedMeeting.Start,"[$-en-US]hh:mm am/pm"))&" - "&Lower(Text(SelectedMeeting.End,"[$-en-US]hh:mm am/pm")) & " (" & DateDiff(SelectedMeeting.Start, SelectedMeeting.End, Minutes) & " minutes)"
+            Width: =800
+            X: =119
+            Y: =95
+            ZIndex: =7
+
+        ProgressBkg As rectangle:
+            DisabledFill: =ProgressBkg.Fill
+            Fill: =RGBA(202, 212, 221, 1)
+            FocusedBorderColor: =ProgressBkg.BorderColor
+            Height: =3
+            HoverFill: =ProgressBkg.Fill
+            PressedFill: =ProgressBkg.Fill
+            Width: =1192
+            X: =124
+            Y: =HomeTimeRange.Y + HomeTimeRange.Height + 24
+            ZIndex: =8
+
+        HomeTimer As timer:
+            AutoStart: =true
+            BorderColor: =ColorFade(HomeTimer.Fill, -15%)
+            Color: =RGBA(74, 91, 104, 1)
+            DisabledBorderColor: =ColorFade(HomeTimer.BorderColor, 70%)
+            DisabledColor: =ColorFade(HomeTimer.Fill, 90%)
+            DisabledFill: =ColorFade(HomeTimer.Fill, 70%)
+            Duration: =500
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =HomeTimer.BorderColor
+            HoverBorderColor: =ColorFade(HomeTimer.BorderColor, 20%)
+            HoverColor: =HomeTimer.Color
+            HoverFill: =ColorFade(HomeTimer.Fill, 20%)
+            OnTimerEnd: |-
+                =Set(SecondsRemain,DateDiff(Now(),SelectedMeeting.End,Seconds));
+                Set(ProgressBarPosition,DateDiff(SelectedMeeting.Start,Now(),Seconds))
+            PressedBorderColor: =HomeTimer.Fill
+            PressedColor: =HomeTimer.Color
+            PressedFill: =RGBA(0,0,0,0)
+            Repeat: =true
+            Size: =18
+            Start: =60000
+            Text: |-
+                =If(SecondsRemain > 0,RoundDown(SecondsRemain/3600,0) & ":" & Text(RoundDown(Mod(SecondsRemain, 3600) / 60,0),"[$-en-US]00") & ":" & Text(Mod(SecondsRemain, 60),"[$-en-US]00"),"0:00:00")
+            Width: =200
+            X: =Parent.Width/2 - HomeTimer.Width/2
+            Y: =50
+            ZIndex: =26
+
+        AttachmentsIcon2 As circle:
+            BorderColor: =AttachmentsIcon1.Color
+            BorderThickness: =1
+            DisabledFill: =AttachmentsIcon2.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =White
+            FocusedBorderColor: =AttachmentsIcon2.BorderColor
+            Height: =48
+            HoverFill: =AttachmentsIcon2.Fill
+            PressedFill: =AttachmentsIcon2.Fill
+            Width: =48
+            X: =986
+            Y: =69
+            ZIndex: =27
+
+        AttachmentsIcon1 As icon.Attachment:
+            Color: =If(Or(CountRows(Sketches) > 0,CountRows(Photos) > 0),RGBA(237, 41, 85, 1),RGBA(150, 150, 150, 1))
+            DisabledFill: =AttachmentsIcon1.Fill
+            FocusedBorderColor: =AttachmentsIcon1.BorderColor
+            FocusedBorderThickness: =0
+            Height: =48
+            HoverBorderColor: =ColorFade(AttachmentsIcon1.BorderColor, 20%)
+            HoverColor: =ColorFade(AttachmentsIcon1.Color, 20%)
+            HoverFill: =AttachmentsIcon1.Fill
+            Icon: =Icon.PaperClip
+            OnSelect: =Navigate(AttachmentsScreen, None)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =ColorFade(AttachmentsIcon1.BorderColor, -20%)
+            PressedColor: =ColorFade(AttachmentsIcon1.Color, -20%)
+            PressedFill: =AttachmentsIcon1.Fill
+            Width: =48
+            X: =AttachmentsIcon2.X
+            Y: =AttachmentsIcon2.Y
+            ZIndex: =28
+
+        Finish_SaveButton As button:
+            BorderColor: =ColorFade(Finish_SaveButton.Fill, -15%)
+            DisabledBorderColor: =ColorFade(Finish_SaveButton.BorderColor, 70%)
+            DisplayMode: =If(Loading, Disabled, DisplayMode.Edit)
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =Finish_SaveButton.BorderColor
+            HoverBorderColor: =ColorFade(Finish_SaveButton.BorderColor, 20%)
+            HoverColor: =Finish_SaveButton.Color
+            HoverFill: =ColorFade(Finish_SaveButton.Fill, 20%)
+            OnSelect: =Navigate(ExportScreen, None)
+            PaddingBottom: =0
+            PaddingLeft: =33
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Finish_SaveButton.Fill
+            PressedColor: =Finish_SaveButton.Fill
+            PressedFill: =Finish_SaveButton.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Text: ="Finish & Save"
+            Width: =251
+            X: =1058
+            Y: =73
+            ZIndex: =29
+
+        Finish_SaveIcon As image:
+            FocusedBorderColor: =Finish_SaveIcon.BorderColor
+            Height: =23
+            HoverBorderColor: =ColorFade(Finish_SaveIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(Finish_SaveIcon.Fill, 20%)
+            Image: =export
+            OnSelect: =Select(Finish_SaveButton)
+            PressedBorderColor: =ColorFade(Finish_SaveIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(Finish_SaveIcon.Fill, -20%)
+            Width: =26
+            X: =Finish_SaveButton.X + 12
+            Y: =Finish_SaveButton.Y + Finish_SaveButton.Height/2 - Finish_SaveIcon.Height/2
+            ZIndex: =30
+
+        Progress As rectangle:
+            DisabledFill: =Progress.Fill
+            Fill: =RGBA(74, 91, 104, 1)
+            FocusedBorderColor: =Progress.BorderColor
+            Height: =3
+            HoverFill: =Progress.Fill
+            PressedFill: =Progress.Fill
+            Width: =Min(ProgressBkg.Width, ProgressBkg.Width * ProgressBarPosition / SelectedMeetingDuration)
+            X: =ProgressBkg.X
+            Y: =HomeTimeRange.Y + HomeTimeRange.Height + 24
+            ZIndex: =32
+
+    HomePlannerTasks As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        TasksBanner As label:
+            Fill: =RGBA(215, 218, 221, 1)
+            FocusedBorderColor: =TasksBanner.BorderColor
+            FontWeight: =Semibold
+            HoverBorderColor: =TasksBanner.BorderColor
+            HoverColor: =TasksBanner.Color
+            HoverFill: =TasksBanner.Fill
+            PaddingLeft: =54
+            PressedBorderColor: =TasksBanner.BorderColor
+            PressedColor: =TasksBanner.Color
+            PressedFill: =TasksBanner.Fill
+            Size: =10.5
+            Text: ="Planner Tasks"
+            Width: =430
+            X: =884
+            Y: =181
+            ZIndex: =20
+
+        TasksIcon As image:
+            FocusedBorderColor: =TasksIcon.BorderColor
+            Height: =25
+            HoverBorderColor: =ColorFade(TasksIcon.BorderColor, 20%)
+            HoverFill: =ColorFade(TasksIcon.Fill, 20%)
+            Image: =tasks
+            PressedBorderColor: =ColorFade(TasksIcon.BorderColor, -20%)
+            PressedFill: =ColorFade(TasksIcon.Fill, -20%)
+            Width: =28
+            X: =895
+            Y: =189
+            ZIndex: =21
+
+        TasksBackground As rectangle:
+            DisabledFill: =TasksBackground.Fill
+            Fill: =White
+            FocusedBorderColor: =TasksBackground.BorderColor
+            FocusedBorderThickness: =0
+            Height: =TaskTitle.Y + TaskTitle.Height + 10 - TasksBackground.Y
+            HoverFill: =TasksBackground.Fill
+            PressedFill: =TasksBackground.Fill
+            Width: =430
+            X: =884
+            Y: =221
+            ZIndex: =22
+
+        TaskGallery As gallery.galleryVertical:
+            DisabledBorderColor: =TaskGallery.BorderColor
+            DisabledFill: =TaskGallery.Fill
+            Height: =Min(350, (TaskGallery.TemplateHeight + 5) * CountRows(Tasks))
+            HoverBorderColor: =TaskGallery.BorderColor
+            HoverFill: =TaskGallery.Fill
+            Items: =Tasks
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =TaskGallery.BorderColor
+            OnSelect: |-
+                =If(CountRows(Tasks) > 0, 
+                Set(SelectedTask, ThisItem);
+                Set(TaskSelected, true);
+                Set(UserSelected, true);
+                Set(UserSelectedFromTasks, true);
+                Set(SelectedUserTasks, ThisItem.AssignToUser);
+                Set(ShowOverlay, true)
+                )
+            PressedBorderColor: =TaskGallery.BorderColor
+            PressedFill: =TaskGallery.Fill
+            ShowScrollbar: =false
+            TemplateSize: =55
+            Width: =410
+            X: =TasksBackground.X + TasksBackground.Width/2 - TaskGallery.Width/2
+            Y: =221
+            ZIndex: =23
+
+            Rectangle4 As rectangle:
+                DisabledFill: =Rectangle4.Fill
+                Fill: =RGBA(241, 241, 241, 1)
+                FocusedBorderColor: =Rectangle4.BorderColor
+                FocusedBorderThickness: =0
+                Height: =1
+                HoverFill: =Rectangle4.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Rectangle4.Fill
+                Width: =Parent.TemplateWidth - 40
+                X: =20
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =1
+
+            TaskDescript As label:
+                AutoHeight: =true
+                Color: =RGBA(237, 41, 85, 1)
+                FocusedBorderColor: =TaskDescript.BorderColor
+                Height: =17
+                HoverBorderColor: =TaskDescript.BorderColor
+                HoverColor: =TaskDescript.Color
+                HoverFill: =TaskDescript.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =TaskDescript.BorderColor
+                PressedColor: =TaskDescript.Color
+                PressedFill: =TaskDescript.Fill
+                Size: =8
+                Text: =ThisItem.Name
+                Width: =Parent.TemplateWidth - TaskDescript.X - 100
+                X: =50
+                Y: =11
+                ZIndex: =2
+
+            TaskAssignee As label:
+                AutoHeight: =true
+                Color: =RGBA(97, 114, 129, 1)
+                FocusedBorderColor: =TaskAssignee.BorderColor
+                HoverBorderColor: =TaskAssignee.BorderColor
+                HoverColor: =TaskAssignee.Color
+                HoverFill: =TaskAssignee.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =TaskAssignee.BorderColor
+                PressedColor: =TaskAssignee.Color
+                PressedFill: =TaskAssignee.Fill
+                Size: =8
+                Text: =ThisItem.AssignToUser.DisplayName
+                Width: =TaskDescript.Width
+                X: =TaskDescript.X
+                Y: =TaskDescript.Y + TaskDescript.Height + 4
+                ZIndex: =3
+
+            TaskDue As label:
+                Align: =Right
+                AutoHeight: =true
+                FocusedBorderColor: =TaskDue.BorderColor
+                HoverBorderColor: =TaskDue.BorderColor
+                HoverColor: =TaskDue.Color
+                HoverFill: =TaskDue.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =TaskDue.BorderColor
+                PressedColor: =TaskDue.Color
+                PressedFill: =TaskDue.Fill
+                Size: =7.5
+                Text: =If(IsBlank(ThisItem.DueDate),"","Due " & If(IsToday(ThisItem.DueDate),"Today",Text(ThisItem.DueDate,"[$-en-US]mmm d")))
+                Width: =120
+                X: =Parent.TemplateWidth - TaskDue.Width
+                Y: =TaskDescript.Y
+                ZIndex: =4
+
+            Circle3 As circle:
+                BorderColor: =RGBA(97, 114, 129, 1)
+                BorderThickness: =1
+                DisabledFill: =Circle3.Fill
+                Fill: =RGBA(62,96,170,0)
+                FocusedBorderColor: =Circle3.BorderColor
+                FocusedBorderThickness: =1
+                Height: =10
+                HoverFill: =Circle3.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Circle3.Fill
+                Width: =10
+                X: =21
+                Y: =Parent.TemplateHeight/2 - Circle3.Height/2
+                ZIndex: =5
+
+        TaskTitle As text:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Default: =""
+            FocusedBorderColor: =TaskTitle.BorderColor
+            FocusedBorderThickness: =1
+            HintText: ="Add task..."
+            HoverBorderColor: =ColorFade(TaskTitle.BorderColor, -30%)
+            HoverFill: =White
+            PaddingBottom: =0
+            PaddingLeft: =20
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =TaskTitle.HoverBorderColor
+            PressedColor: =TaskTitle.Color
+            PressedFill: =TaskTitle.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Width: =TasksBackground.Width - 20
+            X: =TasksBackground.X + 10
+            Y: =TaskGallery.Y + TaskGallery.Height + If(CountRows(Tasks) = 0, 50, 9)
+            ZIndex: =24
+
+        AddTask As icon.Add:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =AddTask.Fill
+            FocusedBorderColor: =AddTask.BorderColor
+            FocusedBorderThickness: =0
+            Height: =40
+            HoverBorderColor: =ColorFade(AddTask.BorderColor, 20%)
+            HoverColor: =ColorFade(AddTask.Color, 20%)
+            HoverFill: =AddTask.Fill
+            Icon: =Icon.Add
+            OnSelect: |-
+                =Set(ShowOverlay, true);
+                Navigate(HomePopUpsScreen, None)
+            PaddingBottom: =7
+            PaddingLeft: =7
+            PaddingRight: =7
+            PaddingTop: =7
+            PressedBorderColor: =ColorFade(AddTask.BorderColor, -20%)
+            PressedColor: =ColorFade(AddTask.Color, -20%)
+            PressedFill: =AddTask.Fill
+            Width: =40
+            X: =1264
+            Y: =TaskTitle.Y
+            ZIndex: =25
+
+        InitialTaskCount As label:
+            FocusedBorderColor: =InitialTaskCount.BorderColor
+            HoverBorderColor: =InitialTaskCount.BorderColor
+            HoverColor: =InitialTaskCount.Color
+            HoverFill: =InitialTaskCount.Fill
+            PressedBorderColor: =InitialTaskCount.BorderColor
+            PressedColor: =InitialTaskCount.Color
+            PressedFill: =InitialTaskCount.Fill
+            Size: =10.5
+            Text: ="0 tasks"
+            Visible: =CountRows(Tasks) = 0
+            Width: =410
+            X: =894
+            Y: =225
+            ZIndex: =33
+

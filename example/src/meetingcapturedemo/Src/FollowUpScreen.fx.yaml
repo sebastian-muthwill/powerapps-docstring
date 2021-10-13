@@ -1,0 +1,466 @@
+FollowUpScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Schedule follow up for this meeting*/
+        Set(ExportConfirmed, false);
+        ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
+    Orientation: =If(FollowUpScreen.Width < FollowUpScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= FollowUpScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    FollowUpBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        Rectangle2_8 As rectangle:
+            DisabledFill: =Rectangle2_8.Fill
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =Rectangle2_8.BorderColor
+            Height: =66
+            HoverFill: =Rectangle2_8.Fill
+            PressedFill: =Rectangle2_8.Fill
+            Width: =1366
+            ZIndex: =1
+
+        AppIcon7 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppIcon7.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppIcon7.BorderColor, 20%)
+            HoverFill: =ColorFade(AppIcon7.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppIcon7.BorderColor, -20%)
+            PressedFill: =ColorFade(AppIcon7.Fill, -20%)
+            Width: =75
+            ZIndex: =2
+
+        FollowUpHeader As label:
+            FocusedBorderColor: =FollowUpHeader.BorderColor
+            FontWeight: =Lighter
+            Height: =49
+            HoverBorderColor: =FollowUpHeader.BorderColor
+            HoverColor: =FollowUpHeader.Color
+            HoverFill: =FollowUpHeader.Fill
+            PressedBorderColor: =FollowUpHeader.BorderColor
+            PressedColor: =FollowUpHeader.Color
+            PressedFill: =FollowUpHeader.Fill
+            Size: =27
+            Text: ="Schedule a follow up meeting"
+            Width: =1251
+            X: =70+0
+            Y: =115+0
+            ZIndex: =4
+
+        Rectangle6_5 As rectangle:
+            DisabledFill: =Rectangle6_5.Fill
+            Fill: =RGBA(227, 227, 227, 1)
+            FocusedBorderColor: =Rectangle6_5.BorderColor
+            FocusedBorderThickness: =0
+            Height: =1
+            HoverFill: =Rectangle6_5.Fill
+            PressedFill: =Rectangle6_5.Fill
+            Width: =FollowUpHeader.Width
+            X: =FollowUpHeader.X
+            Y: =FollowUpHeader.Y + FollowUpHeader.Height + 20
+            ZIndex: =5
+
+        FindAvailableTimesButton As button:
+            BorderColor: =ColorFade(FindAvailableTimesButton.Fill, -15%)
+            DisabledBorderColor: =ColorFade(FindAvailableTimesButton.BorderColor, 70%)
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =FindAvailableTimesButton.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(FindAvailableTimesButton.BorderColor, 20%)
+            HoverColor: =FindAvailableTimesButton.Color
+            HoverFill: =ColorFade(FindAvailableTimesButton.Fill, 20%)
+            OnSelect: =Navigate(FollowUpTimesScreen, None)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =FindAvailableTimesButton.Fill
+            PressedColor: =FindAvailableTimesButton.Fill
+            PressedFill: =FindAvailableTimesButton.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =11
+            Text: ="Find Available Times"
+            Width: =287
+            X: =1034+0
+            Y: =118+0
+            ZIndex: =17
+
+    FollowUpAttendees As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        FollowUpGallBkg As button:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Color: =RGBA(227, 227, 227, 1)
+            DisabledBorderColor: =ColorFade(FollowUpGallBkg.BorderColor, 70%)
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =FollowUpGallBkg.BorderColor
+            Height: =197
+            HoverBorderColor: =ColorFade(FollowUpGallBkg.BorderColor, 20%)
+            HoverColor: =FollowUpGallBkg.Color
+            HoverFill: =ColorFade(FollowUpGallBkg.Fill, 20%)
+            PressedBorderColor: =FollowUpGallBkg.Fill
+            PressedColor: =FollowUpGallBkg.Fill
+            PressedFill: =FollowUpGallBkg.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Text: =""
+            Width: =521
+            X: =70
+            Y: =241
+            ZIndex: =6
+
+        FollowUpAttendeeCount As label:
+            FocusedBorderColor: =FollowUpAttendeeCount.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =FollowUpAttendeeCount.BorderColor
+            HoverColor: =FollowUpAttendeeCount.Color
+            HoverFill: =FollowUpAttendeeCount.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =FollowUpAttendeeCount.BorderColor
+            PressedColor: =FollowUpAttendeeCount.Color
+            PressedFill: =FollowUpAttendeeCount.Fill
+            Size: =15
+            Text: ="Attendees (" & CountRows(FollowUpMeetingAttendees) & ")"
+            Width: =507
+            X: =70
+            Y: =194
+            ZIndex: =7
+
+        FollowUpAttendeesGall As gallery.galleryVertical:
+            DisabledBorderColor: =FollowUpAttendeesGall.BorderColor
+            DisabledFill: =FollowUpAttendeesGall.Fill
+            Height: =197
+            HoverBorderColor: =FollowUpAttendeesGall.BorderColor
+            HoverFill: =FollowUpAttendeesGall.Fill
+            Items: =FollowUpMeetingAttendees
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =FollowUpAttendeesGall.BorderColor
+            PressedBorderColor: =FollowUpAttendeesGall.BorderColor
+            PressedFill: =FollowUpAttendeesGall.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =10
+            TemplateSize: =50
+            Width: =521
+            WrapCount: =2
+            X: =70
+            Y: =241
+            ZIndex: =8
+
+            FollowUpAttendee As button:
+                Align: =If(MultiRecipients, Left, Center)
+                BorderColor: =RGBA(237, 41, 85, 1)
+                BorderThickness: =1
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledBorderColor: =ColorFade(FollowUpAttendee.BorderColor, 70%)
+                Fill: =RGBA(237, 41, 85, 0.15)
+                FocusedBorderColor: =FollowUpAttendee.BorderColor
+                FocusedBorderThickness: =1
+                FontWeight: =Normal
+                Height: =44
+                HoverBorderColor: =ColorFade(FollowUpAttendee.BorderColor, 20%)
+                HoverColor: =FollowUpAttendee.Color
+                HoverFill: =ColorFade(FollowUpAttendee.Fill, 20%)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =15
+                PaddingRight: =40
+                PaddingTop: =0
+                PressedBorderColor: =FollowUpAttendee.Fill
+                PressedColor: =FollowUpAttendee.Color
+                PressedFill: =FollowUpAttendee.Fill
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Size: =10.5
+                Text: =ThisItem.DisplayName
+                Width: =Parent.TemplateWidth
+                Y: =6
+                ZIndex: =1
+
+            RemoveFollowUpAttendee As icon.Cancel:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =RemoveFollowUpAttendee.Fill
+                FocusedBorderColor: =RemoveFollowUpAttendee.BorderColor
+                Height: =44
+                HoverBorderColor: =ColorFade(RemoveFollowUpAttendee.BorderColor, 20%)
+                HoverColor: =ColorFade(RemoveFollowUpAttendee.Color, 20%)
+                HoverFill: =RemoveFollowUpAttendee.Fill
+                Icon: =Icon.Cancel
+                OnSelect: =Remove(FollowUpMeetingAttendees,ThisItem)
+                PaddingLeft: =10
+                PaddingRight: =10
+                PressedBorderColor: =ColorFade(RemoveFollowUpAttendee.BorderColor, -20%)
+                PressedColor: =ColorFade(RemoveFollowUpAttendee.Color, -20%)
+                PressedFill: =RemoveFollowUpAttendee.Fill
+                Visible: =MultiRecipients
+                Width: =40
+                X: =205.5
+                Y: =6
+                ZIndex: =2
+
+        AddFollowUpAttendee As label:
+            FocusedBorderColor: =AddFollowUpAttendee.BorderColor
+            FontWeight: =Semibold
+            Height: =28
+            HoverBorderColor: =AddFollowUpAttendee.BorderColor
+            HoverColor: =AddFollowUpAttendee.Color
+            HoverFill: =AddFollowUpAttendee.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AddFollowUpAttendee.BorderColor
+            PressedColor: =AddFollowUpAttendee.Color
+            PressedFill: =AddFollowUpAttendee.Fill
+            Size: =10.5
+            Text: ="Add attendee"
+            Visible: =CheckEmail.Value
+            Width: =507
+            X: =70
+            Y: =461
+            ZIndex: =9
+
+        FollowUpSearchText As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =FollowUpSearchText.BorderColor
+            FocusedBorderThickness: =2
+            HintText: ="Search for users in your org"
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =40
+            PaddingTop: =10
+            PressedBorderColor: =FollowUpSearchText.HoverBorderColor
+            PressedColor: =FollowUpSearchText.Color
+            PressedFill: =FollowUpSearchText.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Width: =521
+            X: =70
+            Y: =489
+            ZIndex: =10
+
+        FollowUpSearchIcon As icon.Search:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =FollowUpSearchIcon.Fill
+            FocusedBorderColor: =FollowUpSearchIcon.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(FollowUpSearchIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(FollowUpSearchIcon.Color, 20%)
+            HoverFill: =FollowUpSearchIcon.Fill
+            Icon: =Icon.Search
+            PressedBorderColor: =ColorFade(FollowUpSearchIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(FollowUpSearchIcon.Color, -20%)
+            PressedFill: =FollowUpSearchIcon.Fill
+            Width: =24
+            X: =75
+            Y: =489
+            ZIndex: =11
+
+        FollowUpSearchUserResults As gallery.galleryVertical:
+            DisabledBorderColor: =FollowUpSearchUserResults.BorderColor
+            DisabledFill: =FollowUpSearchUserResults.Fill
+            Height: =153
+            HoverBorderColor: =FollowUpSearchUserResults.BorderColor
+            HoverFill: =FollowUpSearchUserResults.Fill
+            Items: |-
+                =If(!IsBlank(FollowUpSearchText.Text), Office365Users.SearchUser({searchTerm:Trim(FollowUpSearchText.Text), top:15}))
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =FollowUpSearchUserResults.BorderColor
+            OnSelect: =If(Not(ThisItem.Id in FollowUpMeetingAttendees.Id), Collect(FollowUpMeetingAttendees, ThisItem))
+            PressedBorderColor: =FollowUpSearchUserResults.BorderColor
+            PressedFill: =FollowUpSearchUserResults.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =15
+            TemplateSize: =40
+            Width: =521
+            X: =70
+            Y: =538
+            ZIndex: =12
+
+            FollowUpAddImage As image:
+                FocusedBorderColor: =FollowUpAddImage.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(FollowUpAddImage.BorderColor, 20%)
+                HoverFill: =ColorFade(FollowUpAddImage.Fill, 20%)
+                Image: |-
+                    =If(!IsBlank(FollowUpSearchText.Text) && Not(IsBlank(ThisItem.Id)) && Office365Users.UserPhotoMetadata(ThisItem.Id).HasPhoto,
+                        Office365Users.UserPhoto(ThisItem.Id),
+                        'default-profile'
+                    )
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(FollowUpAddImage.BorderColor, -20%)
+                PressedFill: =ColorFade(FollowUpAddImage.Fill, -20%)
+                Width: =40
+                X: =5
+                ZIndex: =1
+
+            FollowUpAddDisplayName As label:
+                FocusedBorderColor: =FollowUpAddDisplayName.BorderColor
+                FontWeight: =Semibold
+                Height: =19
+                HoverBorderColor: =FollowUpAddDisplayName.BorderColor
+                HoverColor: =FollowUpAddDisplayName.Color
+                HoverFill: =FollowUpAddDisplayName.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =FollowUpAddDisplayName.BorderColor
+                PressedColor: =FollowUpAddDisplayName.Color
+                PressedFill: =FollowUpAddDisplayName.Fill
+                Size: =8
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =270
+                X: =55
+                Y: =5
+                ZIndex: =2
+
+            FollowUpAddJobTitle As label:
+                FocusedBorderColor: =FollowUpAddJobTitle.BorderColor
+                Height: =14.4
+                HoverBorderColor: =FollowUpAddJobTitle.BorderColor
+                HoverColor: =FollowUpAddJobTitle.Color
+                HoverFill: =FollowUpAddJobTitle.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =FollowUpAddJobTitle.BorderColor
+                PressedColor: =FollowUpAddJobTitle.Color
+                PressedFill: =FollowUpAddJobTitle.Fill
+                Size: =8
+                Text: =ThisItem.JobTitle
+                Width: =270
+                X: =55
+                Y: =21
+                ZIndex: =3
+
+            FollowUpAddUser As icon.Add:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =FollowUpAddUser.Fill
+                FocusedBorderColor: =FollowUpAddUser.BorderColor
+                FocusedBorderThickness: =0
+                Height: =40
+                HoverBorderColor: =ColorFade(FollowUpAddUser.BorderColor, 20%)
+                HoverColor: =ColorFade(FollowUpAddUser.Color, 20%)
+                HoverFill: =FollowUpAddUser.Fill
+                Icon: =Icon.Add
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PaddingRight: =7
+                PaddingTop: =7
+                PressedBorderColor: =ColorFade(FollowUpAddUser.BorderColor, -20%)
+                PressedColor: =ColorFade(FollowUpAddUser.Color, -20%)
+                PressedFill: =FollowUpAddUser.Fill
+                Width: =40
+                X: =451
+                ZIndex: =4
+
+    FollowUpDetails As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        Label16_3 As label:
+            FocusedBorderColor: =Label16_3.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label16_3.BorderColor
+            HoverColor: =Label16_3.Color
+            HoverFill: =Label16_3.Fill
+            PressedBorderColor: =Label16_3.BorderColor
+            PressedColor: =Label16_3.Color
+            PressedFill: =Label16_3.Fill
+            Size: =15
+            Text: ="Subject"
+            Width: =300
+            X: =713
+            Y: =195
+            ZIndex: =13
+
+        FollowUpSubject As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: |-
+                ="Follow Up: " & SelectedMeeting.Subject
+            FocusedBorderColor: =FollowUpSubject.BorderColor
+            Height: =44
+            PressedBorderColor: =FollowUpSubject.HoverBorderColor
+            PressedColor: =FollowUpSubject.Color
+            PressedFill: =FollowUpSubject.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =13.5
+            Width: =608
+            X: =713
+            Y: =Label16_3.Y + Label16_3.Height + 10
+            ZIndex: =14
+
+        Label16_4 As label:
+            FocusedBorderColor: =Label16_4.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label16_4.BorderColor
+            HoverColor: =Label16_4.Color
+            HoverFill: =Label16_4.Fill
+            PressedBorderColor: =Label16_4.BorderColor
+            PressedColor: =Label16_4.Color
+            PressedFill: =Label16_4.Fill
+            Size: =15
+            Text: ="Message"
+            Width: =300
+            X: =713
+            Y: =FollowUpSubject.Y + FollowUpSubject.Height + 30
+            ZIndex: =15
+
+        FollowUpMessage As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =FollowUpMessage.BorderColor
+            Height: =167
+            Mode: =TextMode.MultiLine
+            PressedBorderColor: =FollowUpMessage.HoverBorderColor
+            PressedColor: =FollowUpMessage.Color
+            PressedFill: =FollowUpMessage.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =13.5
+            Width: =608
+            X: =713
+            Y: =Label16_4.Y + Label16_4.Height + 10
+            ZIndex: =16
+

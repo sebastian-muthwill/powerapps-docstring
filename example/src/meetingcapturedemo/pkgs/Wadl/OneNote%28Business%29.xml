@@ -1,0 +1,371 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://msmanaged-na.azure-apim.net/apim/onenote" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="OneNote(Business)" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="OneNote (Business)">OneNote is a note taking app from Microsoft that makes it easy to sync your ideas, sketches and notes across all your devices! Connect to your Office 365 account with OneDrive for Business enabled to track new sections, create notes and more.</doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://msmanaged-na.azure-apim.net/apim/onenote" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="CreateSectionRequest_name_def" />
+      <object name="CreateSectionRequest">
+        <property name="name" type="string" />
+      </object>
+      <string name="CreateSectionInNotebookResponse__ux40_odata_context_def" />
+      <string name="CreateSectionInNotebookResponse_createdBy_def" />
+      <dateTimeString name="CreateSectionInNotebookResponse_createdTime_def" />
+      <string name="CreateSectionInNotebookResponse_id_def" />
+      <boolean name="CreateSectionInNotebookResponse_isDefault_def" />
+      <string name="CreateSectionInNotebookResponse_lastModifiedBy_def" />
+      <dateTimeString name="CreateSectionInNotebookResponse_lastModifiedTime_def" />
+      <string name="CreateSectionInNotebookResponse_links_def_oneNoteClientUrl_def_href_def" />
+      <object name="CreateSectionInNotebookResponse_links_def_oneNoteClientUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <string name="CreateSectionInNotebookResponse_links_def_oneNoteWebUrl_def_href_def" />
+      <object name="CreateSectionInNotebookResponse_links_def_oneNoteWebUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <object name="CreateSectionInNotebookResponse_links_def">
+        <property name="oneNoteClientUrl" typeRef="CreateSectionInNotebookResponse_links_def_oneNoteClientUrl_def" />
+        <property name="oneNoteWebUrl" typeRef="CreateSectionInNotebookResponse_links_def_oneNoteWebUrl_def" />
+      </object>
+      <string name="CreateSectionInNotebookResponse_name_def" />
+      <string name="CreateSectionInNotebookResponse_pagesUrl_def" />
+      <string name="CreateSectionInNotebookResponse_self_def" />
+      <object name="CreateSectionInNotebookResponse">
+        <property name="@odata.context" type="string" />
+        <property name="createdBy" type="string" />
+        <property name="createdTime" typeRef="CreateSectionInNotebookResponse_createdTime_def" />
+        <property name="id" type="string" />
+        <property name="isDefault" type="boolean" />
+        <property name="lastModifiedBy" type="string" />
+        <property name="lastModifiedTime" typeRef="CreateSectionInNotebookResponse_lastModifiedTime_def" />
+        <property name="links" typeRef="CreateSectionInNotebookResponse_links_def" />
+        <property name="name" type="string" />
+        <property name="pagesUrl" type="string" />
+        <property name="self" type="string" />
+      </object>
+      <string name="Page_title_def" />
+      <string name="Page_contentUrl_def" />
+      <dateTimeString name="Page_lastModifiedTime_def" />
+      <dateTimeString name="Page_createdTime_def" />
+      <string name="Page_id_def" />
+      <object name="Page">
+        <property name="title" type="string" />
+        <property name="links" typeRef="Link" />
+        <property name="contentUrl" type="string" />
+        <property name="lastModifiedTime" typeRef="Page_lastModifiedTime_def" />
+        <property name="createdTime" typeRef="Page_createdTime_def" />
+        <property name="id" type="string" />
+      </object>
+      <string name="GetPageResponse__ux40_odata_context_def" />
+      <string name="GetPageResponse_value_def_items_def_contentUrl_def" />
+      <string name="GetPageResponse_value_def_items_def_createdByAppId_def" />
+      <dateTimeString name="GetPageResponse_value_def_items_def_createdTime_def" />
+      <string name="GetPageResponse_value_def_items_def_id_def" />
+      <dateTimeString name="GetPageResponse_value_def_items_def_lastModifiedTime_def" />
+      <string name="GetPageResponse_value_def_items_def_links_def_oneNoteClientUrl_def_href_def" />
+      <object name="GetPageResponse_value_def_items_def_links_def_oneNoteClientUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <string name="GetPageResponse_value_def_items_def_links_def_oneNoteWebUrl_def_href_def" />
+      <object name="GetPageResponse_value_def_items_def_links_def_oneNoteWebUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <object name="GetPageResponse_value_def_items_def_links_def">
+        <property name="oneNoteClientUrl" typeRef="GetPageResponse_value_def_items_def_links_def_oneNoteClientUrl_def" />
+        <property name="oneNoteWebUrl" typeRef="GetPageResponse_value_def_items_def_links_def_oneNoteWebUrl_def" />
+      </object>
+      <string name="GetPageResponse_value_def_items_def_parentSection_def_id_def" />
+      <string name="GetPageResponse_value_def_items_def_parentSection_def_name_def" />
+      <string name="GetPageResponse_value_def_items_def_parentSection_def_self_def" />
+      <object name="GetPageResponse_value_def_items_def_parentSection_def">
+        <property name="id" type="string" />
+        <property name="name" type="string" />
+        <property name="self" type="string" />
+      </object>
+      <string name="GetPageResponse_value_def_items_def_parentSection_ux40_odata_context_def" />
+      <string name="GetPageResponse_value_def_items_def_self_def" />
+      <string name="GetPageResponse_value_def_items_def_title_def" />
+      <object name="GetPageResponse_value_def_items_def">
+        <property name="contentUrl" type="string" />
+        <property name="createdByAppId" type="string" />
+        <property name="createdTime" typeRef="GetPageResponse_value_def_items_def_createdTime_def" />
+        <property name="id" type="string" />
+        <property name="lastModifiedTime" typeRef="GetPageResponse_value_def_items_def_lastModifiedTime_def" />
+        <property name="links" typeRef="GetPageResponse_value_def_items_def_links_def" />
+        <property name="parentSection" typeRef="GetPageResponse_value_def_items_def_parentSection_def" />
+        <property name="parentSection@odata.context" type="string" />
+        <property name="self" type="string" />
+        <property name="title" type="string" />
+      </object>
+      <array typeRef="GetPageResponse_value_def_items_def" name="GetPageResponse_value_def" />
+      <object name="GetPageResponse">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetPageResponse_value_def" />
+      </object>
+      <string name="Notebook_FileName_def" />
+      <string name="Notebook_Key_def" />
+      <object name="Notebook">
+        <property name="FileName" type="string" />
+        <property name="Key" type="string" />
+      </object>
+      <string name="ParentNotebook_id_def" />
+      <string name="ParentNotebook_name_def" />
+      <string name="ParentNotebook_self_def" />
+      <object name="ParentNotebook">
+        <property name="id" type="string" />
+        <property name="name" type="string" />
+        <property name="self" type="string" />
+      </object>
+      <object name="Link">
+        <property name="oneNoteClientUrl" typeRef="OneNoteClientUrl" />
+        <property name="oneNoteWebUrl" typeRef="OneNoteWebUrl" />
+      </object>
+      <string name="OneNoteClientUrl_href_def" />
+      <object name="OneNoteClientUrl">
+        <property name="href" type="string" />
+      </object>
+      <string name="OneNoteWebUrl_href_def" />
+      <object name="OneNoteWebUrl">
+        <property name="href" type="string" />
+      </object>
+      <string name="SectionListItem_name_def" />
+      <string name="SectionListItem_pagesUrl_def" />
+      <string name="SectionListItem_id_def" />
+      <object name="SectionListItem">
+        <property name="name" type="string" />
+        <property name="pagesUrl" type="string" />
+        <property name="id" type="string" />
+      </object>
+      <string name="Section_createdBy_def" />
+      <dateTimeString name="Section_createdTime_def" />
+      <string name="Section_id_def" />
+      <boolean name="Section_isDefault_def" />
+      <string name="Section_lastModifiedBy_def" />
+      <dateTimeString name="Section_lastModifiedTime_def" />
+      <string name="Section_name_def" />
+      <string name="Section_pagesUrl_def" />
+      <string name="Section_self_def" />
+      <object name="Section">
+        <property name="createdBy" type="string" />
+        <property name="createdTime" typeRef="Section_createdTime_def" />
+        <property name="id" type="string" />
+        <property name="isDefault" type="boolean" />
+        <property name="lastModifiedBy" type="string" />
+        <property name="lastModifiedTime" typeRef="Section_lastModifiedTime_def" />
+        <property name="name" type="string" />
+        <property name="pagesUrl" type="string" />
+        <property name="parentNotebook" typeRef="ParentNotebook" />
+        <property name="self" type="string" />
+      </object>
+      <dateTimeString name="SectionGroup_createdTime_def" />
+      <string name="SectionGroup_createdBy_def" />
+      <string name="SectionGroup_id_def" />
+      <string name="SectionGroup_lastModifiedBy_def" />
+      <dateTimeString name="SectionGroup_lastModifiedTime_def" />
+      <string name="SectionGroup_name_def" />
+      <string name="SectionGroup_sectionsUrl_def" />
+      <string name="SectionGroup_self_def" />
+      <object name="SectionGroup">
+        <property name="createdTime" typeRef="SectionGroup_createdTime_def" />
+        <property name="createdBy" type="string" />
+        <property name="id" type="string" />
+        <property name="lastModifiedBy" type="string" />
+        <property name="lastModifiedTime" typeRef="SectionGroup_lastModifiedTime_def" />
+        <property name="name" type="string" />
+        <property name="sectionsUrl" type="string" />
+        <property name="self" type="string" />
+      </object>
+      <array typeRef="Section" name="NewSectionResponse_value_def" />
+      <object name="NewSectionResponse">
+        <property name="value" typeRef="NewSectionResponse_value_def" />
+      </object>
+      <array typeRef="SectionGroup" name="NewSectionGroupResponse_value_def" />
+      <object name="NewSectionGroupResponse">
+        <property name="value" typeRef="NewSectionGroupResponse_value_def" />
+      </object>
+      <array typeRef="Page" name="NewPageResponse_value_def" />
+      <object name="NewPageResponse">
+        <property name="value" typeRef="NewPageResponse_value_def" />
+      </object>
+      <string name="GetPagesInSectionResponse__ux40_odata_context_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_contentUrl_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_createdByAppId_def" />
+      <dateTimeString name="GetPagesInSectionResponse_value_def_items_def_createdTime_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_id_def" />
+      <dateTimeString name="GetPagesInSectionResponse_value_def_items_def_lastModifiedTime_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteClientUrl_def_href_def" />
+      <object name="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteClientUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <string name="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteWebUrl_def_href_def" />
+      <object name="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteWebUrl_def">
+        <property name="href" type="string" />
+      </object>
+      <object name="GetPagesInSectionResponse_value_def_items_def_links_def">
+        <property name="oneNoteClientUrl" typeRef="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteClientUrl_def" />
+        <property name="oneNoteWebUrl" typeRef="GetPagesInSectionResponse_value_def_items_def_links_def_oneNoteWebUrl_def" />
+      </object>
+      <string name="GetPagesInSectionResponse_value_def_items_def_parentSection_def_id_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_parentSection_def_name_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_parentSection_def_self_def" />
+      <object name="GetPagesInSectionResponse_value_def_items_def_parentSection_def">
+        <property name="id" type="string" />
+        <property name="name" type="string" />
+        <property name="self" type="string" />
+      </object>
+      <string name="GetPagesInSectionResponse_value_def_items_def_parentSection_ux40_odata_context_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_self_def" />
+      <string name="GetPagesInSectionResponse_value_def_items_def_title_def" />
+      <object name="GetPagesInSectionResponse_value_def_items_def">
+        <property name="contentUrl" type="string" />
+        <property name="createdByAppId" type="string" />
+        <property name="createdTime" typeRef="GetPagesInSectionResponse_value_def_items_def_createdTime_def" />
+        <property name="id" type="string" />
+        <property name="lastModifiedTime" typeRef="GetPagesInSectionResponse_value_def_items_def_lastModifiedTime_def" />
+        <property name="links" typeRef="GetPagesInSectionResponse_value_def_items_def_links_def" />
+        <property name="parentSection" typeRef="GetPagesInSectionResponse_value_def_items_def_parentSection_def" />
+        <property name="parentSection@odata.context" type="string" />
+        <property name="self" type="string" />
+        <property name="title" type="string" />
+      </object>
+      <array typeRef="GetPagesInSectionResponse_value_def_items_def" name="GetPagesInSectionResponse_value_def" />
+      <object name="GetPagesInSectionResponse">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetPagesInSectionResponse_value_def" />
+      </object>
+      <string name="CreatePageInSection_param_pageContent_def" />
+      <string name="CreatePageInQuickNotes_param_pageContent_def" />
+      <string name="GetPageContent_responses_default_def" />
+      <array typeRef="Notebook" name="GetNotebooks_responses_200_def" />
+      <array typeRef="SectionListItem" name="GetSectionsInNotebook_responses_200_def_value_def" />
+      <object name="GetSectionsInNotebook_responses_200_def">
+        <property name="value" typeRef="GetSectionsInNotebook_responses_200_def_value_def" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://msmanaged-na.azure-apim.net/apim/onenote">
+    <resource path="/{connectionId}/notebooks/Dynamic/sections">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="CreateSectionInNotebook">
+        <doc title="Create section in a notebook&#xA;Create section in a notebook." />
+        <request>
+          <param style="query" name="notebookKey" type="xs:string" required="true">
+            <doc title="A key identifying the notebook. Note this is specific to the API and cannot be hand-typed." />
+          </param>
+          <representation mediaType="application/json">
+            <param style="plain" name="name" path="/name" type="xs:string" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:CreateSectionInNotebookResponse" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/sections/Dynamic/pages">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="CreatePageInSection">
+        <doc title="Create page in a section&#xA;Create new page in a specified section." />
+        <request>
+          <param style="query" name="notebookKey" type="xs:string" required="true">
+            <doc title="A key identifying the notebook. Note this is specific to the API and cannot be hand-typed." />
+          </param>
+          <param style="query" name="sectionId" type="xs:string" required="true">
+            <doc title="The unique identifier of the section within the notebook." />
+          </param>
+          <representation mediaType="application/json">
+            <param style="plain" name="pageContent" path="" type="xs:string" required="true">
+              <doc title="Page content in HTML." />
+            </param>
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:Page" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/sections/Dynamic/pages">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetPagesInSection">
+        <doc title="Get pages for a specific section&#xA;Get pages for a specific section." />
+        <request>
+          <param style="query" name="notebookKey" type="xs:string" required="true">
+            <doc title="A key identifying the notebook. Note this is specific to the API and cannot be hand-typed." />
+          </param>
+          <param style="query" name="sectionId" type="xs:string" required="true">
+            <doc title="Unique Id of the section." />
+          </param>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetPagesInSectionResponse" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/pages">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="CreatePageInQuickNotes">
+        <doc title="Create a page in Quick Notes&#xA;Create a new page in the Quick Notes section." />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="pageContent" path="" type="xs:string" required="true">
+              <doc title="Page content in HTML." />
+            </param>
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:Page" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/pages/Dynamic/content">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetPageContent">
+        <doc title="Get page content&#xA;Get HTML page content." />
+        <request>
+          <param style="query" name="notebookKey" type="xs:string" required="true">
+            <doc title="A key identifying the notebook. Note this is specific to the API and cannot be hand-typed." />
+          </param>
+          <param style="query" name="sectionId" type="xs:string" required="true">
+            <doc title="Unique Id of the section." />
+          </param>
+          <param style="query" name="pageId" type="xs:string" required="true">
+            <doc title="Unique id of the page." />
+          </param>
+          <param style="query" name="preAuthenticated" type="xs:boolean" required="true" fixed="true" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="xs:string" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/notebooks">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetNotebooks">
+        <doc title="Get notebooks&#xA;Get available notebooks." />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:GetNotebooks_responses_200_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/notebooks/notebookKey/sections">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetSectionsInNotebook">
+        <doc title="Get sections in notebook&#xA;Get sections in a specific notebook." />
+        <request>
+          <param style="query" name="notebookKey" type="xs:string" required="true">
+            <doc title="A key identifying the notebook. Note this is specific to the API and cannot be hand-typed." />
+          </param>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetSectionsInNotebook_responses_200_def" />
+        </response>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="onenote" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

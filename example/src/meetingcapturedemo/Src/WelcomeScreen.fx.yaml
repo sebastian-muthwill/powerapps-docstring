@@ -1,0 +1,269 @@
+WelcomeScreen As screen:
+    Fill: =RGBA(74, 91, 104, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*if any additional meeting is captured in the same session, guarantees all collections are empty*/
+        Clear(MeetingAttendees);
+        Clear(MeetingTimes);
+        Clear(EmailRecipients);
+        Clear(FollowUpMeetingAttendees);
+        Clear(Tasks);
+        Clear(Photos);
+        Clear(Sketches);
+        Clear(EmailAttachments);
+        Reset(NotesInput);
+        Reset(AssnTaskSearchUser_1);
+        Set(FollowUpConfirmed, false);
+        Set(EmailConfirmed, false);
+        Set(ExportConfirmed, false);
+        
+        /*Email and OneNote templates with {placeholder} values for dynamic information*/
+        
+        ClearCollect(Templates,
+        {Template: "Email", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><style>div{box-sizing:border-box}table{table-layout:fixed;background-color:#eaedef;width:829px;font-family:'Open Sans',sans-serif;color:#2c3034}table.with-border td{border:2px solid #e3e3e3;background-color:#fff;vertical-align:top}td.caption{height:65px;background:#ed2955;color:#fff;text-align:center;vertical-align:middle}.details{font-size:14px;color:#2c3034;padding-top:10px}.header{font-size:16px;font-weight:600}.mark{font-weight:400;color:#617281}.name{font-size:12px;font-weight:600;color:#ed2955}table.no-border td.user-name{font-size:14px;font-weight:600;color:#2c3034;vertical-align:middle;height:20px;}.due-time{text-align:right;font-size:10px;vertical-align:middle;color:#617281;font-weight:400}.assign-to{font-size:12px;color:#617281}.job-title{font-size:12px;color:#4a4a4a;height:20px}table.no-border{width:100%}table.no-border td{border:0}table.no-border td.task{padding:10px 0;border-top:1px solid #f1f1f1}.user-img img{width:17px;height:19px;border:0;}.name a.link-name,.name a.link-name:visited{color:#ed2955;text-decoration:none;}</style></head><body><table border='0' cellpadding='0' cellspacing='0'><tr><td class='caption'>[ Meeting Capture ]</td></tr><tr><td style='border: 0;background-color: #eaedef;padding:30px 0 0 0;text-align: center;color: #2c3034;font-size: 20px;font-weight: 600;'>" & "{MeetingName}" & "</td></tr><tr><td style='border: 0;background-color: #eaedef;padding: 9px 0 10px 0;text-align: center;color: #2c3034;font-size: 14px;'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}" & " - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</td></tr></table><table class='with-border' border='0' cellpadding='20' cellspacing='20'><tr>
+        <td colspan='2' style='padding-bottom:10px;'><table border='0' cellpadding='0' cellspacing='0' class='no-border' style='table-layout:auto;'><tr><td colspan='3' class='header'>Attendees <span class='mark'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr><tr><td colspan='3' style='height:10px;'></td></tr>" & "{1}" & "</table></td></tr><tr><td colspan='2'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting details</td></tr><tr><td class='details'>" & "{MeetingDetails}" & "</td></tr></table></td></tr><tr><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting Notes</td></tr><tr><td class='details'>" & "{MeetingNotes}" & "</td></tr></table></td><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header' style='padding-bottom:10px;'>Tasks</td></tr>" & "{2}" & "</table></td></tr><tr><td style='border:0;background-color:#eaedef;padding:0;height:10px;'></td></tr></table></body></html>"},
+        {Template: "OneNote", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/></head><body data-absolute-enabled='true' style='font-family:Calibri;font-size:11pt'><div data-id='_default' style='position:absolute;left:48px;top:120px;width:829px;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td style='background-color:#ed2955;font-size:10pt;'>&nbsp;</td></tr><tr><td style='background-color:#ed2955;border:0px;text-align:center;font-weight:600;'><span style='color:white'>[ Meeting Capture ]</span></td></tr><tr><td style='background-color:#ed2955;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:15pt;color:#2c3034;font-weight:bold'>" & "{MeetingName}" & "</span></td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:10.5pt;color:#2c3034'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}"&" - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</span></td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><colgroup><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'></colgroup><tr><td colspan='4' style='font-size:14pt;'><span style='font-weight:600;color:#2c3034'>Attendees</span>&nbsp;<span style='color:#617281'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr>" & "{1}" & "</table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034'>Meeting Notes</td><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034;border:10px solid red;'>Tasks</td></tr><tr><td style='font-size:12pt;color:#2c3034'>" & "{MeetingNotes}" & "</td><td style='font-size:14pt;font-weight:600;color:#2c3034'><table border='0' cellpadding='0' cellspacing='0' width='420'>" & "{2}" & "</table></td></tr></table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'></td></tr><tr><td style='background-color:#eaedef;font-size:26.5pt;'>&nbsp;</td></tr></table></div></body></html>"})
+    Orientation: =If(WelcomeScreen.Width < WelcomeScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= WelcomeScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    WelcomeScreenFrgnd As rectangle:
+        DisabledFill: =WelcomeScreenFrgnd.Fill
+        Fill: =White
+        FocusedBorderColor: =WelcomeScreenFrgnd.BorderColor
+        Height: =599
+        HoverFill: =WelcomeScreenFrgnd.Fill
+        PressedFill: =WelcomeScreenFrgnd.Fill
+        Width: =700 
+        X: =Parent.Width/2 - WelcomeScreenFrgnd.Width/2
+        Y: =Parent.Height/2 - WelcomeScreenFrgnd.Height/2
+        ZIndex: =1
+
+    WelcomeScreenTitle As label:
+        Align: =Center
+        AutoHeight: =true
+        Color: =RGBA(44, 48, 52, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =WelcomeScreenTitle.BorderColor
+        FontWeight: =Lighter
+        Height: =54
+        HoverBorderColor: =WelcomeScreenTitle.BorderColor
+        HoverColor: =WelcomeScreenTitle.Color
+        HoverFill: =WelcomeScreenTitle.Fill
+        PressedBorderColor: =WelcomeScreenTitle.BorderColor
+        PressedColor: =WelcomeScreenTitle.Color
+        PressedFill: =WelcomeScreenTitle.Fill
+        Size: =27
+        Text: ="Welcome to Meeting Capture!"
+        Width: =689
+        X: =340+0
+        Y: =226+0
+        ZIndex: =2
+
+    WelcomeScreenSubTitle As label:
+        Align: =Align.Center
+        AutoHeight: =true
+        FocusedBorderColor: =WelcomeScreenSubTitle.BorderColor
+        Height: =24
+        HoverBorderColor: =WelcomeScreenSubTitle.BorderColor
+        HoverColor: =WelcomeScreenSubTitle.Color
+        HoverFill: =WelcomeScreenSubTitle.Fill
+        LineHeight: =1.55
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =WelcomeScreenSubTitle.BorderColor
+        PressedColor: =WelcomeScreenSubTitle.Color
+        PressedFill: =WelcomeScreenSubTitle.Fill
+        Size: =13.5
+        Text: |-
+            =If(AutoSelectMeeting, "The current meeting has been selected for you:", "Select the meeting you’d like to capture:")
+        Width: =700
+        X: =336
+        Y: =323
+        ZIndex: =3
+
+    GalleryMeetings As gallery.galleryVertical:
+        DisabledBorderColor: =GalleryMeetings.BorderColor
+        DisabledFill: =GalleryMeetings.Fill
+        Height: =242
+        HoverBorderColor: =GalleryMeetings.BorderColor
+        HoverFill: =GalleryMeetings.Fill
+        Items: =If(!AutoSelectMeeting, Sort(MeetingsOnly,Start,Ascending), LookUp(MeetingsOnly, isCurrent))
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =GalleryMeetings.BorderColor
+        OnSelect: =Set(SelectedMeeting, ThisItem)
+        PressedBorderColor: =GalleryMeetings.BorderColor
+        PressedFill: =GalleryMeetings.Fill
+        ShowScrollbar: =false
+        TemplateSize: =96
+        Width: =700
+        X: =333
+        Y: =385
+        ZIndex: =4
+
+        MeetingsGalleryBkg As button:
+            BorderColor: =If(AutoSelectMeeting, Black, RGBA(237, 41, 85, 1))
+            BorderThickness: =1
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =If(ThisItem.Id = SelectedMeeting.Id && !AutoSelectMeeting, RGBA(237, 41, 85, .15), RGBA(255, 255, 255, 1))
+            FocusedBorderColor: =MeetingsGalleryBkg.BorderColor
+            FocusedBorderThickness: =1
+            Height: =90
+            HoverBorderColor: =ColorFade(MeetingsGalleryBkg.BorderColor, 20%)
+            HoverColor: =MeetingsGalleryBkg.Color
+            HoverFill: =ColorFade(MeetingsGalleryBkg.Fill, 20%)
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =MeetingsGalleryBkg.Fill
+            PressedColor: =MeetingsGalleryBkg.Fill
+            PressedFill: =MeetingsGalleryBkg.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Text: =""
+            Width: =640
+            X: =GalleryMeetings.Width/2 - MeetingsGalleryBkg.Width/2
+            Y: =6
+            ZIndex: =1
+
+        icon2 As icon.Calendar:
+            Color: =If(AutoSelectMeeting, Black, RGBA(237, 41, 85, 1))
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =icon2.Fill
+            FocusedBorderColor: =icon2.BorderColor
+            Height: =28
+            HoverBorderColor: =ColorFade(icon2.BorderColor, 20%)
+            HoverColor: =ColorFade(icon2.Color, 20%)
+            HoverFill: =icon2.Fill
+            Icon: =Icon.AddToCalendar
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icon2.BorderColor, -20%)
+            PressedColor: =ColorFade(icon2.Color, -20%)
+            PressedFill: =icon2.Fill
+            Width: =28
+            X: =57+0
+            Y: =38+0
+            ZIndex: =2
+
+        LblMeetTitle As label:
+            Color: =If(AutoSelectMeeting, Black, RGBA(237, 41, 85, 1))
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =LblMeetTitle.BorderColor
+            FontWeight: =Semibold
+            Height: =27
+            HoverBorderColor: =LblMeetTitle.BorderColor
+            HoverColor: =LblMeetTitle.Color
+            HoverFill: =LblMeetTitle.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =70
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =LblMeetTitle.BorderColor
+            PressedColor: =LblMeetTitle.Color
+            PressedFill: =LblMeetTitle.Fill
+            Text: =ThisItem.Subject
+            Width: =640
+            X: =30+0
+            Y: =25+0
+            ZIndex: =3
+
+        LblStart_End As label:
+            Color: =If(AutoSelectMeeting, Black, RGBA(237, 41, 85, 1))
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =LblStart_End.BorderColor
+            FontWeight: =Normal
+            Height: =44
+            HoverBorderColor: =LblStart_End.BorderColor
+            HoverColor: =LblStart_End.Color
+            HoverFill: =LblStart_End.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =70
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =LblStart_End.BorderColor
+            PressedColor: =LblStart_End.Color
+            PressedFill: =LblStart_End.Fill
+            Text: |-
+                =Lower(Text(ThisItem.Start,"[$-en-US]hh:mm am/pm"))&" - "&Lower(Text(ThisItem.End,"[$-en-US]hh:mm am/pm"))&" |  "&ThisItem.Location
+            Width: =640
+            X: =30+0
+            Y: =50+0
+            ZIndex: =4
+
+        BtnChangeAuto As button:
+            BorderColor: =Black
+            BorderThickness: =1
+            Color: =Black
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =BtnChangeAuto.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(BtnChangeAuto.BorderColor, 20%)
+            HoverColor: =BtnChangeAuto.Color
+            HoverFill: =ColorFade(BtnChangeAuto.Fill, 20%)
+            OnSelect: =Set(AutoSelectMeeting, false)
+            PressedBorderColor: =BtnChangeAuto.Fill
+            PressedColor: =BtnChangeAuto.Fill
+            PressedFill: =BtnChangeAuto.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =12
+            Text: ="Change"
+            Visible: =AutoSelectMeeting = true
+            Width: =92
+            X: =572+0
+            Y: =52+0
+            ZIndex: =5
+
+    BtnStartMeeting As button:
+        BorderColor: =ColorFade(BtnStartMeeting.Fill, -15%)
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisplayMode: =If(IsBlank(SelectedMeeting), Disabled, DisplayMode.Edit)
+        Fill: =RGBA(237, 41, 85, 1)
+        FocusedBorderColor: =BtnStartMeeting.BorderColor
+        Height: =56
+        HoverBorderColor: =ColorFade(BtnStartMeeting.BorderColor, 20%)
+        HoverColor: =BtnStartMeeting.Color
+        HoverFill: =ColorFade(BtnStartMeeting.Fill, 20%)
+        OnSelect: |-
+            =/*to make pop ups accessible we have a separate screen which displays pop ups separate from the main screen the pop ups are associated with*/
+            Navigate(HomePopUpsScreen, None);
+            Set(ShowDataLossWarning, true)
+        PressedBorderColor: =BtnStartMeeting.Fill
+        PressedColor: =BtnStartMeeting.Fill
+        PressedFill: =BtnStartMeeting.Color
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Text: ="Start Meeting"
+        Width: =700
+        X: =333+0
+        Y: =627
+        ZIndex: =5
+
+    AppLogo As image:
+        FocusedBorderColor: =AppLogo.BorderColor
+        Height: =35
+        HoverBorderColor: =ColorFade(AppLogo.BorderColor, 20%)
+        HoverFill: =ColorFade(AppLogo.Fill, 20%)
+        Image: ='meeting-capture-logo-full@3x'
+        PressedBorderColor: =ColorFade(AppLogo.BorderColor, -20%)
+        PressedFill: =ColorFade(AppLogo.Fill, -20%)
+        Width: =183
+        X: =594
+        Y: =146
+        ZIndex: =6
+

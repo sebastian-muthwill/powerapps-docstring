@@ -1,0 +1,670 @@
+HomePopUpsScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Gathers and stores the Office 365 profiles of the meeting attendees if they are within the app user's org*/
+        If(IsEmpty(MeetingAttendees),
+            Set(Loading, true);
+            ClearCollect(MeetingAttendeeEmails, Filter(Split(Concatenate(SelectedMeeting.RequiredAttendees,
+             SelectedMeeting.OptionalAttendees), ";"), Result <> ""));
+            ClearCollect(MeetingAttendeesTemp, ForAll(MeetingAttendeeEmails, If(Lower(MyDomain) = Lower(Last(Split(Result, "@")).Result), Office365Users.UserProfileV2(Result), {displayName: Result, id: "", image: Blank(), jobTitle: "", userPrincipalName: Result})));
+            ClearCollect(MeetingAttendees, RenameColumns(MeetingAttendeesTemp, "id", "Id", "jobTitle", "JobTitle", "displayName", "DisplayName", "userPrincipalName", "UserPrincipalName"));
+            Set(SelectedMeetingDuration, DateDiff(SelectedMeeting.Start, SelectedMeeting.End, Seconds));
+            Set(Loading, false)
+        )
+    Orientation: =If(HomePopUpsScreen.Width < HomePopUpsScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= HomePopUpsScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Image1 As image:
+        FocusedBorderColor: =Image1.BorderColor
+        Height: =768
+        HoverBorderColor: =ColorFade(Image1.BorderColor, 20%)
+        HoverFill: =ColorFade(Image1.Fill, 20%)
+        Image: =MeetingCaptureBkg
+        PressedBorderColor: =ColorFade(Image1.BorderColor, -20%)
+        PressedFill: =ColorFade(Image1.Fill, -20%)
+        Width: =1366
+        ZIndex: =1
+
+    Label3 As label:
+        Fill: =RGBA(255,255,255,1)
+        FocusedBorderColor: =Label3.BorderColor
+        HoverBorderColor: =Label3.BorderColor
+        HoverColor: =Label3.Color
+        HoverFill: =Label3.Fill
+        PressedBorderColor: =Label3.BorderColor
+        PressedColor: =Label3.Color
+        PressedFill: =Label3.Fill
+        Text: =
+        Visible: =!ShowDataLossWarning
+        Width: =220
+        X: =158
+        Y: =292
+        ZIndex: =2
+
+    HomeModalOverlay_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =25
+
+        ModalOverlay_2 As rectangle:
+            DisabledFill: =ModalOverlay_2.Fill
+            Fill: =RGBA(0,0,0,.7)
+            FocusedBorderColor: =ModalOverlay_2.BorderColor
+            Height: =768
+            HoverFill: =ModalOverlay_2.Fill
+            PressedFill: =ModalOverlay_2.Fill
+            Visible: =ShowOverlay || ShowDataLossWarning
+            Width: =1366
+            ZIndex: =3
+
+        ModalForeground_1 As rectangle:
+            DisabledFill: =ModalForeground_1.Fill
+            Fill: =White
+            FocusedBorderColor: =ModalForeground_1.BorderColor
+            Height: =If(ShowDataLossWarning, 280, !UserSelected, 700, 500)
+            HoverFill: =ModalForeground_1.Fill
+            PressedFill: =ModalForeground_1.Fill
+            Visible: =ShowOverlay || ShowDataLossWarning
+            Width: =428
+            X: =Parent.Width/2 - ModalForeground_1.Width/2
+            Y: =Parent.Height/2 - ModalForeground_1.Height/2
+            ZIndex: =4
+
+        AssnTaskHeader_1 As label:
+            Align: =Left
+            FocusedBorderColor: =AssnTaskHeader_1.BorderColor
+            FontWeight: =Lighter
+            Height: =94
+            HoverBorderColor: =AssnTaskHeader_1.BorderColor
+            HoverColor: =AssnTaskHeader_1.Color
+            HoverFill: =AssnTaskHeader_1.Fill
+            PressedBorderColor: =AssnTaskHeader_1.BorderColor
+            PressedColor: =AssnTaskHeader_1.Color
+            PressedFill: =AssnTaskHeader_1.Fill
+            Size: =27
+            Text: =If(ShowDataLossWarning, "Welcome to your meeting!", "Assign Task")
+            Visible: =ShowOverlay || ShowDataLossWarning
+            Width: =ModalForeground_1.Width - 30
+            X: =ModalForeground_1.X + 15
+            Y: =ModalForeground_1.Y+5
+            ZIndex: =5
+
+        AssnTaskDescription_1 As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =If(TaskSelected, SelectedTask.Name, TaskTitle.Text)
+            FocusedBorderColor: =AssnTaskDescription_1.BorderColor
+            FocusedBorderThickness: =2
+            Height: =85
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =15
+            PaddingLeft: =18
+            PaddingRight: =18
+            PaddingTop: =15
+            PressedBorderColor: =AssnTaskDescription_1.HoverBorderColor
+            PressedColor: =AssnTaskDescription_1.Color
+            PressedFill: =AssnTaskDescription_1.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Visible: =ShowOverlay
+            Width: =ModalForeground_1.Width - 30
+            X: =ModalForeground_1.X + 15
+            Y: =AssnTaskHeader_1.Y + AssnTaskHeader_1.Height + 10
+            ZIndex: =6
+
+        AssnTaskDateHeader_1 As label:
+            FocusedBorderColor: =AssnTaskDateHeader_1.BorderColor
+            FontWeight: =Semibold
+            Height: =24
+            HoverBorderColor: =AssnTaskDateHeader_1.BorderColor
+            HoverColor: =AssnTaskDateHeader_1.Color
+            HoverFill: =AssnTaskDateHeader_1.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AssnTaskDateHeader_1.BorderColor
+            PressedColor: =AssnTaskDateHeader_1.Color
+            PressedFill: =AssnTaskDateHeader_1.Fill
+            Size: =10.5
+            Text: ="Due date"
+            Visible: =ShowOverlay
+            X: =AssnTaskDescription_1.X
+            Y: =AssnTaskDescription_1.Y + AssnTaskDescription_1.Height + 15
+            ZIndex: =7
+
+        AssnTaskDueDate_1 As datepicker:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            DefaultDate: =If(TaskSelected, SelectedTask.DueDate,DateAdd(Today(), 1, Days))
+            FocusedBorderColor: =AssnTaskDueDate_1.BorderColor
+            HoverBorderColor: =AssnTaskDueDate_1.BorderColor
+            HoverFill: =AssnTaskDueDate_1.Fill
+            InputTextPlaceholder: =Text(Date(2001,12,31), AssnTaskDueDate_1.Format, AssnTaskDueDate_1.Language)
+            IsEditable: =true
+            PressedBorderColor: =AssnTaskDueDate_1.BorderColor
+            PressedFill: =AssnTaskDueDate_1.Fill
+            Visible: =ShowOverlay
+            Width: =398
+            X: =AssnTaskDescription_1.X
+            Y: =AssnTaskDateHeader_1.Y + AssnTaskDateHeader_1.Height + 10
+            ZIndex: =8
+
+        AssnTaskToHeader_1 As label:
+            FocusedBorderColor: =AssnTaskToHeader_1.BorderColor
+            FontWeight: =Semibold
+            Height: =24
+            HoverBorderColor: =AssnTaskToHeader_1.BorderColor
+            HoverColor: =AssnTaskToHeader_1.Color
+            HoverFill: =AssnTaskToHeader_1.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AssnTaskToHeader_1.BorderColor
+            PressedColor: =AssnTaskToHeader_1.Color
+            PressedFill: =AssnTaskToHeader_1.Fill
+            Size: =10.5
+            Text: ="Assign to (your org only)"
+            Visible: =ShowOverlay
+            Width: =196
+            X: =AssnTaskDescription_1.X
+            Y: =AssnTaskDueDate_1.Y + AssnTaskDueDate_1.Height + 15
+            ZIndex: =9
+
+        AssnTaskGallery_2 As gallery.galleryVertical:
+            DisabledBorderColor: =AssnTaskGallery_2.BorderColor
+            DisabledFill: =AssnTaskGallery_2.Fill
+            Height: =230
+            HoverBorderColor: =AssnTaskGallery_2.BorderColor
+            HoverFill: =AssnTaskGallery_2.Fill
+            Items: |-
+                =/*
+                In-org attendee gallery for task assignment
+                If the attendee DisplayName is an actual name and not an email address, then they are in the app user's org, so we can assign them a task.
+                Tasks are stored in an 0365 tenant, so cannot be assigned to external users
+                */
+                Filter(AttendeeGallery1.AllItems, Not(".com" in DisplayName))
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =AssnTaskGallery_2.BorderColor
+            OnSelect: |-
+                =If(AssnTaskGallery_2.Visible,
+                    Set(UserSelected, true);
+                    Set(SelectedUser, {DisplayName:AssnTaskGallery_2.Selected.DisplayName, Id:AssnTaskGallery_2.Selected.Id, Image: AssnTaskGallery_2.Selected.AssnTaskUserImg_3.Image, JobTitle:AssnTaskGallery_2.Selected.JobTitle})
+                )
+            PressedBorderColor: =AssnTaskGallery_2.BorderColor
+            PressedFill: =AssnTaskGallery_2.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =15
+            TemplateSize: =40
+            Visible: =ShowOverlay && IsBlank(AssnTaskSearchUser_2.Text) && !UserSelected && CountRows(AssnTaskGallery_2.AllItems) > 0
+            Width: =398
+            X: =AssnTaskDescription_1.X
+            Y: =360
+            ZIndex: =10
+
+            AssnTaskUserImg_3 As image:
+                FocusedBorderColor: =AssnTaskUserImg_3.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(AssnTaskUserImg_3.BorderColor, 20%)
+                HoverFill: =ColorFade(AssnTaskUserImg_3.Fill, 20%)
+                Image: =ThisItem.AttendeeImage
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(AssnTaskUserImg_3.BorderColor, -20%)
+                PressedFill: =ColorFade(AssnTaskUserImg_3.Fill, -20%)
+                Width: =40
+                X: =5
+                ZIndex: =1
+
+            AssnTaskUserName_3 As label:
+                FocusedBorderColor: =AssnTaskUserName_3.BorderColor
+                FontWeight: =Semibold
+                Height: =19
+                HoverBorderColor: =AssnTaskUserName_3.BorderColor
+                HoverColor: =AssnTaskUserName_3.Color
+                HoverFill: =AssnTaskUserName_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AssnTaskUserName_3.BorderColor
+                PressedColor: =AssnTaskUserName_3.Color
+                PressedFill: =AssnTaskUserName_3.Fill
+                Size: =8
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =270
+                X: =55
+                Y: =5
+                ZIndex: =2
+
+            AssnTaskUserJob_3 As label:
+                FocusedBorderColor: =AssnTaskUserJob_3.BorderColor
+                Height: =14.4
+                HoverBorderColor: =AssnTaskUserJob_3.BorderColor
+                HoverColor: =AssnTaskUserJob_3.Color
+                HoverFill: =AssnTaskUserJob_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AssnTaskUserJob_3.BorderColor
+                PressedColor: =AssnTaskUserJob_3.Color
+                PressedFill: =AssnTaskUserJob_3.Fill
+                Size: =8
+                Text: =ThisItem.JobTitle
+                Width: =270
+                X: =55
+                Y: =21
+                ZIndex: =3
+
+        AssnTaskSearchUser_2 As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =AssnTaskSearchUser_2.BorderColor
+            FocusedBorderThickness: =2
+            HintText: ="Search for users in your org"
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =40
+            PaddingTop: =10
+            PressedBorderColor: =AssnTaskSearchUser_2.HoverBorderColor
+            PressedColor: =AssnTaskSearchUser_2.Color
+            PressedFill: =AssnTaskSearchUser_2.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Visible: =ShowOverlay && !UserSelected
+            Width: =AssnTaskGallery_2.Width - 20
+            X: =AssnTaskGallery_2.X + 10
+            Y: =CancelAssnTask_1.Y - AssnTaskSearchUser_2.Height - 30
+            ZIndex: =11
+
+        AssnTaskSearchIcon_1 As icon.Search:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =AssnTaskSearchIcon_1.Fill
+            FocusedBorderColor: =AssnTaskSearchIcon_1.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(AssnTaskSearchIcon_1.BorderColor, 20%)
+            HoverColor: =ColorFade(AssnTaskSearchIcon_1.Color, 20%)
+            HoverFill: =AssnTaskSearchIcon_1.Fill
+            Icon: =Icon.Search
+            PressedBorderColor: =ColorFade(AssnTaskSearchIcon_1.BorderColor, -20%)
+            PressedColor: =ColorFade(AssnTaskSearchIcon_1.Color, -20%)
+            PressedFill: =AssnTaskSearchIcon_1.Fill
+            Visible: =ShowOverlay && !UserSelected
+            Width: =24
+            X: =AssnTaskSearchUser_2.X + 8
+            Y: =AssnTaskSearchUser_2.Y
+            ZIndex: =12
+
+        CancelAssnTask_1 As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledBorderColor: =ColorFade(CancelAssnTask_1.BorderColor, 70%)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =CancelAssnTask_1.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(CancelAssnTask_1.BorderColor, 20%)
+            HoverColor: =CancelAssnTask_1.Color
+            HoverFill: =ColorFade(CancelAssnTask_1.Fill, 20%)
+            OnSelect: |-
+                =Navigate(HomeScreen, None);
+                Set(ShowOverlay, !ShowOverlay);
+                If(TaskSelected, RemoveIf(Tasks, Id = SelectedTask.Id));
+                Set(UserSelected, false);
+                Set(UserSelectedFromTasks, false);
+                Set(TaskSelected, false);
+                Reset(AssnTaskSearchUser_2);
+                Reset(AssnTaskDueDate_1);
+                Reset(AssnTaskDescription_1);
+                Reset(TaskTitle)
+            PressedBorderColor: =CancelAssnTask_1.Fill
+            PressedColor: =CancelAssnTask_1.Fill
+            PressedFill: =CancelAssnTask_1.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: =If(TaskSelected, "Delete", "Cancel")
+            Visible: =ShowOverlay
+            Width: =170
+            X: =AssnTaskDescription_1.X + 10
+            Y: =ModalForeground_1.Y + ModalForeground_1.Height - 60
+            ZIndex: =13
+
+        SaveAssnTask_1 As button:
+            BorderColor: =RGBA(237, 41, 85, 1)
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =ColorFade(SaveAssnTask_1.BorderColor, 70%)
+            DisplayMode: =If(IsBlank(AssnTaskDescription_1.Text) || IsBlank(AssnTaskDueDate_1.SelectedDate) || AssnTaskDueDate_1.SelectedDate < Today() || !UserSelected, Disabled, Edit)
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =SaveAssnTask_1.BorderColor
+            FocusedBorderThickness: =1
+            Height: =44
+            HoverBorderColor: =ColorFade(SaveAssnTask_1.BorderColor, 20%)
+            HoverColor: =SaveAssnTask_1.Color
+            HoverFill: =ColorFade(SaveAssnTask_1.Fill, 20%)
+            OnSelect: |-
+                =Navigate(HomeScreen, None);
+                Set(ShowOverlay, !ShowOverlay);
+                /*If user is making a new task, collect the information from form, otherwise, revise the task the user is editing*/
+                If(!TaskSelected,
+                    Collect(Tasks, {Id: CountRows(Tasks)+1, Name:AssnTaskDescription_1.Text, DueDate: AssnTaskDueDate_1.SelectedDate, 
+                AssignToUser: SelectedUser}),
+                    Patch(Tasks, LookUp(Tasks, Id=SelectedTask.Id), {Name:AssnTaskDescription_1.Text, DueDate: AssnTaskDueDate_1.SelectedDate, AssignToUser: SelectedUser}));
+                Set(UserSelected, false);
+                Set(UserSelectedFromTasks, false);
+                Set(TaskSelected, false);
+                Reset(AssnTaskSearchUser_2);
+                Reset(AssnTaskDueDate_1);
+                Reset(AssnTaskDescription_1);
+                Reset(TaskTitle)
+            PressedBorderColor: =SaveAssnTask_1.Fill
+            PressedColor: =SaveAssnTask_1.Fill
+            PressedFill: =SaveAssnTask_1.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: ="Save task"
+            Visible: =ShowOverlay
+            Width: =170
+            X: =702
+            Y: =ModalForeground_1.Y + ModalForeground_1.Height - 60
+            ZIndex: =14
+
+        AssnTaskGallery_3 As gallery.galleryVertical:
+            DisabledBorderColor: =AssnTaskGallery_3.BorderColor
+            DisabledFill: =AssnTaskGallery_3.Fill
+            Height: =If(!UserSelected, 230, 70)
+            HoverBorderColor: =AssnTaskGallery_3.BorderColor
+            HoverFill: =AssnTaskGallery_3.Fill
+            Items: |-
+                =/*User search gallery*/
+                If(!IsBlank(AssnTaskSearchUser_2.Text), Office365Users.SearchUser({searchTerm:Trim(AssnTaskSearchUser_2.Text), top:15}))
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =AssnTaskGallery_3.BorderColor
+            OnSelect: |-
+                =Set(SelectedUser, {DisplayName:AssnTaskGallery_3.Selected.DisplayName, Id:AssnTaskGallery_3.Selected.Id, Image: AssnTaskGallery_3.Selected.AssnTaskUserImg_4.Image, JobTitle:AssnTaskGallery_3.Selected.JobTitle});
+                Set(UserSelected, true)
+            PressedBorderColor: =AssnTaskGallery_3.BorderColor
+            PressedFill: =AssnTaskGallery_3.Fill
+            ShowScrollbar: =false
+            TemplatePadding: =15
+            TemplateSize: =40
+            Visible: =ShowOverlay && !IsBlank(AssnTaskSearchUser_2.Text) && !UserSelected
+            Width: =398
+            X: =AssnTaskGallery_2.X
+            Y: =AssnTaskGallery_2.Y
+            ZIndex: =15
+
+            AssnTaskUserImg_4 As image:
+                FocusedBorderColor: =AssnTaskUserImg_4.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(AssnTaskUserImg_4.BorderColor, 20%)
+                HoverFill: =ColorFade(AssnTaskUserImg_4.Fill, 20%)
+                Image: |-
+                    =If(!IsBlank(AssnTaskSearchUser_2.Text) && Not(IsBlank(ThisItem.Id)) && Office365Users.UserPhotoMetadata(ThisItem.Id).HasPhoto,
+                        Office365Users.UserPhoto(ThisItem.Id),
+                        'default-profile'
+                    )
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(AssnTaskUserImg_4.BorderColor, -20%)
+                PressedFill: =ColorFade(AssnTaskUserImg_4.Fill, -20%)
+                Width: =40
+                X: =5
+                ZIndex: =1
+
+            AssnTaskUserName_4 As label:
+                FocusedBorderColor: =AssnTaskUserName_4.BorderColor
+                FontWeight: =Semibold
+                Height: =19
+                HoverBorderColor: =AssnTaskUserName_4.BorderColor
+                HoverColor: =AssnTaskUserName_4.Color
+                HoverFill: =AssnTaskUserName_4.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AssnTaskUserName_4.BorderColor
+                PressedColor: =AssnTaskUserName_4.Color
+                PressedFill: =AssnTaskUserName_4.Fill
+                Size: =8
+                Text: =ThisItem.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =270
+                X: =55
+                Y: =5
+                ZIndex: =2
+
+            AssnTaskUserJob_4 As label:
+                FocusedBorderColor: =AssnTaskUserJob_4.BorderColor
+                Height: =14.4
+                HoverBorderColor: =AssnTaskUserJob_4.BorderColor
+                HoverColor: =AssnTaskUserJob_4.Color
+                HoverFill: =AssnTaskUserJob_4.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =AssnTaskUserJob_4.BorderColor
+                PressedColor: =AssnTaskUserJob_4.Color
+                PressedFill: =AssnTaskUserJob_4.Fill
+                Size: =8
+                Text: =ThisItem.JobTitle
+                Width: =270
+                X: =55
+                Y: =21
+                ZIndex: =3
+
+        LoadingIndicator2_2 As label:
+            Align: =Center
+            FocusedBorderColor: =LoadingIndicator2_2.BorderColor
+            HoverBorderColor: =LoadingIndicator2_2.BorderColor
+            HoverColor: =LoadingIndicator2_2.Color
+            HoverFill: =LoadingIndicator2_2.Fill
+            PressedBorderColor: =LoadingIndicator2_2.BorderColor
+            PressedColor: =LoadingIndicator2_2.Color
+            PressedFill: =LoadingIndicator2_2.Fill
+            Text: ="Searching for users..."
+            Visible: =AssnTaskGallery_3.Visible && CountRows(AssnTaskGallery_3.AllItems) = 0
+            Width: =370
+            X: =498
+            Y: =426
+            ZIndex: =16
+
+        AssnTaskUserImg_5 As image:
+            FocusedBorderColor: =AssnTaskUserImg_5.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(AssnTaskUserImg_5.BorderColor, 20%)
+            HoverFill: =ColorFade(AssnTaskUserImg_5.Fill, 20%)
+            Image: =If(UserSelectedFromTasks,SelectedUserTasks.Image,SelectedUser.Image)
+            OnSelect: =
+            PressedBorderColor: =ColorFade(AssnTaskUserImg_5.BorderColor, -20%)
+            PressedFill: =ColorFade(AssnTaskUserImg_5.Fill, -20%)
+            Visible: =UserSelected
+            Width: =40
+            X: =498
+            Y: =464
+            ZIndex: =17
+
+        AssnTaskUserName_5 As label:
+            FocusedBorderColor: =AssnTaskUserName_5.BorderColor
+            FontWeight: =Semibold
+            Height: =19
+            HoverBorderColor: =AssnTaskUserName_5.BorderColor
+            HoverColor: =AssnTaskUserName_5.Color
+            HoverFill: =AssnTaskUserName_5.Fill
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AssnTaskUserName_5.BorderColor
+            PressedColor: =AssnTaskUserName_5.Color
+            PressedFill: =AssnTaskUserName_5.Fill
+            Size: =8
+            Text: =If(UserSelectedFromTasks,SelectedUserTasks.DisplayName,SelectedUser.DisplayName)
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =UserSelected
+            Width: =270
+            X: =548
+            Y: =469
+            ZIndex: =18
+
+        AssnTaskUserJob_5 As label:
+            FocusedBorderColor: =AssnTaskUserJob_5.BorderColor
+            Height: =14.4
+            HoverBorderColor: =AssnTaskUserJob_5.BorderColor
+            HoverColor: =AssnTaskUserJob_5.Color
+            HoverFill: =AssnTaskUserJob_5.Fill
+            OnSelect: =
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =AssnTaskUserJob_5.BorderColor
+            PressedColor: =AssnTaskUserJob_5.Color
+            PressedFill: =AssnTaskUserJob_5.Fill
+            Size: =8
+            Text: =If(UserSelectedFromTasks,SelectedUserTasks.JobTitle,SelectedUser.JobTitle)
+            Visible: =UserSelected
+            Width: =270
+            X: =548
+            Y: =485
+            ZIndex: =19
+
+        UnassignTask2_1 As circle:
+            BorderColor: =RGBA(208, 5, 30, 1)
+            BorderThickness: =2
+            DisabledFill: =UnassignTask2_1.Fill
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =UnassignTask2_1.BorderColor
+            Height: =30
+            HoverFill: =UnassignTask2_1.Fill
+            OnSelect: =Set(UserSelected, false)
+            PressedFill: =UnassignTask2_1.Fill
+            Visible: =UserSelected
+            Width: =30
+            X: =826
+            Y: =469
+            ZIndex: =20
+
+        UnassignTask1_1 As icon.Cancel:
+            Color: =RGBA(208, 5, 30, 1)
+            DisabledFill: =UnassignTask1_1.Fill
+            FocusedBorderColor: =UnassignTask1_1.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(UnassignTask1_1.BorderColor, 20%)
+            HoverColor: =ColorFade(UnassignTask1_1.Color, 20%)
+            HoverFill: =UnassignTask1_1.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(UserSelected, false);
+                Set(UserSelectedFromTasks, false)
+            PaddingBottom: =4
+            PaddingLeft: =5
+            PaddingRight: =4
+            PaddingTop: =4
+            PressedBorderColor: =ColorFade(UnassignTask1_1.BorderColor, -20%)
+            PressedColor: =ColorFade(UnassignTask1_1.Color, -20%)
+            PressedFill: =UnassignTask1_1.Fill
+            Visible: =UserSelected
+            Width: =30
+            X: =UnassignTask2_1.X
+            Y: =UnassignTask2_1.Y
+            ZIndex: =21
+
+        DeleteTaskIcon_1 As icon.Trash:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =DeleteTaskIcon_1.Fill
+            FocusedBorderColor: =DeleteTaskIcon_1.BorderColor
+            Height: =20
+            HoverBorderColor: =ColorFade(DeleteTaskIcon_1.BorderColor, 20%)
+            HoverColor: =ColorFade(DeleteTaskIcon_1.Color, 20%)
+            HoverFill: =DeleteTaskIcon_1.Fill
+            Icon: =Icon.Trash
+            OnSelect: =Select(CancelAssnTask_1)
+            PressedBorderColor: =ColorFade(DeleteTaskIcon_1.BorderColor, -20%)
+            PressedColor: =ColorFade(DeleteTaskIcon_1.Color, -20%)
+            PressedFill: =DeleteTaskIcon_1.Fill
+            Visible: =TaskSelected
+            Width: =20
+            X: =550
+            Y: =CancelAssnTask_1.Y + CancelAssnTask_1.Height/2 - DeleteTaskIcon_1.Height/2
+            ZIndex: =22
+
+        DataWarningAccept_1 As button:
+            BorderColor: =ColorFade(DataWarningAccept_1.Fill, -15%)
+            DisabledBorderColor: =ColorFade(DataWarningAccept_1.BorderColor, 70%)
+            DisplayMode: =Edit
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =DataWarningAccept_1.BorderColor
+            Height: =44
+            HoverBorderColor: =ColorFade(DataWarningAccept_1.BorderColor, 20%)
+            HoverColor: =DataWarningAccept_1.Color
+            HoverFill: =ColorFade(DataWarningAccept_1.Fill, 20%)
+            OnSelect: |-
+                =Set(ShowDataLossWarning, false);
+                Navigate(HomeScreen, None)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =DataWarningAccept_1.Fill
+            PressedColor: =DataWarningAccept_1.Fill
+            PressedFill: =DataWarningAccept_1.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: ="Got it!"
+            Visible: =ShowDataLossWarning
+            Width: =120
+            X: =498
+            Y: =446
+            ZIndex: =23
+
+        DataWarning_1 As htmlViewer:
+            Height: =90
+            HoverBorderColor: =DataWarning_1.BorderColor
+            HtmlText: |-
+                ="<div style='line-height:1.5;'>Once you’ve captured your meeting, remember to select <b>“Finish & Save”</b>. Otherwise, all notes, tasks and attachments will be lost.  </div>"
+            PressedBorderColor: =DataWarning_1.BorderColor
+            Visible: =ShowDataLossWarning
+            Width: =365
+            X: =491
+            Y: =352
+            ZIndex: =24
+
+        OrgAttendees_1 As label:
+            Align: =Center
+            FocusedBorderColor: =OrgAttendees_1.BorderColor
+            HoverBorderColor: =OrgAttendees_1.BorderColor
+            HoverColor: =OrgAttendees_1.Color
+            HoverFill: =OrgAttendees_1.Fill
+            PressedBorderColor: =OrgAttendees_1.BorderColor
+            PressedColor: =OrgAttendees_1.Color
+            PressedFill: =OrgAttendees_1.Fill
+            Text: ="No attendees in your org"
+            Visible: =ShowOverlay && !AssnTaskGallery_2.Visible && !AssnTaskGallery_3.Visible && !UserSelected
+            Width: =370
+            X: =502
+            Y: =466
+            ZIndex: =25
+
