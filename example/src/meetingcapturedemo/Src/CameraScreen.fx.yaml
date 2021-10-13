@@ -1,0 +1,258 @@
+CameraScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Take picture during a meeting*/
+        Set(ShowImageSaved, false);
+        Set(ShowTakenImage, false)
+    Orientation: =If(CameraScreen.Width < CameraScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= CameraScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Camera1 As camera:
+        Camera: =0
+        FocusedBorderColor: =Camera1.BorderColor
+        FocusedBorderThickness: =0
+        Height: =704
+        OnSelect: |-
+            =Set(ShowTakenImage, true);
+            Set(ShowImageSaved, false)
+        Width: =1291
+        X: =75
+        Y: =64
+        ZIndex: =7
+
+    TakenPhoto As image:
+        FocusedBorderColor: =TakenPhoto.BorderColor
+        FocusedBorderThickness: =0
+        Height: =704
+        HoverBorderColor: =ColorFade(TakenPhoto.BorderColor, 20%)
+        HoverFill: =ColorFade(TakenPhoto.Fill, 20%)
+        Image: =Camera1.Photo
+        PressedBorderColor: =ColorFade(TakenPhoto.BorderColor, -20%)
+        PressedFill: =ColorFade(TakenPhoto.Fill, -20%)
+        Visible: =ShowTakenImage
+        Width: =1291
+        X: =75
+        Y: =64
+        ZIndex: =8
+
+    CameraNavBar As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =16
+
+        AppLogo3 As image:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppLogo3.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppLogo3.BorderColor, 20%)
+            HoverFill: =ColorFade(AppLogo3.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppLogo3.BorderColor, -20%)
+            PressedFill: =ColorFade(AppLogo3.Fill, -20%)
+            Width: =75
+            ZIndex: =2
+
+        HomeMenuBkg_3 As rectangle:
+            DisabledFill: =HomeMenuBkg_3.Fill
+            Fill: =RGBA(74, 91, 104, 1)
+            FocusedBorderColor: =HomeMenuBkg_3.BorderColor
+            Height: =702
+            HoverFill: =HomeMenuBkg_3.Fill
+            PressedFill: =HomeMenuBkg_3.Fill
+            Width: =75
+            Y: =66
+            ZIndex: =3
+
+        NavHome3 As image:
+            Fill: =RGBA(44, 48, 52, 0)
+            FocusedBorderColor: =NavHome3.BorderColor
+            Height: =NavHome3.Width
+            HoverBorderColor: =ColorFade(NavHome3.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_3.Fill, 20%)
+            Image: ='nav-notes'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(HomeScreen, None)
+            PressedBorderColor: =ColorFade(NavHome3.BorderColor, -20%)
+            PressedFill: =ColorFade(NavHome3.Fill, -20%)
+            Width: =HomeMenuBkg_3.Width
+            Y: =66
+            ZIndex: =4
+
+        NavSketch3 As image:
+            FocusedBorderColor: =NavSketch3.BorderColor
+            Height: =NavSketch3.Width
+            HoverBorderColor: =ColorFade(NavSketch3.BorderColor, 20%)
+            HoverFill: =ColorFade(HomeMenuBkg_3.Fill, 20%)
+            Image: ='nav-sketch'
+            ImagePosition: =ImagePosition.Center
+            OnSelect: =Navigate(SketchScreen, None)
+            PressedBorderColor: =ColorFade(NavSketch3.BorderColor, -20%)
+            PressedFill: =ColorFade(NavSketch3.Fill, -20%)
+            Width: =HomeMenuBkg_3.Width
+            Y: =141
+            ZIndex: =5
+
+        NavPhotos3 As image:
+            Fill: =RGBA(44, 48, 52, 1)
+            FocusedBorderColor: =NavPhotos3.BorderColor
+            Height: =NavPhotos3.Width
+            HoverBorderColor: =ColorFade(NavPhotos3.BorderColor, 20%)
+            HoverFill: =NavPhotos3.Fill
+            Image: ='nav-camera'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(NavPhotos3.BorderColor, -20%)
+            PressedFill: =ColorFade(NavPhotos3.Fill, -20%)
+            Width: =HomeMenuBkg_3.Width
+            Y: =216
+            ZIndex: =6
+
+    CameraBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =16
+
+        BannerBackground1 As rectangle:
+            DisabledFill: =BannerBackground1.Fill
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =BannerBackground1.BorderColor
+            Height: =66
+            HoverFill: =BannerBackground1.Fill
+            PressedFill: =BannerBackground1.Fill
+            Width: =1366
+            ZIndex: =1
+
+        BannerText As label:
+            Align: =Center
+            FocusedBorderColor: =BannerText.BorderColor
+            FontWeight: =Semibold
+            Height: =23
+            HoverBorderColor: =BannerText.BorderColor
+            HoverColor: =BannerText.Color
+            HoverFill: =BannerText.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =BannerText.BorderColor
+            PressedColor: =BannerText.Color
+            PressedFill: =BannerText.Fill
+            Text: =If(ShowTakenImage, "Keep or discard this image?", ShowImageSaved, "Saved!", "Tap the image to take a photo")
+            Width: =315
+            X: =If(ShowTakenImage, 440, Parent.Width/2 - BannerText.Width/2)
+            Y: =19
+            ZIndex: =9
+
+        SaveConfirm1 As icon.Check:
+            Color: =RGBA(96, 181, 2, 1)
+            DisabledFill: =SaveConfirm1.Fill
+            FocusedBorderColor: =SaveConfirm1.BorderColor
+            Height: =22
+            HoverBorderColor: =ColorFade(SaveConfirm1.BorderColor, 20%)
+            HoverColor: =ColorFade(SaveConfirm1.Color, 20%)
+            HoverFill: =SaveConfirm1.Fill
+            Icon: =Icon.Check
+            PressedBorderColor: =ColorFade(SaveConfirm1.BorderColor, -20%)
+            PressedColor: =ColorFade(SaveConfirm1.Color, -20%)
+            PressedFill: =SaveConfirm1.Fill
+            Visible: =ShowTakenImage
+            Width: =22
+            X: =SaveConfirm2.X+7
+            Y: =SaveConfirm2.Y+6
+            ZIndex: =10
+
+        SaveConfirm2 As circle:
+            BorderColor: =SaveConfirm1.Color
+            BorderThickness: =2
+            DisabledFill: =SaveConfirm2.Fill
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =SaveConfirm2.BorderColor
+            Height: =36
+            HoverFill: =SaveConfirm2.Fill
+            OnSelect: |-
+                =/*Store photos in Photos collection*/
+                Set(PhotoNumber, PhotoNumber + 1);
+                Collect(Photos, {Image:Camera1.Photo, Name: "Photo" & PhotoNumber & ".jpg"});
+                Set(ShowImageSaved, true);
+                Set(ShowTakenImage,false)
+            PressedFill: =SaveConfirm2.Fill
+            Visible: =ShowTakenImage
+            Width: =36
+            X: =BannerText.X + BannerText.Width+9
+            Y: =15
+            ZIndex: =11
+
+        DiscardConfirm1 As icon.Cancel:
+            Color: =RGBA(208, 5, 30, 1)
+            DisabledFill: =DiscardConfirm1.Fill
+            FocusedBorderColor: =DiscardConfirm1.BorderColor
+            Height: =22
+            HoverBorderColor: =ColorFade(DiscardConfirm1.BorderColor, 20%)
+            HoverColor: =ColorFade(DiscardConfirm1.Color, 20%)
+            HoverFill: =DiscardConfirm1.Fill
+            Icon: =Icon.Cancel
+            PressedBorderColor: =ColorFade(DiscardConfirm1.BorderColor, -20%)
+            PressedColor: =ColorFade(DiscardConfirm1.Color, -20%)
+            PressedFill: =DiscardConfirm1.Fill
+            Visible: =ShowTakenImage
+            Width: =22
+            X: =834
+            Y: =23
+            ZIndex: =12
+
+        DiscardConfirm2 As circle:
+            BorderColor: =DiscardConfirm1.Color
+            BorderThickness: =2
+            DisabledFill: =DiscardConfirm2.Fill
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =DiscardConfirm2.BorderColor
+            Height: =36
+            HoverFill: =DiscardConfirm2.Fill
+            OnSelect: =Set(ShowTakenImage, false)
+            PressedFill: =DiscardConfirm2.Fill
+            Visible: =ShowTakenImage
+            Width: =36
+            X: =827
+            Y: =15
+            ZIndex: =13
+
+        SavedIndicator3 As icon.Check:
+            Color: =RGBA(96, 181, 2, 1)
+            DisabledFill: =SavedIndicator3.Fill
+            FocusedBorderColor: =SavedIndicator3.BorderColor
+            Height: =22
+            HoverBorderColor: =ColorFade(SavedIndicator3.BorderColor, 20%)
+            HoverColor: =ColorFade(SavedIndicator3.Color, 20%)
+            HoverFill: =SavedIndicator3.Fill
+            Icon: =Icon.Check
+            PressedBorderColor: =ColorFade(SavedIndicator3.BorderColor, -20%)
+            PressedColor: =ColorFade(SavedIndicator3.Color, -20%)
+            PressedFill: =SavedIndicator3.Fill
+            Visible: =ShowImageSaved
+            Width: =22
+            X: =614
+            Y: =20
+            ZIndex: =14
+
+        SavedIndicator4 As circle:
+            BorderColor: =SavedIndicator3.Color
+            BorderThickness: =2
+            DisabledFill: =SavedIndicator4.Fill
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =SavedIndicator4.BorderColor
+            Height: =36
+            HoverFill: =SavedIndicator4.Fill
+            OnSelect: =
+            PressedFill: =SavedIndicator4.Fill
+            Visible: =ShowImageSaved
+            Width: =36
+            X: =607
+            Y: =14
+            ZIndex: =15
+

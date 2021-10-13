@@ -1,0 +1,40 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =/* An all-in-one meeting capture tool.
+        ![](src\meetingcapturedemo\Assets\Images\meeting-capture-logo-full%403x.png)
+        
+        This tool helps you to keep everythin in one place during your meetings.
+        
+        Key features are:
+        - View meeting details
+        - capture notes and pictures of whiteboards
+        - assign tasks
+        - send meeeting notes to all attendees in one click
+        
+        */
+        
+        Collect(CalendarLocalizedLabel,      {Value:"Calendar"},{Value:"Kalender"},
+        {Value:"Təqvim"},{Value:"Kalendar"},{Value:"Calendari"},{Value:"Kalendář"},{Value:"Calendr"},{Value:"Calendario"},
+        {Value:"Egutegia"},{Value:"Kalendaryo"},{Value:"Calendrier"},{Value:"Féilire"},{Value:"Am mìosachan"},{Value:"Kalanda"},
+        {Value:"Dagbók"},{Value:"Kalenda"},{Value:"Kalendārs"},{Value:"Kalenner"},{Value:"Kalendorius"},{Value:"Naptár"},
+        {Value:"Kalendarju"},{Value:"Agenda"},{Value:"Taqvim"},{Value:"Kalendarz"},{Value:"Calendário"},{Value:"Intiwatana"},
+        {Value:"Kalendari"},{Value:"Kalendár"},{Value:"Koledar"},{Value:"Kalenteri"},{Value:"Maramataka"},{Value:"Lịch"},
+        {Value:"Takvim"},{Value:"Senenama"},{Value:"Ημερολόγιο"},{Value:"კალენდარი"},{Value:"לוח שנה"},{Value:"کیلنڈر"},
+        {Value:"التقويم"},{Value:"कैलेंडर"},{Value:"दिनदर्शिका"},{Value:"ক্যালেন্ডার"},{Value:"કૅલેન્ડર"},{Value:"予定表"},
+        {Value:"行事曆"},{Value:"日历"},{Value:"క్యాలెండర్"});
+        
+        Concurrent(Set(MyCalendarID,LookUp(Office365Outlook.CalendarGetTables().value,DisplayName=LookUp(CalendarLocalizedLabel,Value=DisplayName).Value).Name);ClearCollect(AllFutureEvents,Office365Outlook.GetEventsCalendarView(MyCalendarID,Text(Today(),UTC),Text(DateAdd(Today(),2,Days),UTC)).Values),Set(MyUserProfile,Office365Users.MyProfile().Id),
+            /*used to determine if meeting attendees are in app user's org*/
+        Set(MyDomain,Last(Split(User().Email,"@")).Result),
+            /*used to determine countdown to end of selected meeting*/
+        Set(HomeTimerStart,Now()));
+        /*Meetings are defined to be calendar events less than 6 hours in length*/
+        ClearCollect(MeetingsOnly,Filter(AddColumns(AllFutureEvents,"isCurrent",DateDiff(Start,Now(),Seconds)>0&&DateDiff(Now(),End,Seconds)>0),DateDiff(Start,End,Hours)<6));Set(NumberOfCurrentMeetings,CountRows(Filter(MeetingsOnly,isCurrent)));
+        /*If a single meeting is happening now, autoselect it*/
+        If(NumberOfCurrentMeetings=1,Set(AutoSelectMeeting, true );Set(SelectedMeeting,LookUp(MeetingsOnly,isCurrent)))
+
+    AppConditional0 As AppConditional0:
+        App_INTERNAL_PROPERTY_NAME_0: =true
+        App_INTERNAL_PROPERTY_NAME_1: =true
+

@@ -1,0 +1,12 @@
+{
+  "Content": "Image",
+  "FileName": "/ctrllib/icon/images/Basel_Check.svg",
+  "IsSampleData": true,
+  "IsWritable": false,
+  "Name": "Basel_Check",
+  "Path": "/ctrllib/icon/images/Basel_Check.svg",
+  "ResourceKind": "Uri",
+  "RootPath": "ms-appx:///ctrllib/icon/images/Basel_Check.svg",
+  "Schema": "i",
+  "Type": "ResourceInfo"
+}

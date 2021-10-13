@@ -1,0 +1,330 @@
+EmailScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =/*Email meeting notes to attendees*/
+    Orientation: =If(EmailScreen.Width < EmailScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= EmailScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    EmailBanner As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =14
+
+        BannerHeader As label:
+            Align: =Center
+            Fill: =RGBA(234, 237, 239, 1)
+            FocusedBorderColor: =BannerHeader.BorderColor
+            FontWeight: =Semibold
+            Height: =AppLogo4.Height + 1
+            HoverBorderColor: =BannerHeader.BorderColor
+            HoverColor: =BannerHeader.Color
+            HoverFill: =BannerHeader.Fill
+            PressedBorderColor: =BannerHeader.BorderColor
+            PressedColor: =BannerHeader.Color
+            PressedFill: =BannerHeader.Fill
+            Size: =12
+            Text: =SelectedMeeting.Subject
+            Width: =1366
+            ZIndex: =2
+
+        AppLogo4 As image:
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =AppLogo4.BorderColor
+            Height: =66
+            HoverBorderColor: =ColorFade(AppLogo4.BorderColor, 20%)
+            HoverFill: =ColorFade(AppLogo4.Fill, 20%)
+            Image: ='nav-logo'
+            ImagePosition: =ImagePosition.Center
+            PressedBorderColor: =ColorFade(AppLogo4.BorderColor, -20%)
+            PressedFill: =ColorFade(AppLogo4.Fill, -20%)
+            Width: =75
+            ZIndex: =3
+
+        EmailPrevScreen As icon.ArrowLeft:
+            Color: =RGBA(237, 41, 85, 1)
+            DisabledFill: =EmailPrevScreen.Fill
+            FocusedBorderColor: =EmailPrevScreen.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(EmailPrevScreen.BorderColor, 20%)
+            HoverColor: =ColorFade(EmailPrevScreen.Color, 20%)
+            HoverFill: =EmailPrevScreen.Fill
+            Icon: =Icon.ArrowLeft
+            OnSelect: =Back()
+            PaddingBottom: =9
+            PaddingLeft: =9
+            PaddingRight: =9
+            PaddingTop: =9
+            PressedBorderColor: =ColorFade(EmailPrevScreen.BorderColor, -20%)
+            PressedColor: =ColorFade(EmailPrevScreen.Color, -20%)
+            PressedFill: =EmailPrevScreen.Fill
+            Width: =40
+            X: =93+0
+            Y: =13+0
+            ZIndex: =4
+
+        EmailBannerText As label:
+            FocusedBorderColor: =EmailBannerText.BorderColor
+            FontWeight: =Lighter
+            Height: =49
+            HoverBorderColor: =EmailBannerText.BorderColor
+            HoverColor: =EmailBannerText.Color
+            HoverFill: =EmailBannerText.Fill
+            PressedBorderColor: =EmailBannerText.BorderColor
+            PressedColor: =EmailBannerText.Color
+            PressedFill: =EmailBannerText.Fill
+            Size: =27
+            Text: |-
+                ="Email attendee" & If(MultiRecipients, "s") & ":"
+            Width: =1251
+            X: =70+0
+            Y: =115+0
+            ZIndex: =5
+
+        Rectangle6 As rectangle:
+            DisabledFill: =Rectangle6.Fill
+            Fill: =RGBA(227, 227, 227, 1)
+            FocusedBorderColor: =Rectangle6.BorderColor
+            FocusedBorderThickness: =0
+            Height: =1
+            HoverFill: =Rectangle6.Fill
+            PressedFill: =Rectangle6.Fill
+            Width: =EmailBannerText.Width
+            X: =EmailBannerText.X
+            Y: =EmailBannerText.Y + EmailBannerText.Height + 20
+            ZIndex: =6
+
+        SendEmail As button:
+            BorderColor: =ColorFade(SendEmail.Fill, -15%)
+            DisabledBorderColor: =ColorFade(SendEmail.BorderColor, 70%)
+            DisplayMode: =Edit
+            Fill: =RGBA(237, 41, 85, 1)
+            FocusedBorderColor: =SendEmail.BorderColor
+            FocusedBorderThickness: =2
+            Height: =44
+            HoverBorderColor: =ColorFade(SendEmail.BorderColor, 20%)
+            HoverColor: =SendEmail.Color
+            HoverFill: =ColorFade(SendEmail.Fill, 20%)
+            OnSelect: |-
+                =Office365Outlook.SendEmail(Concat(EmailRecipients, UserPrincipalName & ";"), EmailSubject.Text, EmailMessage.Text, {Importance: "Normal"});
+                /*Sets text to display email confirmation info*/
+                Set(EmailConfirmed, true);
+                Navigate(ConfirmScreen, None)
+            PressedBorderColor: =SendEmail.Fill
+            PressedColor: =SendEmail.Fill
+            PressedFill: =SendEmail.Color
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Text: ="Send"
+            Width: =121
+            X: =1200
+            Y: =120
+            ZIndex: =13
+
+    EmailDetails As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =14
+
+        GalleryBkg As button:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Color: =RGBA(227, 227, 227, 1)
+            DisabledBorderColor: =ColorFade(GalleryBkg.BorderColor, 70%)
+            Fill: =RGBA(62,96,170,0)
+            FocusedBorderColor: =GalleryBkg.BorderColor
+            Height: =75
+            HoverBorderColor: =ColorFade(GalleryBkg.BorderColor, 20%)
+            HoverColor: =GalleryBkg.Color
+            HoverFill: =ColorFade(GalleryBkg.Fill, 20%)
+            PressedBorderColor: =GalleryBkg.Fill
+            PressedColor: =GalleryBkg.Fill
+            PressedFill: =GalleryBkg.Color
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Text: =""
+            Width: =EmailRecipientGallery.Width
+            X: =70
+            Y: =245
+            ZIndex: =1
+
+        Label16 As label:
+            FocusedBorderColor: =Label16.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label16.BorderColor
+            HoverColor: =Label16.Color
+            HoverFill: =Label16.Fill
+            PressedBorderColor: =Label16.BorderColor
+            PressedColor: =Label16.Color
+            PressedFill: =Label16.Fill
+            Size: =15
+            Text: ="Recipient" & If(MultiRecipients, "s (" & CountRows(EmailRecipients) & ")")
+            Width: =300
+            X: =EmailBannerText.X
+            Y: =Rectangle6.Y + 15
+            ZIndex: =7
+
+        EmailRecipientGallery As gallery.galleryHorizontal:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            DisabledBorderColor: =EmailRecipientGallery.BorderColor
+            DisabledFill: =EmailRecipientGallery.Fill
+            Height: =100
+            HoverBorderColor: =EmailRecipientGallery.BorderColor
+            HoverFill: =EmailRecipientGallery.Fill
+            Items: =EmailRecipients
+            LoadingSpinnerColor: =EmailRecipientGallery.BorderColor
+            PressedBorderColor: =EmailRecipientGallery.BorderColor
+            PressedFill: =EmailRecipientGallery.Fill
+            TemplatePadding: =10
+            TemplateSize: =190
+            Width: =Min(1251,(EmailRecipientGallery.TemplateWidth + 20) * CountRows(EmailRecipients))
+            X: =EmailBannerText.X
+            Y: =Label16.Y + Label16.Height + 10
+            ZIndex: =8
+
+            EmailRecipientName As button:
+                Align: =If(MultiRecipients, Left, Center)
+                BorderColor: =If(MultiRecipients, RGBA(237, 41, 85, 1), RGBA(0,0,0,0))
+                BorderThickness: =1
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledBorderColor: =ColorFade(EmailRecipientName.BorderColor, 70%)
+                Fill: =If(MultiRecipients,RGBA(237, 41, 85, 0.15), RGBA(0,0,0,0))
+                FocusedBorderColor: =EmailRecipientName.BorderColor
+                FocusedBorderThickness: =1
+                FontWeight: =Normal
+                Height: =44
+                HoverBorderColor: =ColorFade(EmailRecipientName.BorderColor, 20%)
+                HoverColor: =EmailRecipientName.Color
+                HoverFill: =ColorFade(EmailRecipientName.Fill, 20%)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =If(MultiRecipients,15,0)
+                PaddingRight: =If(MultiRecipients, 40, 5)
+                PaddingTop: =0
+                PressedBorderColor: =EmailRecipientName.Fill
+                PressedColor: =EmailRecipientName.Color
+                PressedFill: =EmailRecipientName.Fill
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                Size: =10.5
+                Text: =ThisItem.DisplayName
+                Width: =Parent.TemplateWidth - If(!MultiRecipients, EmailRecipientImage.Width, 0)
+                X: =If(MultiRecipients, 0, EmailRecipientImage.Width + 5)
+                ZIndex: =1
+
+            RemoveEmailRecipient As icon.Cancel:
+                Color: =RGBA(237, 41, 85, 1)
+                DisabledFill: =RemoveEmailRecipient.Fill
+                FocusedBorderColor: =RemoveEmailRecipient.BorderColor
+                Height: =44
+                HoverBorderColor: =ColorFade(RemoveEmailRecipient.BorderColor, 20%)
+                HoverColor: =ColorFade(RemoveEmailRecipient.Color, 20%)
+                HoverFill: =RemoveEmailRecipient.Fill
+                Icon: =Icon.Cancel
+                OnSelect: =Remove(EmailRecipients,ThisItem)
+                PaddingLeft: =10
+                PaddingRight: =10
+                PressedBorderColor: =ColorFade(RemoveEmailRecipient.BorderColor, -20%)
+                PressedColor: =ColorFade(RemoveEmailRecipient.Color, -20%)
+                PressedFill: =RemoveEmailRecipient.Fill
+                Visible: =MultiRecipients
+                Width: =40
+                X: =150
+                ZIndex: =2
+
+            EmailRecipientImage As image:
+                FocusedBorderColor: =EmailRecipientImage.BorderColor
+                Height: =40
+                HoverBorderColor: =ColorFade(EmailRecipientImage.BorderColor, 20%)
+                HoverFill: =ColorFade(EmailRecipientImage.Fill, 20%)
+                Image: =ThisItem.AttendeeImage.Image
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(EmailRecipientImage.BorderColor, -20%)
+                PressedFill: =ColorFade(EmailRecipientImage.Fill, -20%)
+                Visible: =!MultiRecipients
+                Width: =40
+                X: =5
+                Y: =2
+                ZIndex: =3
+
+        Label16_1 As label:
+            FocusedBorderColor: =Label16_1.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label16_1.BorderColor
+            HoverColor: =Label16_1.Color
+            HoverFill: =Label16_1.Fill
+            PressedBorderColor: =Label16_1.BorderColor
+            PressedColor: =Label16_1.Color
+            PressedFill: =Label16_1.Fill
+            Size: =15
+            Text: ="Subject"
+            Width: =300
+            X: =EmailBannerText.X
+            Y: =EmailRecipientGallery.Y + EmailRecipientGallery.Height + 30
+            ZIndex: =9
+
+        EmailSubject As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =SelectedMeeting.Subject
+            FocusedBorderColor: =EmailSubject.BorderColor
+            Height: =44
+            PressedBorderColor: =EmailSubject.HoverBorderColor
+            PressedColor: =EmailSubject.Color
+            PressedFill: =EmailSubject.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =13.5
+            Width: =608
+            X: =EmailBannerText.X
+            Y: =Label16_1.Y + Label16_1.Height + 10
+            ZIndex: =10
+
+        Label16_2 As label:
+            FocusedBorderColor: =Label16_2.BorderColor
+            FontWeight: =Semibold
+            Height: =41
+            HoverBorderColor: =Label16_2.BorderColor
+            HoverColor: =Label16_2.Color
+            HoverFill: =Label16_2.Fill
+            PressedBorderColor: =Label16_2.BorderColor
+            PressedColor: =Label16_2.Color
+            PressedFill: =Label16_2.Fill
+            Size: =15
+            Text: ="Message"
+            Width: =300
+            X: =EmailBannerText.X
+            Y: =EmailSubject.Y + EmailSubject.Height + 30
+            ZIndex: =11
+
+        EmailMessage As text:
+            BorderColor: =RGBA(227, 227, 227, 1)
+            Default: =""
+            FocusedBorderColor: =EmailMessage.BorderColor
+            Height: =167
+            Mode: =TextMode.MultiLine
+            PressedBorderColor: =EmailMessage.HoverBorderColor
+            PressedColor: =EmailMessage.Color
+            PressedFill: =EmailMessage.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =13.5
+            Width: =608
+            X: =EmailBannerText.X
+            Y: =Label16_2.Y + Label16_2.Height + 10
+            ZIndex: =12
+

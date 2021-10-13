@@ -1,0 +1,222 @@
+ConfirmScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*Export confirmation screen
+        Once the export is completed another meeting can be scheduled with the attendees.
+        */
+        If(ExportConfirmed,
+            Set(Loading, true);
+        
+            /*Collects the dynamic data which will be substituted into the Email/OneNote templates and associates it to the {placeholder} values in the templates
+               At {Field: "{1}" at <tr><td colspan='3'> changed <td colspan='3' style='height:10px;'> to <td colspan='3'> because OneNote stopped displaying the export content with the inline style content present 
+            */
+                If(CheckEmail.Value || CheckOneNote.Value, 
+                     ClearCollect(TemplateData, {Field:"{MeetingName}", Data:SelectedMeeting.Subject}, {Field: "{MeetingStartDate}", Data: Text(SelectedMeeting.Start, "[$-en-US]mmm. dd, yyyy")}, 
+                    {Field: "{MeetingStartTime}", Data: Lower(Text(SelectedMeeting.Start, "[$-en-US]hh:mm am/pm"))}, {Field: "{MeetingEndTime}", Data: Lower(Text(SelectedMeeting.End, "[$-en-US]hh:mm am/pm"))},
+                    {Field: "{MeetingMinutes}", Data: Text(SelectedMeetingDuration/60)}, {Field: "{MeetingAttendeeNum}", Data: Text(CountRows(MeetingAttendees))},
+                    {Field: "{1}", 
+                    Data: Concat(
+                        GroupBy(
+                            ForAll(MeetingAttendees,
+                                Collect(Indexes, {Index:Last(Indexes).Index + 1});
+                                {Page:RoundDown(Last(Indexes).Index / 3,0),
+                                Id:Id, 
+                                DisplayName:DisplayName, 
+                                JobTitle:JobTitle}
+                            ),
+                    "Page","Attendees"),"<tr>" & Concat(Attendees,"<td class='user-name' width='221'>" & DisplayName & "</td>") & If(CountRows(Attendees)=2,"<td class='user-name' width='221'></td>",CountRows(Attendees)=1,
+                    "<td class='user-name' width='221'></td><td class='user-name' width='221'></td>") & "</tr><tr>" & Concat(Attendees,"<td class='job-title'>" & JobTitle & "</td>") & If(CountRows(Attendees)=2,
+                    "<td class='job-title'></td>",CountRows(Attendees)=1,"<td class='job-title'></td><td class='job-title'></td>") & "</tr><tr><td colspan='3'></td></tr>")},
+                    {Field: "{MeetingDetails}", Data:MeetingBody.HtmlText}, {Field: "{MeetingNotes}", Data: Substitute(NotesInput.Text, Char(10), "<br/>")},
+                    {Field: "{2}", Data: Concat(Tasks,"<tr><td class='task'><table border='0' cellpadding='0' cellspacing='0' class='no-border' style='table-layout:auto'><tr><td class='name'><a class='link-name' href='https://tasks.office.com' target='_blank'>" & Name & "</a></td><td class='due-time'>" & If(IsBlank(DueDate),"","Due " & If(IsToday(DueDate),"Today",Text(DueDate,"[$-en-US]mmm d"))) & "</td></tr><tr><td colspan='2' class='assign-to'>" & AssignToUser.DisplayName & "</td></tr></table></td></tr>")})
+                );
+        
+                /*Creates planner tasks based on the Tasks collection*/
+                If(CheckPlanner.Value,ForAll(Tasks,Planner.CreateTask(SelectedPlan.'data-ADB4D7A662F548B49FAC2B986E348A1Bid',Name,{bucketId:SelectedBucket.'data-ADB4D7A662F548B49FAC2B986E348A1Bid',dueDateTime:AssnTaskDueDate_1,assignments:AssignToUser.Id})));
+                /*combines photos and sketches into a single email attachments collection*/
+                If(CheckEmail.Value,
+                    ForAll(Photos, Collect(EmailAttachments, {ContentBytes: Image, Image: Image, Name: Name}));
+                    ForAll(Sketches, Collect(EmailAttachments, {ContentBytes: Image, Image: Image, Name: Name}));
+                /*replaces {placeholder} values for Email template with dynamic data collected from user's input as they progress through app*/   
+                    ForAll(TemplateData, Patch(Templates, LookUp(Templates, Template="Email"), {Value: Substitute(LookUp(Templates, Template="Email").Value, Field, Data)}));
+                    Office365Outlook.SendEmail(Concat(EmailRecipients, UserPrincipalName & ";"), SelectedMeeting.Subject, LookUp(Templates, Template="Email").Value, {Attachments: EmailAttachments, Importance: "Normal", IsHtml: true}
+                    )    
+                );
+                If(CheckOneNote.Value,
+                /*replaces {placeholder} values for OneNote template with dynamic data collected from user's input as they progress through app*/    
+                    ForAll(TemplateData, Patch(Templates, LookUp(Templates, Template="OneNote"), {Value: Substitute(LookUp(Templates, Template="OneNote").Value, Field, Data)}));
+                    'OneNote(Business)'.CreatePageInSection(SelectedNoteBook.'data-ADB4D7A662F548B49FAC2B986E348A1BKey', SelectedSection.'data-ADB4D7A662F548B49FAC2B986E348A1BpagesUrl', LookUp(Templates, Template="OneNote").Value)
+                );
+        
+            Set(Loading, false)
+        )
+    Orientation: =If(ConfirmScreen.Width < ConfirmScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= ConfirmScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    ConfirmHeader As label:
+        Align: =Center
+        Fill: =RGBA(234, 237, 239, 1)
+        FocusedBorderColor: =ConfirmHeader.BorderColor
+        FontWeight: =Semibold
+        Height: =AppLogo4.Height + 1
+        HoverBorderColor: =ConfirmHeader.BorderColor
+        HoverColor: =ConfirmHeader.Color
+        HoverFill: =ConfirmHeader.Fill
+        PressedBorderColor: =ConfirmHeader.BorderColor
+        PressedColor: =ConfirmHeader.Color
+        PressedFill: =ConfirmHeader.Fill
+        Size: =12
+        Text: =SelectedMeeting.Subject
+        Width: =1366
+        ZIndex: =1
+
+    AppLogo6 As image:
+        Fill: =RGBA(237, 41, 85, 1)
+        FocusedBorderColor: =AppLogo6.BorderColor
+        Height: =66
+        HoverBorderColor: =ColorFade(AppLogo6.BorderColor, 20%)
+        HoverFill: =ColorFade(AppLogo6.Fill, 20%)
+        Image: ='nav-logo'
+        ImagePosition: =ImagePosition.Center
+        PressedBorderColor: =ColorFade(AppLogo6.BorderColor, -20%)
+        PressedFill: =ColorFade(AppLogo6.Fill, -20%)
+        Width: =75
+        ZIndex: =2
+
+    ConfirmPrev As icon.ArrowLeft:
+        Color: =RGBA(237, 41, 85, 1)
+        DisabledFill: =ConfirmPrev.Fill
+        FocusedBorderColor: =ConfirmPrev.BorderColor
+        Height: =40
+        HoverBorderColor: =ColorFade(ConfirmPrev.BorderColor, 20%)
+        HoverColor: =ColorFade(ConfirmPrev.Color, 20%)
+        HoverFill: =ConfirmPrev.Fill
+        Icon: =Icon.ArrowLeft
+        OnSelect: =Navigate(HomeScreen, None)
+        PaddingBottom: =9
+        PaddingLeft: =9
+        PaddingRight: =9
+        PaddingTop: =9
+        PressedBorderColor: =ColorFade(ConfirmPrev.BorderColor, -20%)
+        PressedColor: =ColorFade(ConfirmPrev.Color, -20%)
+        PressedFill: =ConfirmPrev.Fill
+        Visible: =EmailConfirmed
+        Width: =40
+        X: =93+0
+        Y: =13+0
+        ZIndex: =3
+
+    ConfirmSubHeader As label:
+        FocusedBorderColor: =ConfirmSubHeader.BorderColor
+        FontWeight: =Lighter
+        Height: =49
+        HoverBorderColor: =ConfirmSubHeader.BorderColor
+        HoverColor: =ConfirmSubHeader.Color
+        HoverFill: =ConfirmSubHeader.Fill
+        PressedBorderColor: =ConfirmSubHeader.BorderColor
+        PressedColor: =ConfirmSubHeader.Color
+        PressedFill: =ConfirmSubHeader.Fill
+        Size: =27
+        Text: =If(EmailConfirmed, "Your email has been sent.", FollowUpConfirmed, "Invitations have been sent!", Loading, "Working on export", "Export Complete!")
+        Width: =1251
+        X: =70+0
+        Y: =115+0
+        ZIndex: =4
+
+    Rectangle6_1 As rectangle:
+        DisabledFill: =Rectangle6_1.Fill
+        Fill: =RGBA(227, 227, 227, 1)
+        FocusedBorderColor: =Rectangle6_1.BorderColor
+        FocusedBorderThickness: =0
+        Height: =1
+        HoverFill: =Rectangle6_1.Fill
+        PressedFill: =Rectangle6_1.Fill
+        Width: =ConfirmSubHeader.Width
+        X: =ConfirmSubHeader.X
+        Y: =ConfirmSubHeader.Y + ConfirmSubHeader.Height + 20
+        ZIndex: =5
+
+    FollowUpButton As button:
+        BorderColor: =ColorFade(FollowUpButton.Fill, -15%)
+        DisabledBorderColor: =ColorFade(FollowUpButton.BorderColor, 70%)
+        Fill: =RGBA(237, 41, 85, 1)
+        FocusedBorderColor: =FollowUpButton.BorderColor
+        Height: =44
+        HoverBorderColor: =ColorFade(FollowUpButton.BorderColor, 20%)
+        HoverColor: =FollowUpButton.Color
+        HoverFill: =ColorFade(FollowUpButton.Fill, 20%)
+        OnSelect: =Navigate(FollowUpScreen, None)
+        PaddingBottom: =0
+        PaddingLeft: =35
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =FollowUpButton.Fill
+        PressedColor: =FollowUpButton.Fill
+        PressedFill: =FollowUpButton.Color
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Size: =11
+        Text: ="Schedule a follow up meeting"
+        Visible: =!FollowUpConfirmed
+        Width: =350
+        X: =70
+        Y: =214
+        ZIndex: =6
+
+    FollowUpIcon As image:
+        FocusedBorderColor: =FollowUpIcon.BorderColor
+        Height: =28
+        HoverBorderColor: =ColorFade(FollowUpIcon.BorderColor, 20%)
+        HoverFill: =ColorFade(FollowUpIcon.Fill, 20%)
+        Image: =calendar
+        OnSelect: =Select(FollowUpButton)
+        PressedBorderColor: =ColorFade(FollowUpIcon.BorderColor, -20%)
+        PressedFill: =ColorFade(FollowUpIcon.Fill, -20%)
+        Visible: =!FollowUpConfirmed
+        Width: =28
+        X: =93
+        Y: =FollowUpButton.Y + FollowUpButton.Height/2 - FollowUpIcon.Height/2
+        ZIndex: =7
+
+    NewMeetingText As label:
+        Color: =RGBA(237, 41, 85, 1)
+        FocusedBorderColor: =NewMeetingText.BorderColor
+        Height: =27
+        HoverBorderColor: =NewMeetingText.BorderColor
+        HoverColor: =NewMeetingText.Color
+        HoverFill: =NewMeetingText.Fill
+        OnSelect: =Navigate(WelcomeScreen, None)
+        PressedBorderColor: =NewMeetingText.BorderColor
+        PressedColor: =NewMeetingText.Color
+        PressedFill: =NewMeetingText.Fill
+        Size: =10.5
+        Text: ="Capture another meeting"
+        Visible: =!EmailConfirmed
+        Width: =300
+        X: =70
+        Y: =319
+        ZIndex: =8
+
+    NewMeetingIcon As icon.ArrowRight:
+        Color: =RGBA(237, 41, 85, 1)
+        DisabledFill: =NewMeetingIcon.Fill
+        FocusedBorderColor: =NewMeetingIcon.BorderColor
+        FocusedBorderThickness: =0
+        Height: =36
+        HoverBorderColor: =ColorFade(NewMeetingIcon.BorderColor, 20%)
+        HoverColor: =ColorFade(NewMeetingIcon.Color, 20%)
+        HoverFill: =NewMeetingIcon.Fill
+        Icon: =Icon.ArrowRight
+        OnSelect: =Navigate(WelcomeScreen, None)
+        PressedBorderColor: =ColorFade(NewMeetingIcon.BorderColor, -20%)
+        PressedColor: =ColorFade(NewMeetingIcon.Color, -20%)
+        PressedFill: =NewMeetingIcon.Fill
+        Visible: =!EmailConfirmed
+        Width: =36
+        X: =281
+        Y: =315
+        ZIndex: =9
+

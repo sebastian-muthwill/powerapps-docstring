@@ -1,0 +1,12 @@
+{
+  "Content": "Image",
+  "FileName": "SampleImage.svg",
+  "IsSampleData": true,
+  "IsWritable": false,
+  "Name": "SampleImage",
+  "Path": "Assets\\Images\\SampleImage.svg",
+  "ResourceKind": "Uri",
+  "RootPath": "ms-appx:///ctrllib/image/images/SampleImage.svg",
+  "Schema": "i",
+  "Type": "ResourceInfo"
+}
