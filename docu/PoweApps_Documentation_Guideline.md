@@ -80,4 +80,7 @@ To create a docstring for the screen level, place a docstring at the beginning o
 Are created automatically.
 
 ### Screen flows
-Are created automatically.
+A visualization for screenflows are created in [powerapps-docstring](https://github.com/sebastian-muthwill/powerapps-docstring) automatically based on the Navigate() functions.
+
+![Example screenflow](media\Screenflow_example.png) _Screenflow from example_
+
