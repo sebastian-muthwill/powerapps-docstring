@@ -2,7 +2,7 @@
 
 PowerApps-docstring is a console based, pipeline ready application that automatically generates user and technical documentation for PowerApps.
 
-[powerapps-docstring alpha](https://github.com/sebastian-muthwill/powerapps-docstring/releases/latest)
+> A first version of a Power Apps Documentation Guideline is available here: [Power Apps Documentation Guideline](docu/PoweApps_Documentation_Guideline.md)
 
 ## Purpose of this application
 Documentation of Microsoft Power Apps is an important building block in the software lifecycle. As in the traditional software development process, the developed Power App should also be documented propperly to ensure further development/support and maintenance as well as onboarding of new developers.
@@ -18,7 +18,7 @@ This application shall solve this problem by providing a way to:
 ## Getting started
 1. clone repository `git clone https://github.com/sebastian-muthwill/powerapps-docstring.git` and change into directory `cd powerapps-docstring`
 2. install requirements with `pip install -r requirements.txt`
-3. run with `python3 main.py -s example/srcmeetingcapturedemo -o example`
+3. run with `python3 main.py -s example/src/meetingcapturedemo -o example`
 
 Once the application finished successfully the documentation file is created in the specified folder in markdown format.
 
