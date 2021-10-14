@@ -82,5 +82,5 @@ Are created automatically.
 ### Screen flows
 A visualization for screenflows are created in [powerapps-docstring](https://github.com/sebastian-muthwill/powerapps-docstring) automatically based on the Navigate() functions.
 
-![Example screenflow](media\Screenflow_example.png) _Screenflow from example_
+![Example screenflow](media/Screenflow_example.png) _Screenflow from example_
 
