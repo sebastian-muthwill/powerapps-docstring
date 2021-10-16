@@ -9,19 +9,19 @@ Contents
 	* [OnStart](#onstart)
 * [Connections](#connections)
 * [Screens](#screens)
-	* [AttachmentsScreen](#attachmentsscreen)
+	* [WelcomeScreen](#welcomescreen)
+	* [HomeScreen](#homescreen)
+	* [SketchScreen](#sketchscreen)
 	* [CameraScreen](#camerascreen)
-	* [CollectionsAndVariables](#collectionsandvariables)
-	* [ConfirmScreen](#confirmscreen)
 	* [EmailScreen](#emailscreen)
-	* [ExportPopUpsScreen](#exportpopupsscreen)
+	* [AttachmentsScreen](#attachmentsscreen)
+	* [ConfirmScreen](#confirmscreen)
 	* [ExportScreen](#exportscreen)
 	* [FollowUpScreen](#followupscreen)
 	* [FollowUpTimesScreen](#followuptimesscreen)
 	* [HomePopUpsScreen](#homepopupsscreen)
-	* [HomeScreen](#homescreen)
-	* [SketchScreen](#sketchscreen)
-	* [WelcomeScreen](#welcomescreen)
+	* [ExportPopUpsScreen](#exportpopupsscreen)
+	* [CollectionsAndVariables](#collectionsandvariables)
   
   
 
@@ -31,13 +31,11 @@ Contents
  An all-in-one meeting capture tool.
 ![](src\meetingcapturedemo\Assets\Images\meeting-capture-logo-full%403x.png)
 
-This 
-tool helps you to keep everythin in one place during your meetings.
+This tool helps you to keep everythin in one place during your meetings.
 
 Key features are:
 - View meeting details
-- capture 
-notes and pictures of whiteboards
+- capture notes and pictures of whiteboards
 - assign tasks
 - send meeeting notes to all attendees in one click
 
@@ -109,19 +107,7 @@ With following datasources:
   
 :::mermaid  
 graph LR  
-CameraScreen ==> HomeScreen  
-CameraScreen ==> SketchScreen  
-ConfirmScreen ==> HomeScreen  
-ConfirmScreen ==> FollowUpScreen  
-ConfirmScreen ==> WelcomeScreen  
-EmailScreen ==> ConfirmScreen  
-ExportPopUpsScreen ==> ExportScreen  
-ExportPopUpsScreen ==> ConfirmScreen  
-ExportScreen ==> HomeScreen  
-ExportScreen ==> ExportPopUpsScreen  
-FollowUpScreen ==> FollowUpTimesScreen  
-FollowUpTimesScreen ==> ConfirmScreen  
-HomePopUpsScreen ==> HomeScreen  
+WelcomeScreen ==> HomePopUpsScreen  
 HomeScreen ==> SketchScreen  
 HomeScreen ==> CameraScreen  
 HomeScreen ==> EmailScreen  
@@ -130,16 +116,102 @@ HomeScreen ==> ExportScreen
 HomeScreen ==> HomePopUpsScreen  
 SketchScreen ==> HomeScreen  
 SketchScreen ==> CameraScreen  
-WelcomeScreen ==> HomePopUpsScreen  
+CameraScreen ==> HomeScreen  
+CameraScreen ==> SketchScreen  
+EmailScreen ==> ConfirmScreen  
+ConfirmScreen ==> HomeScreen  
+ConfirmScreen ==> FollowUpScreen  
+ConfirmScreen ==> WelcomeScreen  
+ExportScreen ==> HomeScreen  
+ExportScreen ==> ExportPopUpsScreen  
+FollowUpScreen ==> FollowUpTimesScreen  
+FollowUpTimesScreen ==> ConfirmScreen  
+HomePopUpsScreen ==> HomeScreen  
+ExportPopUpsScreen ==> ExportScreen  
+ExportPopUpsScreen ==> ConfirmScreen  
 :::
-## AttachmentsScreen
+## WelcomeScreen
   
 ---
-### AttachmentsScreen As screen
+### WelcomeScreen As screen
 
 
-See attachments created during meeting
-### AppLogo5 As image
+if any additional meeting is captured in the same session, guarantees all collections are empty
+#### OnVisible
+
+
+```
+Clear(MeetingAttendees);
+Clear(MeetingTimes);
+Clear(EmailRecipients);
+Clear(FollowUpMeetingAttendees);
+Clear(Tasks);
+Clear(Photos);
+Clear(Sketches);
+Clear(EmailAttachments);
+Reset(NotesInput);
+Reset(AssnTaskSearchUser_1);
+Set(FollowUpConfirmed, false);
+Set(EmailConfirmed, false);
+Set(ExportConfirmed, false);
+
+/*Email and OneNote templates with {placeholder} values for dynamic information*/
+
+ClearCollect(Templates,
+{Template: "Email", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><style>div{box-sizing:border-box}table{table-layout:fixed;background-color:#eaedef;width:829px;font-family:'Open Sans',sans-serif;color:#2c3034}table.with-border td{border:2px solid #e3e3e3;background-color:#fff;vertical-align:top}td.caption{height:65px;background:#ed2955;color:#fff;text-align:center;vertical-align:middle}.details{font-size:14px;color:#2c3034;padding-top:10px}.header{font-size:16px;font-weight:600}.mark{font-weight:400;color:#617281}.name{font-size:12px;font-weight:600;color:#ed2955}table.no-border td.user-name{font-size:14px;font-weight:600;color:#2c3034;vertical-align:middle;height:20px;}.due-time{text-align:right;font-size:10px;vertical-align:middle;color:#617281;font-weight:400}.assign-to{font-size:12px;color:#617281}.job-title{font-size:12px;color:#4a4a4a;height:20px}table.no-border{width:100%}table.no-border td{border:0}table.no-border td.task{padding:10px 0;border-top:1px solid #f1f1f1}.user-img img{width:17px;height:19px;border:0;}.name a.link-name,.name a.link-name:visited{color:#ed2955;text-decoration:none;}</style></head><body><table border='0' cellpadding='0' cellspacing='0'><tr><td class='caption'>[ Meeting Capture ]</td></tr><tr><td style='border: 0;background-color: #eaedef;padding:30px 0 0 0;text-align: center;color: #2c3034;font-size: 20px;font-weight: 600;'>" & "{MeetingName}" & "</td></tr><tr><td style='border: 0;background-color: #eaedef;padding: 9px 0 10px 0;text-align: center;color: #2c3034;font-size: 14px;'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}" & " - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</td></tr></table><table class='with-border' border='0' cellpadding='20' cellspacing='20'><tr>
+<td colspan='2' style='padding-bottom:10px;'><table border='0' cellpadding='0' cellspacing='0' class='no-border' style='table-layout:auto;'><tr><td colspan='3' class='header'>Attendees <span class='mark'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr><tr><td colspan='3' style='height:10px;'></td></tr>" & "{1}" & "</table></td></tr><tr><td colspan='2'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting details</td></tr><tr><td class='details'>" & "{MeetingDetails}" & "</td></tr></table></td></tr><tr><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting Notes</td></tr><tr><td class='details'>" & "{MeetingNotes}" & "</td></tr></table></td><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header' style='padding-bottom:10px;'>Tasks</td></tr>" & "{2}" & "</table></td></tr><tr><td style='border:0;background-color:#eaedef;padding:0;height:10px;'></td></tr></table></body></html>"},
+{Template: "OneNote", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/></head><body data-absolute-enabled='true' style='font-family:Calibri;font-size:11pt'><div data-id='_default' style='position:absolute;left:48px;top:120px;width:829px;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td style='background-color:#ed2955;font-size:10pt;'>&nbsp;</td></tr><tr><td style='background-color:#ed2955;border:0px;text-align:center;font-weight:600;'><span style='color:white'>[ Meeting Capture ]</span></td></tr><tr><td style='background-color:#ed2955;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:15pt;color:#2c3034;font-weight:bold'>" & "{MeetingName}" & "</span></td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:10.5pt;color:#2c3034'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}"&" - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</span></td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><colgroup><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'></colgroup><tr><td colspan='4' style='font-size:14pt;'><span style='font-weight:600;color:#2c3034'>Attendees</span>&nbsp;<span style='color:#617281'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr>" & "{1}" & "</table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034'>Meeting Notes</td><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034;border:10px solid red;'>Tasks</td></tr><tr><td style='font-size:12pt;color:#2c3034'>" & "{MeetingNotes}" & "</td><td style='font-size:14pt;font-weight:600;color:#2c3034'><table border='0' cellpadding='0' cellspacing='0' width='420'>" & "{2}" & "</table></td></tr></table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'></td></tr><tr><td style='background-color:#eaedef;font-size:26.5pt;'>&nbsp;</td></tr></table></div></body></html>"})
+```
+### MeetingsGalleryBkg As button
+
+#### OnSelect
+
+
+```
+=Select(Parent)
+```
+#### Text
+
+
+```
+=""
+```
+### BtnChangeAuto As button
+
+#### OnSelect
+
+
+```
+=Set(AutoSelectMeeting, false)
+```
+#### Text
+
+
+```
+="Change"
+```
+## HomeScreen
+  
+---
+### HomeScreen As screen
+
+
+The main screen for meeting captures during a meeting.
+
+- create meeting notes
+- create tasks
+- see meeting details
+
+#### OnVisible
+
+
+```
+/*if any additional meeting is captured in the same session, guarantees no confirmation screens are shown in error*/
+Set(FollowUpConfirmed, false);
+Set(EmailConfirmed, false);
+Set(ExportConfirmed, false)
+```
+### AppLogo1 As image
 
 #### Image
 
@@ -147,176 +219,217 @@ See attachments created during meeting
 ```
 ='nav-logo'
 ```
-### AttachmentsHeader As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-="Meeting Attachments"
-```
-### PhotosIcon As image
+### NavHome1 As image
 
 #### Image
 
 
 ```
-='attachments-camera'
+='nav-notes'
 ```
-### PhotosHeader As label
+### NavSketch1 As image
 
-#### Size
-
-
-```
-=15
-```
-#### Text
+#### Image
 
 
 ```
-="Photos"
+='nav-sketch'
 ```
-### PhotosGallery As gallery.galleryHorizontal
+#### OnSelect
+
+
+```
+=Navigate(SketchScreen, None)
+```
+### NavPhotos1 As image
+
+#### Image
+
+
+```
+='nav-camera'
+```
+#### OnSelect
+
+
+```
+=Navigate(CameraScreen, None)
+```
+### AttendeesBannerImage As image
+
+#### Image
+
+
+```
+=attendees
+```
+### AttendeeGallery1 As gallery.galleryVertical
 
 #### Items
 
 
 ```
-=Photos
+=MeetingAttendees
 ```
+### MailAllButton As button
+
 #### OnSelect
 
 
 ```
-=Set(ShowOverlay, true);
-Set(SelectedImage, ThisItem)
-```
-### PhotosCount As label
-
-#### Size
-
-
-```
-=10.5
+=Navigate(EmailScreen, None);
+Set(MultiRecipients, true);
+ClearCollect(EmailRecipients, AttendeeGallery1.AllItems)
 ```
 #### Text
 
 
 ```
-=CountRows(Photos) & If(CountRows(Photos) = 1, " photo has", " photos have") & " been attached to this meeting"
+="Email"
 ```
-### SketchesIcon As image
+### NotesIcon As image
 
 #### Image
 
 
 ```
-='attachments-sketch'
+=notes
 ```
-### SketchesHeader As label
+### NotesInput As text
 
-#### Size
+### Finish_SaveButton As button
 
-
-```
-=15
-```
-#### Text
+#### OnSelect
 
 
 ```
-="Sketches"
-```
-### SketchCount As label
-
-#### Size
-
-
-```
-=10.5
+=Navigate(ExportScreen, None)
 ```
 #### Text
 
 
 ```
-=CountRows(Sketches) & If(CountRows(Sketches) = 1, " sketch has", " sketches have") & " been attached to this meeting"
+="Finish & Save"
 ```
-### SketchesGallery As gallery.galleryHorizontal
+### Finish_SaveIcon As image
+
+#### Image
+
+
+```
+=export
+```
+#### OnSelect
+
+
+```
+=Select(Finish_SaveButton)
+```
+### TasksIcon As image
+
+#### Image
+
+
+```
+=tasks
+```
+### TaskGallery As gallery.galleryVertical
 
 #### Items
 
 
 ```
-=Sketches
+=Tasks
 ```
 #### OnSelect
 
 
 ```
-=Set(ShowOverlay, true);
-Set(SelectedImage, ThisItem)
+=If(CountRows(Tasks) > 0, 
+Set(SelectedTask, ThisItem);
+Set(TaskSelected, true);
+Set(UserSelected, true);
+Set(UserSelectedFromTasks, true);
+Set(SelectedUserTasks, ThisItem.AssignToUser);
+Set(ShowOverlay, true)
+)
 ```
-### AttachmentToDelete As image
+### TaskTitle As text
+
+## SketchScreen
+  
+---
+### SketchScreen As screen
+
+
+Create a sketch during a meeting.
+#### OnVisible
+
+
+```
+Set(ShowSketchSaved, false)
+```
+### AppLogo2 As image
 
 #### Image
 
 
 ```
-=SelectedImage.Image
+='nav-logo'
 ```
-### DeleteCertaintyText As label
+### NavHome2 As image
 
-#### Size
-
-
-```
-=10.5
-```
-#### Text
+#### Image
 
 
 ```
-="Are you sure you want to delete?"
+='nav-notes'
 ```
-### CancelDeleteAttach As button
+#### OnSelect
+
+
+```
+=Navigate(HomeScreen, None)
+```
+### NavSketch2 As image
+
+#### Image
+
+
+```
+='nav-sketch'
+```
+### NavPhotos2 As image
+
+#### Image
+
+
+```
+='nav-camera'
+```
+#### OnSelect
+
+
+```
+=Navigate(CameraScreen, None)
+```
+### SaveSketch As button
 
 #### OnSelect
 
 
 ```
-=Set(AttachmentDeleteConfirm, false);
-Set(ShowOverlay, false)
+=/*store sketches in sketch collection*/
+Set(SketchNumber, SketchNumber + 1);
+Collect(Sketches, {Image:SketchCanvas.Image, Name: "Sketch" & SketchNumber & ".jpg"});
+Reset(SketchCanvas);
+Set(ShowSketchSaved, true)
 ```
 #### Text
 
 
 ```
-=If(TaskSelected, "Delete", "Cancel")
-```
-### ConfirmDeleteAttach As button
-
-#### OnSelect
-
-
-```
-=Set(ShowOverlay, false);
-Set(AttachmentDeleteConfirm, false);
-RemoveIf(Sketches, SelectedImage.Name = Name);
-RemoveIf(Photos, SelectedImage.Name = Name)
-
-```
-#### Text
-
-
-```
-="Yes, delete"
+="Save sketch"
 ```
 ## CameraScreen
   
@@ -376,22 +489,160 @@ Set(ShowTakenImage, false)
 ```
 ='nav-camera'
 ```
-### BannerText As label
+## EmailScreen
+  
+---
+### EmailScreen As screen
+
+
+Email meeting notes to attendees
+### AppLogo4 As image
+
+#### Image
+
+
+```
+='nav-logo'
+```
+### SendEmail As button
+
+#### OnSelect
+
+
+```
+=Office365Outlook.SendEmail(Concat(EmailRecipients, UserPrincipalName & ";"), EmailSubject.Text, EmailMessage.Text, {Importance: "Normal"});
+/*Sets text to display email confirmation info*/
+Set(EmailConfirmed, true);
+Navigate(ConfirmScreen, None)
+```
+#### Text
+
+
+```
+="Send"
+```
+### GalleryBkg As button
 
 #### Text
 
 
 ```
-=If(ShowTakenImage, "Keep or discard this image?", ShowImageSaved, "Saved!", "Tap the image to take a photo")
+=""
 ```
-## CollectionsAndVariables
+### EmailRecipientGallery As gallery.galleryHorizontal
+
+#### Items
+
+
+```
+=EmailRecipients
+```
+### EmailSubject As text
+
+### EmailMessage As text
+
+## AttachmentsScreen
   
 ---
-### CollectionsAndVariables As screen
+### AttachmentsScreen As screen
 
 
-This screen lists all collections and variables used inside the app
+See attachments created during meeting
+### AppLogo5 As image
 
+#### Image
+
+
+```
+='nav-logo'
+```
+### PhotosIcon As image
+
+#### Image
+
+
+```
+='attachments-camera'
+```
+### PhotosGallery As gallery.galleryHorizontal
+
+#### Items
+
+
+```
+=Photos
+```
+#### OnSelect
+
+
+```
+=Set(ShowOverlay, true);
+Set(SelectedImage, ThisItem)
+```
+### SketchesIcon As image
+
+#### Image
+
+
+```
+='attachments-sketch'
+```
+### SketchesGallery As gallery.galleryHorizontal
+
+#### Items
+
+
+```
+=Sketches
+```
+#### OnSelect
+
+
+```
+=Set(ShowOverlay, true);
+Set(SelectedImage, ThisItem)
+```
+### AttachmentToDelete As image
+
+#### Image
+
+
+```
+=SelectedImage.Image
+```
+### CancelDeleteAttach As button
+
+#### OnSelect
+
+
+```
+=Set(AttachmentDeleteConfirm, false);
+Set(ShowOverlay, false)
+```
+#### Text
+
+
+```
+=If(TaskSelected, "Delete", "Cancel")
+```
+### ConfirmDeleteAttach As button
+
+#### OnSelect
+
+
+```
+=Set(ShowOverlay, false);
+Set(AttachmentDeleteConfirm, false);
+RemoveIf(Sketches, SelectedImage.Name = Name);
+RemoveIf(Photos, SelectedImage.Name = Name)
+
+```
+#### Text
+
+
+```
+="Yes, delete"
+```
 ## ConfirmScreen
   
 ---
@@ -452,235 +703,6 @@ If(ExportConfirmed,
     Set(Loading, false)
 )
 ```
-## EmailScreen
-  
----
-### EmailScreen As screen
-
-
-Email meeting notes to attendees
-### BannerHeader As label
-
-#### Size
-
-
-```
-=12
-```
-#### Text
-
-
-```
-=SelectedMeeting.Subject
-```
-### AppLogo4 As image
-
-#### Image
-
-
-```
-='nav-logo'
-```
-### EmailBannerText As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-="Email attendee" & If(MultiRecipients, "s") & ":"
-```
-### SendEmail As button
-
-#### OnSelect
-
-
-```
-=Office365Outlook.SendEmail(Concat(EmailRecipients, UserPrincipalName & ";"), EmailSubject.Text, EmailMessage.Text, {Importance: "Normal"});
-/*Sets text to display email confirmation info*/
-Set(EmailConfirmed, true);
-Navigate(ConfirmScreen, None)
-```
-#### Text
-
-
-```
-="Send"
-```
-### GalleryBkg As button
-
-#### Text
-
-
-```
-=""
-```
-### Label16 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Recipient" & If(MultiRecipients, "s (" & CountRows(EmailRecipients) & ")")
-```
-### EmailRecipientGallery As gallery.galleryHorizontal
-
-#### Items
-
-
-```
-=EmailRecipients
-```
-### Label16_1 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Subject"
-```
-### EmailSubject As text
-
-### Label16_2 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Message"
-```
-### EmailMessage As text
-
-## ExportPopUpsScreen
-  
----
-### ExportPopUpsScreen As screen
-
-### OverlayHeader_1 As label
-
-#### Size
-
-
-```
-=28
-```
-#### Text
-
-
-```
-=If(ShowOverlay, "Are you finished taking notes?", "Select Location")
-```
-### NotebookOrPlan_1 As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-=If(ShowOneNote, "Notebook", "Plan")
-```
-### SectionOrBucket_1 As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-=If(ShowOneNote, "Section", "Bucket")
-```
-### ExportCancel_1 As button
-
-#### OnSelect
-
-
-```
-=Set(ShowOneNote, false);
-Set(ShowPlanner, false);
-Set(ShowOverlay, false);
-Navigate(ExportScreen, None)
-```
-#### Text
-
-
-```
-=If(TaskSelected, "Delete", "Cancel")
-```
-### ExportConfirm_1 As button
-
-#### OnSelect
-
-
-```
-=If(ShowOneNote,
-    Set(ShowOneNote, false);
-    Set(SelectedNoteBook, OneNoteBookSelect_1.SelectedText);
-    Set(SelectedSection, SectionsSelect_1.SelectedText);
-    Navigate(ExportScreen, None),
-   ShowPlanner,
-    Set(ShowPlanner, false);
-    Set(SelectedPlan, PlannerPlanSelect_1.SelectedText);
-    Set(SelectedBucket, PlannerBucketSelect_1.SelectedText);
-    Navigate(ExportScreen, None),
-   ShowOverlay,
-    Set(ShowOverlay, false);
-    Set(ExportConfirmed, true);
-    Navigate(ConfirmScreen, None)
-)
-
-```
-#### Text
-
-
-```
-=If(ShowOverlay, "Yes, continue", "OK")
-```
-### ExportConfirmText_1 As label
-
-#### Size
-
-
-```
-=13.5
-```
-#### Text
-
-
-```
-="Once you Export, your meeting summary will be shared and you will no longer have access to the edit page."
-```
 ## ExportScreen
   
 ---
@@ -706,20 +728,6 @@ If(!IsEmpty(OneNoteBooks),ClearCollect(OneNoteSections,'OneNote(Business)'.GetSe
 If(IsEmpty(PlannerPlans), ClearCollect(PlannerPlans, Planner.ListMyPlans().value));
 If(!IsEmpty(PlannerPlans),ClearCollect(PlannerBuckets,Planner.ListBuckets(PlannerPlanSelect_1.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1Bid').value))
 ```
-### ExportMeetingSubject As label
-
-#### Size
-
-
-```
-=12
-```
-#### Text
-
-
-```
-=SelectedMeeting.Subject
-```
 ### AppLogo7 As image
 
 #### Image
@@ -727,42 +735,6 @@ If(!IsEmpty(PlannerPlans),ClearCollect(PlannerBuckets,Planner.ListBuckets(Planne
 
 ```
 ='nav-logo'
-```
-### ExportBannerHeader As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-="Export " & SelectedMeeting.Subject
-```
-### ExportQuestion As label
-
-#### Text
-
-
-```
-="Where would you like to export to?"
-```
-### DataLossWarnText As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Unless you select an export location, your meeting notes, attachments, and tasks will be lost once you exit the application."
 ```
 ### ExportButton As button
 
@@ -801,34 +773,6 @@ Navigate(ExportPopUpsScreen, None)
 ```
 ='one-note'
 ```
-### OneNoteHeader As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="OneNote"
-```
-### OneNoteExportDescript As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Export meeting summary, notes, attachments, and tasks to your OneNote."
-```
 ### ShowOneNoteSelection As button
 
 #### OnSelect
@@ -846,48 +790,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 ```
 =If(ExportToOneNote.Height > 0, "Select new location", "Select Location")
 ```
-### OneNoteDataLossDescript As label
-
-#### Size
-
-
-```
-=9
-```
-#### Text
-
-
-```
-="Photos and sketches cannot be exported to OneNote. ‘Export to Email’ to prevent attachments from being lost."
-```
-### OneNoteExportLocation As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-=SelectedNoteBook.Value & " - " & SelectedSection.'data-ADB4D7A662F548B49FAC2B986E348A1Bname'
-```
-### ExportToOneNote As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Export to:"
-```
 ### EmailIcon As image
 
 #### Image
@@ -895,34 +797,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 
 ```
 =outlook
-```
-### EmailHeader As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Email"
-```
-### EmailExportDescript As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Email meeting summary, notes, attachments, and tasks to the attendees."
 ```
 ### RecipientGalleryBkg As button
 
@@ -932,20 +806,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 ```
 =""
 ```
-### AttendeeCount As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Attendees (" & CountRows(EmailRecipients) & ")"
-```
 ### EmailRecipientsGallery As gallery.galleryVertical
 
 #### Items
@@ -953,20 +813,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 
 ```
 =EmailRecipients
-```
-### AddAttendee As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Add attendee"
 ```
 ### AssnTaskSearchUser_1 As text
 
@@ -984,14 +830,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 ```
 =If(Not(ThisItem.Id in EmailRecipients.Id), Collect(EmailRecipients, ThisItem))
 ```
-### LoadingIndicator2_1 As label
-
-#### Text
-
-
-```
-="Searching for users..."
-```
 ### PlannerIcon As image
 
 #### Image
@@ -999,34 +837,6 @@ ClearCollect(OneNoteSections, 'OneNote(Business)'.GetSectionsInNotebook(OneNoteB
 
 ```
 =planner
-```
-### OfficePlanner As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Office Planner"
-```
-### PlannerExportDescript As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Sync assigned tasks with Office Planner"
 ```
 ### ShowPlannerSelection As button
 
@@ -1042,34 +852,6 @@ Navigate(ExportPopUpsScreen, None)
 
 ```
 =If(PlannerExportTo.Height > 0, "Select new location", "Select Location")
-```
-### PlannerExportLocation As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-=SelectedPlan.'data-ADB4D7A662F548B49FAC2B986E348A1Btitle' & " - " & SelectedBucket.'data-ADB4D7A662F548B49FAC2B986E348A1Bname'
-```
-### PlannerExportTo As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Export to:"
 ```
 ## FollowUpScreen
   
@@ -1093,20 +875,6 @@ ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
 ```
 ='nav-logo'
 ```
-### FollowUpHeader As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-="Schedule a follow up meeting"
-```
 ### FindAvailableTimesButton As button
 
 #### OnSelect
@@ -1129,20 +897,6 @@ ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
 ```
 =""
 ```
-### FollowUpAttendeeCount As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Attendees (" & CountRows(FollowUpMeetingAttendees) & ")"
-```
 ### FollowUpAttendeesGall As gallery.galleryVertical
 
 #### Items
@@ -1150,20 +904,6 @@ ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
 
 ```
 =FollowUpMeetingAttendees
-```
-### AddFollowUpAttendee As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Add attendee"
 ```
 ### FollowUpSearchText As text
 
@@ -1181,36 +921,8 @@ ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
 ```
 =If(Not(ThisItem.Id in FollowUpMeetingAttendees.Id), Collect(FollowUpMeetingAttendees, ThisItem))
 ```
-### Label16_3 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Subject"
-```
 ### FollowUpSubject As text
 
-### Label16_4 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Message"
-```
 ### FollowUpMessage As text
 
 ## FollowUpTimesScreen
@@ -1242,20 +954,6 @@ ClearCollect(HoursList, {Name:"12:00 am",Minutes:0}, {Name:"12:30 am",Minutes:30
 ```
 ='nav-logo'
 ```
-### FollowUpTimesHeader As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-="Schedule a follow up meeting"
-```
 ### SendInvite As button
 
 #### OnSelect
@@ -1274,48 +972,6 @@ Navigate(ConfirmScreen,None)
 
 ```
 ="Send Invite"
-```
-### Label20_10 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Desired date for the meeting"
-```
-### Label20_12 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Desired time range"
-```
-### Label20_13 As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Meeting duration"
 ```
 ### LoadAvailableTimes As button
 
@@ -1346,20 +1002,6 @@ Set(Loading, false)
 ```
 =HoursList
 ```
-### SelectAvailableTime As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-="Select an available time"
-```
 ### AvailableTimesGall As gallery.galleryVertical
 
 #### Items
@@ -1367,14 +1009,6 @@ Set(Loading, false)
 
 ```
 =SortByColumns(MeetingTimes,"Confidence",Descending,"StartTime",Ascending)
-```
-### LoadingIndicator3 As label
-
-#### Text
-
-
-```
-="Retrieving available times..."
 ```
 ## HomePopUpsScreen
   
@@ -1397,50 +1031,8 @@ If(IsEmpty(MeetingAttendees),
     Set(Loading, false)
 )
 ```
-### AssnTaskHeader_1 As label
-
-#### Size
-
-
-```
-=27
-```
-#### Text
-
-
-```
-=If(ShowDataLossWarning, "Welcome to your meeting!", "Assign Task")
-```
 ### AssnTaskDescription_1 As text
 
-### AssnTaskDateHeader_1 As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Due date"
-```
-### AssnTaskToHeader_1 As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Assign to (your org only)"
-```
 ### AssnTaskGallery_2 As gallery.galleryVertical
 
 #### Items
@@ -1531,14 +1123,6 @@ If(!IsBlank(AssnTaskSearchUser_2.Text), Office365Users.SearchUser({searchTerm:Tr
 =Set(SelectedUser, {DisplayName:AssnTaskGallery_3.Selected.DisplayName, Id:AssnTaskGallery_3.Selected.Id, Image: AssnTaskGallery_3.Selected.AssnTaskUserImg_4.Image, JobTitle:AssnTaskGallery_3.Selected.JobTitle});
 Set(UserSelected, true)
 ```
-### LoadingIndicator2_2 As label
-
-#### Text
-
-
-```
-="Searching for users..."
-```
 ### AssnTaskUserImg_5 As image
 
 #### Image
@@ -1552,46 +1136,6 @@ Set(UserSelected, true)
 
 ```
 =
-```
-### AssnTaskUserName_5 As label
-
-#### OnSelect
-
-
-```
-=
-```
-#### Size
-
-
-```
-=8
-```
-#### Text
-
-
-```
-=If(UserSelectedFromTasks,SelectedUserTasks.DisplayName,SelectedUser.DisplayName)
-```
-### AssnTaskUserJob_5 As label
-
-#### OnSelect
-
-
-```
-=
-```
-#### Size
-
-
-```
-=8
-```
-#### Text
-
-
-```
-=If(UserSelectedFromTasks,SelectedUserTasks.JobTitle,SelectedUser.JobTitle)
 ```
 ### DataWarningAccept_1 As button
 
@@ -1608,460 +1152,61 @@ Navigate(HomeScreen, None)
 ```
 ="Got it!"
 ```
-### OrgAttendees_1 As label
-
-#### Text
-
-
-```
-="No attendees in your org"
-```
-## HomeScreen
+## ExportPopUpsScreen
   
 ---
-### HomeScreen As screen
+### ExportPopUpsScreen As screen
 
-
-The main screen for meeting captures during a meeting.
-
-- create meeting notes
-- create tasks
-- see meeting details
-
-#### OnVisible
-
-
-```
-/*if any additional meeting is captured in the same session, guarantees no confirmation screens are shown in error*/
-Set(FollowUpConfirmed, false);
-Set(EmailConfirmed, false);
-Set(ExportConfirmed, false)
-```
-### AppLogo1 As image
-
-#### Image
-
-
-```
-='nav-logo'
-```
-### NavHome1 As image
-
-#### Image
-
-
-```
-='nav-notes'
-```
-### NavSketch1 As image
-
-#### Image
-
-
-```
-='nav-sketch'
-```
-#### OnSelect
-
-
-```
-=Navigate(SketchScreen, None)
-```
-### NavPhotos1 As image
-
-#### Image
-
-
-```
-='nav-camera'
-```
-#### OnSelect
-
-
-```
-=Navigate(CameraScreen, None)
-```
-### AttendeesBanner As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Attendees"
-```
-### AttendeesBannerImage As image
-
-#### Image
-
-
-```
-=attendees
-```
-### AttendeeGallery1 As gallery.galleryVertical
-
-#### Items
-
-
-```
-=MeetingAttendees
-```
-### LoadingIndicator1 As label
-
-#### Size
-
-
-```
-=10
-```
-#### Text
-
-
-```
-="Gathering meeting attendees..."
-```
-### MailAllButton As button
+### ExportCancel_1 As button
 
 #### OnSelect
 
 
 ```
-=Navigate(EmailScreen, None);
-Set(MultiRecipients, true);
-ClearCollect(EmailRecipients, AttendeeGallery1.AllItems)
+=Set(ShowOneNote, false);
+Set(ShowPlanner, false);
+Set(ShowOverlay, false);
+Navigate(ExportScreen, None)
 ```
 #### Text
 
 
 ```
-="Email"
+=If(TaskSelected, "Delete", "Cancel")
 ```
-### NotesBanner As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Notes"
-```
-### NotesIcon As image
-
-#### Image
-
-
-```
-=notes
-```
-### NotesInput As text
-
-### DetailsBanner As label
-
-#### Text
-
-
-```
-="Meeting Details"
-```
-### MeetingTitle As label
-
-#### Size
-
-
-```
-=15
-```
-#### Text
-
-
-```
-=SelectedMeeting.Subject
-```
-### HomeTimeRange As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-=Text(SelectedMeeting.Start,"[$-en-US]mmmm dd, yyyy")&" | " & Lower(Text(SelectedMeeting.Start,"[$-en-US]hh:mm am/pm"))&" - "&Lower(Text(SelectedMeeting.End,"[$-en-US]hh:mm am/pm")) & " (" & DateDiff(SelectedMeeting.Start, SelectedMeeting.End, Minutes) & " minutes)"
-```
-### Finish_SaveButton As button
+### ExportConfirm_1 As button
 
 #### OnSelect
 
 
 ```
-=Navigate(ExportScreen, None)
-```
-#### Text
-
-
-```
-="Finish & Save"
-```
-### Finish_SaveIcon As image
-
-#### Image
-
-
-```
-=export
-```
-#### OnSelect
-
-
-```
-=Select(Finish_SaveButton)
-```
-### TasksBanner As label
-
-#### Size
-
-
-```
-=10.5
-```
-#### Text
-
-
-```
-="Planner Tasks"
-```
-### TasksIcon As image
-
-#### Image
-
-
-```
-=tasks
-```
-### TaskGallery As gallery.galleryVertical
-
-#### Items
-
-
-```
-=Tasks
-```
-#### OnSelect
-
-
-```
-=If(CountRows(Tasks) > 0, 
-Set(SelectedTask, ThisItem);
-Set(TaskSelected, true);
-Set(UserSelected, true);
-Set(UserSelectedFromTasks, true);
-Set(SelectedUserTasks, ThisItem.AssignToUser);
-Set(ShowOverlay, true)
+=If(ShowOneNote,
+    Set(ShowOneNote, false);
+    Set(SelectedNoteBook, OneNoteBookSelect_1.SelectedText);
+    Set(SelectedSection, SectionsSelect_1.SelectedText);
+    Navigate(ExportScreen, None),
+   ShowPlanner,
+    Set(ShowPlanner, false);
+    Set(SelectedPlan, PlannerPlanSelect_1.SelectedText);
+    Set(SelectedBucket, PlannerBucketSelect_1.SelectedText);
+    Navigate(ExportScreen, None),
+   ShowOverlay,
+    Set(ShowOverlay, false);
+    Set(ExportConfirmed, true);
+    Navigate(ConfirmScreen, None)
 )
-```
-### TaskTitle As text
 
-### InitialTaskCount As label
-
-#### Size
-
-
-```
-=10.5
 ```
 #### Text
 
 
 ```
-="0 tasks"
+=If(ShowOverlay, "Yes, continue", "OK")
 ```
-## SketchScreen
+## CollectionsAndVariables
   
 ---
-### SketchScreen As screen
+### CollectionsAndVariables As screen
 
 
-Create a sketch during a meeting.
-#### OnVisible
-
-
-```
-Set(ShowSketchSaved, false)
-```
-### AppLogo2 As image
-
-#### Image
-
-
-```
-='nav-logo'
-```
-### NavHome2 As image
-
-#### Image
-
-
-```
-='nav-notes'
-```
-#### OnSelect
-
-
-```
-=Navigate(HomeScreen, None)
-```
-### NavSketch2 As image
-
-#### Image
-
-
-```
-='nav-sketch'
-```
-### NavPhotos2 As image
-
-#### Image
-
-
-```
-='nav-camera'
-```
-#### OnSelect
-
-
-```
-=Navigate(CameraScreen, None)
-```
-### SaveSketch As button
-
-#### OnSelect
-
-
-```
-=/*store sketches in sketch collection*/
-Set(SketchNumber, SketchNumber + 1);
-Collect(Sketches, {Image:SketchCanvas.Image, Name: "Sketch" & SketchNumber & ".jpg"});
-Reset(SketchCanvas);
-Set(ShowSketchSaved, true)
-```
-#### Text
-
-
-```
-="Save sketch"
-```
-### SavedIndicator As label
-
-#### Size
-
-
-```
-=12
-```
-#### Text
-
-
-```
-="Saved!"
-```
-## WelcomeScreen
-  
----
-### WelcomeScreen As screen
-
-
-if any additional meeting is captured in the same session, guarantees all collections are empty
-#### OnVisible
-
-
-```
-Clear(MeetingAttendees);
-Clear(MeetingTimes);
-Clear(EmailRecipients);
-Clear(FollowUpMeetingAttendees);
-Clear(Tasks);
-Clear(Photos);
-Clear(Sketches);
-Clear(EmailAttachments);
-Reset(NotesInput);
-Reset(AssnTaskSearchUser_1);
-Set(FollowUpConfirmed, false);
-Set(EmailConfirmed, false);
-Set(ExportConfirmed, false);
-
-/*Email and OneNote templates with {placeholder} values for dynamic information*/
-
-ClearCollect(Templates,
-{Template: "Email", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><style>div{box-sizing:border-box}table{table-layout:fixed;background-color:#eaedef;width:829px;font-family:'Open Sans',sans-serif;color:#2c3034}table.with-border td{border:2px solid #e3e3e3;background-color:#fff;vertical-align:top}td.caption{height:65px;background:#ed2955;color:#fff;text-align:center;vertical-align:middle}.details{font-size:14px;color:#2c3034;padding-top:10px}.header{font-size:16px;font-weight:600}.mark{font-weight:400;color:#617281}.name{font-size:12px;font-weight:600;color:#ed2955}table.no-border td.user-name{font-size:14px;font-weight:600;color:#2c3034;vertical-align:middle;height:20px;}.due-time{text-align:right;font-size:10px;vertical-align:middle;color:#617281;font-weight:400}.assign-to{font-size:12px;color:#617281}.job-title{font-size:12px;color:#4a4a4a;height:20px}table.no-border{width:100%}table.no-border td{border:0}table.no-border td.task{padding:10px 0;border-top:1px solid #f1f1f1}.user-img img{width:17px;height:19px;border:0;}.name a.link-name,.name a.link-name:visited{color:#ed2955;text-decoration:none;}</style></head><body><table border='0' cellpadding='0' cellspacing='0'><tr><td class='caption'>[ Meeting Capture ]</td></tr><tr><td style='border: 0;background-color: #eaedef;padding:30px 0 0 0;text-align: center;color: #2c3034;font-size: 20px;font-weight: 600;'>" & "{MeetingName}" & "</td></tr><tr><td style='border: 0;background-color: #eaedef;padding: 9px 0 10px 0;text-align: center;color: #2c3034;font-size: 14px;'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}" & " - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</td></tr></table><table class='with-border' border='0' cellpadding='20' cellspacing='20'><tr>
-<td colspan='2' style='padding-bottom:10px;'><table border='0' cellpadding='0' cellspacing='0' class='no-border' style='table-layout:auto;'><tr><td colspan='3' class='header'>Attendees <span class='mark'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr><tr><td colspan='3' style='height:10px;'></td></tr>" & "{1}" & "</table></td></tr><tr><td colspan='2'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting details</td></tr><tr><td class='details'>" & "{MeetingDetails}" & "</td></tr></table></td></tr><tr><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header'>Meeting Notes</td></tr><tr><td class='details'>" & "{MeetingNotes}" & "</td></tr></table></td><td width='50%'><table border='0' cellpadding='0' cellspacing='0' class='no-border'><tr><td class='header' style='padding-bottom:10px;'>Tasks</td></tr>" & "{2}" & "</table></td></tr><tr><td style='border:0;background-color:#eaedef;padding:0;height:10px;'></td></tr></table></body></html>"},
-{Template: "OneNote", Value: "<!DOCTYPE html><html><head><title>" & "{MeetingName}" & "</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/></head><body data-absolute-enabled='true' style='font-family:Calibri;font-size:11pt'><div data-id='_default' style='position:absolute;left:48px;top:120px;width:829px;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td style='background-color:#ed2955;font-size:10pt;'>&nbsp;</td></tr><tr><td style='background-color:#ed2955;border:0px;text-align:center;font-weight:600;'><span style='color:white'>[ Meeting Capture ]</span></td></tr><tr><td style='background-color:#ed2955;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:15pt;color:#2c3034;font-weight:bold'>" & "{MeetingName}" & "</span></td></tr><tr><td style='background-color:#eaedef;border:0px;text-align:center;'><span style='font-size:10.5pt;color:#2c3034'>" & "{MeetingStartDate}" &" | " & "{MeetingStartTime}"&" - "& "{MeetingEndTime}" & " (" & "{MeetingMinutes}" & " Minutes)</span></td></tr><tr><td style='background-color:#eaedef;font-size:14pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><colgroup><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'><col style='width: 210px;'></colgroup><tr><td colspan='4' style='font-size:14pt;'><span style='font-weight:600;color:#2c3034'>Attendees</span>&nbsp;<span style='color:#617281'>(" & "{MeetingAttendeeNum}" & ")</span></td></tr>" & "{1}" & "</table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'><table border='0' cellpadding='0' cellspacing='0' width='829'><tr><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034'>Meeting Notes</td><td width='420' style='font-size:14pt;font-weight:600;color:#2c3034;border:10px solid red;'>Tasks</td></tr><tr><td style='font-size:12pt;color:#2c3034'>" & "{MeetingNotes}" & "</td><td style='font-size:14pt;font-weight:600;color:#2c3034'><table border='0' cellpadding='0' cellspacing='0' width='420'>" & "{2}" & "</table></td></tr></table></td></tr><tr><td style='background-color:#ffffff;font-size:8pt;'>&nbsp;</td></tr><tr><td style='background-color:white;'></td></tr><tr><td style='background-color:#eaedef;font-size:26.5pt;'>&nbsp;</td></tr></table></div></body></html>"})
-```
-### MeetingsGalleryBkg As button
-
-#### OnSelect
-
-
-```
-=Select(Parent)
-```
-#### Text
-
-
-```
-=""
-```
-### LblMeetTitle As label
-
-#### OnSelect
-
-
-```
-=Select(Parent)
-```
-#### Text
-
-
-```
-=ThisItem.Subject
-```
-### LblStart_End As label
-
-#### OnSelect
-
-
-```
-=Select(Parent)
-```
-#### Text
-
-
-```
-=Lower(Text(ThisItem.Start,"[$-en-US]hh:mm am/pm"))&" - "&Lower(Text(ThisItem.End,"[$-en-US]hh:mm am/pm"))&" |  "&ThisItem.Location
-```
-### BtnChangeAuto As button
-
-#### OnSelect
-
-
-```
-=Set(AutoSelectMeeting, false)
-```
-#### Text
-
-
-```
-="Change"
-```
+This screen lists all collections and variables used inside the app
