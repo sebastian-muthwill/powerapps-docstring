@@ -151,9 +151,12 @@ class Docstring():
                                 to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
                                 screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
                 
-
-        #print(screenflow_list)
         screenflow_list.append(":::")
+
+        # to avoid double entrys in the graph
+        # the doubled items are removed by convertig to dict and back to list
+        screenflow_list = list(dict.fromkeys(screenflow_list))
+
         return screenflow_list  #"\n".join(screenflow_list)
 
 
