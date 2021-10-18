@@ -34,12 +34,11 @@ class Parser():
         screen_name = list(screen_content.keys())[0].split(" ")[0]
         return screen_name, screen_content
 
-    def get_app_name(self):
+    def get_canvas_manifest(self):
         app_name = "PowerApp_Documentation"
         # get name from CanvasManifest.json
         if os.path.isfile(self.source_path + "CanvasManifest.json"):
             with open(self.source_path + "CanvasManifest.json", "r", encoding="utf-8") as file:
                 canvas_manifest = json.load(file)
-                app_name = canvas_manifest["PublishInfo"]["AppName"]
 
-        return app_name
+        return canvas_manifest

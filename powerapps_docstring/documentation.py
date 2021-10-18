@@ -12,16 +12,21 @@ class Docstring():
         self.output_path = output
         self.parser = Parser(self.source_path)
         self.config = config
+        self.manifest_file = self.parser.get_canvas_manifest()
         self.relevant_objects = self.config["RelevantObjects"]
         self.relevant_object_keys = [f" As {x}" for x in self.relevant_objects.keys()]
 
     def _get_screen_files(self):
         screen_files = []
         screens_path = self.source_path + "/Src/"
-        for file in os.listdir(screens_path):
-            if os.path.isfile(screens_path + file) & file.endswith(".yaml"):
-                if file != "App.fx.yaml":
-                    screen_files.append(file)
+
+        # read screen order from manifest and check if files exists
+        screen_order = self.manifest_file["ScreenOrder"]
+        for screen in screen_order:
+            screen_file_name = screen + ".fx.yaml"
+            if screen_file_name in os.listdir(screens_path):
+                if screen_file_name != "App.fx.yaml":
+                    screen_files.append(screen_file_name)
         
         return screen_files
 
@@ -119,33 +124,39 @@ class Docstring():
 
         screen_files = self._get_screen_files()
         screens_path = self.source_path + "/Src/"
+
         for screen in screen_files:
-            screen_obj = self.parser.get_screen_objects(screen)
-            from_screen = screen_obj[0]
-            list_of_onselects = get_recursively(screen_obj[1], "OnSelect")
+            # check if screen has been excluded
+            if screen.replace(".fx.yaml", "") not in self.config["ScreenFlow"]["ExcludeScreens"]:
+                screen_obj = self.parser.get_screen_objects(screen)
+                from_screen = screen_obj[0]
+                list_of_onselects = get_recursively(screen_obj[1], "OnSelect")
 
-            for item in list_of_onselects:
-                if "Navigate(" in item:
+                for item in list_of_onselects:
+                    if "Navigate(" in item:
 
-                    item = item.strip().replace("\n", "").replace("\t", "").replace(" ", "")
-                    navigate_occurences = [m.start() for m in re.finditer('Navigate\(', item)]
+                        item = item.strip().replace("\n", "").replace("\t", "").replace(" ", "")
+                        navigate_occurences = [m.start() for m in re.finditer('Navigate\(', item)]
 
-                    for occurence in navigate_occurences:
-                        #print(occurence)
-                        start = occurence + len("Navigate(")
-                        #print(start)
-                        end = item[start:].find(",")
-                        if end == -1:
-                            end = item[start:].find(")")
-                        end = end + start
-                        to_screen = item[start:end]
-                        if to_screen != None and to_screen != "" and not to_screen.startswith("[@"):
-                            to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
-                            screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
+                        for occurence in navigate_occurences:
+                            #print(occurence)
+                            start = occurence + len("Navigate(")
+                            #print(start)
+                            end = item[start:].find(",")
+                            if end == -1:
+                                end = item[start:].find(")")
+                            end = end + start
+                            to_screen = item[start:end]
+                            if to_screen != None and to_screen != "" and not to_screen.startswith("[@") and to_screen not in self.config["ScreenFlow"]["ExcludeScreens"]:
+                                to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
+                                screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
                 
-
-        #print(screenflow_list)
         screenflow_list.append(":::")
+
+        # to avoid double entrys in the graph
+        # the doubled items are removed by convertig to dict and back to list
+        screenflow_list = list(dict.fromkeys(screenflow_list))
+
         return screenflow_list  #"\n".join(screenflow_list)
 
 
@@ -158,7 +169,7 @@ class Docstring():
 
         # instantiate the md file
         # TODO: get title from docstring variable
-        app_name = self.parser.get_app_name()
+        app_name = self.manifest_file["PublishInfo"]["AppName"]
         self.md_file = MdUtils(file_name=self.output_path +
                           f'/{app_name}-doc', title='Power App Documentation')
 
@@ -215,11 +226,9 @@ class Docstring():
 
         # loop thru all screens and create markdown
         screens_path = self.source_path + "/Src/"
-        for file in os.listdir(screens_path):
-            if os.path.isfile(screens_path + file) & file.endswith(".yaml"):
-                if file != "App.fx.yaml":
-                    screen_objects = self.parser.get_screen_objects(file)
-                    self._extract_screen_content_to_markdown(screen_objects)
+        for file in self._get_screen_files():
+            screen_objects = self.parser.get_screen_objects(file)
+            self._extract_screen_content_to_markdown(screen_objects)
         
         # write toc + file
         self.md_file.new_table_of_contents(table_title='Contents', depth=2)
