@@ -31,7 +31,7 @@ class Parser():
     def get_screen_objects(self, screen_name) -> tuple:
         screen_content = self._get_screen_content(screen_name)
         # print(screen_content)
-        screen_name = list(screen_content.keys())[0].split(" ")[0]
+        screen_name = screen_name.replace(".fx.yaml", "")
         return screen_name, screen_content
 
     def get_canvas_manifest(self):
