@@ -90,7 +90,7 @@ CameraScreen As screen:
             HoverFill: =ColorFade(HomeMenuBkg_3.Fill, 20%)
             Image: ='nav-sketch'
             ImagePosition: =ImagePosition.Center
-            OnSelect: =Navigate(SketchScreen, None)
+            OnSelect: =Navigate('Sketch Screen', None)
             PressedBorderColor: =ColorFade(NavSketch3.BorderColor, -20%)
             PressedFill: =ColorFade(NavSketch3.Fill, -20%)
             Width: =HomeMenuBkg_3.Width

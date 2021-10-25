@@ -7,9 +7,10 @@
     "connectionRef": {
       "apiTier": "Standard",
       "displayName": "OneNote (Business)",
-      "iconUri": "https://connectoricons-prod.azureedge.net/onenote/icon_1.0.1306.1889.png",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1527/1.0.1527.2580/onenote/icon.png",
       "id": "/providers/microsoft.powerapps/apis/shared_onenote",
-      "parameterHints": {}
+      "parameterHints": {},
+      "parameterHintsV2": {}
     },
     "datasets": {},
     "dataSources": [
@@ -27,9 +28,10 @@
     "connectionRef": {
       "apiTier": "Standard",
       "displayName": "Planner",
-      "iconUri": "https://connectoricons-prod.azureedge.net/planner/icon_1.0.1288.1786.png",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1513/1.0.1513.2549/planner/icon.png",
       "id": "/providers/microsoft.powerapps/apis/shared_planner",
-      "parameterHints": {}
+      "parameterHints": {},
+      "parameterHintsV2": {}
     },
     "datasets": {},
     "dataSources": [
@@ -46,10 +48,11 @@
     },
     "connectionRef": {
       "apiTier": "Standard",
-      "displayName": "Office 365 Users",
-      "iconUri": "https://connectoricons-prod.azureedge.net/office365users/icon_1.0.1309.1901.png",
+      "displayName": "Office 365-Benutzer",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1528/1.0.1528.2589/office365users/icon.png",
       "id": "/providers/microsoft.powerapps/apis/shared_office365users",
-      "parameterHints": {}
+      "parameterHints": {},
+      "parameterHintsV2": {}
     },
     "datasets": {},
     "dataSources": [
@@ -65,9 +68,12 @@
       "sku": "Enterprise"
     },
     "connectionRef": {
+      "apiTier": "Standard",
       "displayName": "Office 365 Outlook",
-      "iconUri": "https://connectoricons-prod.azureedge.net/office365/icon_1.0.1316.1923.png",
-      "id": "/providers/microsoft.powerapps/apis/shared_office365"
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1521/1.0.1521.2575/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
     },
     "datasets": {},
     "dataSources": [

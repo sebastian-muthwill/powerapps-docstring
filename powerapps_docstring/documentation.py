@@ -135,7 +135,7 @@ class Docstring():
                 for item in list_of_onselects:
                     if "Navigate(" in item:
 
-                        item = item.strip().replace("\n", "").replace("\t", "").replace(" ", "")
+                        item = item.strip().replace("\n", "").replace("\t", "")
                         navigate_occurences = [m.start() for m in re.finditer('Navigate\(', item)]
 
                         for occurence in navigate_occurences:
@@ -147,9 +147,9 @@ class Docstring():
                                 end = item[start:].find(")")
                             end = end + start
                             to_screen = item[start:end]
+                            to_screen = to_screen.replace("\n", "").replace("\t", "").replace(")", "").replace("'", "")
                             if to_screen != None and to_screen != "" and not to_screen.startswith("[@") and to_screen not in self.config["ScreenFlow"]["ExcludeScreens"]:
-                                to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
-                                screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
+                                screenflow_list.append(from_screen + " ==> " + to_screen)
                 
         screenflow_list.append(":::")
 

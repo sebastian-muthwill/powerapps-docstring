@@ -25,6 +25,9 @@ Once the application finished successfully the documentation file is created in 
 ### Example
 The example [Meeting Capture Demo-doc.md](example/Meeting Capture Demo-doc.md) is based on the template "Meeting Capture App" provided by Microsoft. The app has not been modified except docstrings have been added within the `OnVisible` propperties of each screen as well as `OnStart`. The source files are also available in the example folder.
 
+![PowerApps_Docstring_demo](https://user-images.githubusercontent.com/10375725/137876032-42aea559-bd16-4c23-a15d-4512dd12f524.gif)
+
+
 ### Known issues / optimizations
 - screens are not in the order as in Power Apps Studio see: #10
 - mermaid graph looks wierd whe to many screens and is not displayed in github since github currently does not support mermaid
