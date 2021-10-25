@@ -1,10 +1,13 @@
-SketchScreen As screen:
+"'Sketch Screen' As screen":
     Height: =Max(App.Height, App.DesignHeight)
     OnVisible: |-
-        =/*Create a sketch during a meeting.*/
+        =/*Create a sketch during a meeting.
+        
+        The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names with blank
+        */
         Set(ShowSketchSaved, false)
-    Orientation: =If(SketchScreen.Width < SketchScreen.Height, Layout.Vertical, Layout.Horizontal)
-    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= SketchScreen.Width)
+    Orientation: =If('Sketch Screen'.Width < 'Sketch Screen'.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= 'Sketch Screen'.Width)
     Width: =Max(App.Width, App.DesignWidth)
 
     SketchCanvas As inkControl:

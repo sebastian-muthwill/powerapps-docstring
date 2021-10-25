@@ -9,7 +9,6 @@ HomeScreen As screen:
         - see meeting details
         */
         
-        /*if any additional meeting is captured in the same session, guarantees no confirmation screens are shown in error*/
         Set(FollowUpConfirmed, false);
         Set(EmailConfirmed, false);
         Set(ExportConfirmed, false)
@@ -69,7 +68,7 @@ HomeScreen As screen:
             HoverFill: =ColorFade(HomeMenuBkg_1.Fill, 20%)
             Image: ='nav-sketch'
             ImagePosition: =ImagePosition.Center
-            OnSelect: =Navigate(SketchScreen, None)
+            OnSelect: =Navigate('Sketch Screen', None)
             PressedBorderColor: =ColorFade(NavSketch1.BorderColor, -20%)
             PressedFill: =ColorFade(NavSketch1.Fill, -20%)
             Width: =HomeMenuBkg_1.Width

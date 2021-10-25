@@ -2,7 +2,6 @@ App As appinfo:
     BackEnabled: =false
     OnStart: |-
         =/* An all-in-one meeting capture tool.
-        ![](src\meetingcapturedemo\Assets\Images\meeting-capture-logo-full%403x.png)
         
         This tool helps you to keep everythin in one place during your meetings.
         
@@ -10,7 +9,7 @@ App As appinfo:
         - View meeting details
         - capture notes and pictures of whiteboards
         - assign tasks
-        - send meeeting notes to all attendees in one click
+        - send meeting notes to all attendees in one click
         
         */
         

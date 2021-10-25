@@ -52,6 +52,7 @@
       "projectionmapping": false,
       "reactformulabar": false,
       "reliableconcurrent": true,
+      "rtlsupport": false,
       "usedisplaynamemetadata": false,
       "useenforcesavedatalimits": false,
       "useexperimentalcdsconnector": false,
@@ -92,7 +93,7 @@
   "ScreenOrder": [
     "WelcomeScreen",
     "HomeScreen",
-    "SketchScreen",
+    "Sketch Screen",
     "CameraScreen",
     "EmailScreen",
     "AttachmentsScreen",
