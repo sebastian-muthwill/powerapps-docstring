@@ -22,6 +22,7 @@ Contents
 	* [HomePopUpsScreen](#homepopupsscreen)
 	* [ExportPopUpsScreen](#exportpopupsscreen)
 	* [CollectionsAndVariables](#collectionsandvariables)
+	* [TestEmptyScreen](#testemptyscreen)
   
   
 
@@ -1214,3 +1215,8 @@ Navigate(ExportScreen, None)
 
 
 This screen lists all collections and variables used inside the app
+
+## TestEmptyScreen
+  
+---
+### TestEmptyScreen As screen
