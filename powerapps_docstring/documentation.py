@@ -65,9 +65,14 @@ class Docstring():
                     rel_obj_key = rel_obj
                     break
 
+            # key is header
             if rel_obj_key != None:
                 # we found a header
                 self.md_file.new_header(level=3, title=key)
+
+                # check if value has content (deals with blank screens)
+                if not value:
+                    return
 
                 for sub_dict_key, sub_dict_item in value.items():
                     if sub_dict_key in self.relevant_objects.get(rel_obj_key):

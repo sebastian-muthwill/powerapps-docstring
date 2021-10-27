@@ -103,6 +103,7 @@
     "FollowUpTimesScreen",
     "HomePopUpsScreen",
     "ExportPopUpsScreen",
-    "CollectionsAndVariables"
+    "CollectionsAndVariables",
+    "TestEmptyScreen"
   ]
 }
