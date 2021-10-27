@@ -11,7 +11,7 @@ Contents
 * [Screens](#screens)
 	* [WelcomeScreen](#welcomescreen)
 	* [HomeScreen](#homescreen)
-	* [SketchScreen](#sketchscreen)
+	* [Sketch Screen](#sketch-screen)
 	* [CameraScreen](#camerascreen)
 	* [EmailScreen](#emailscreen)
 	* [AttachmentsScreen](#attachmentsscreen)
@@ -22,6 +22,7 @@ Contents
 	* [HomePopUpsScreen](#homepopupsscreen)
 	* [ExportPopUpsScreen](#exportpopupsscreen)
 	* [CollectionsAndVariables](#collectionsandvariables)
+	* [TestEmptyScreen](#testemptyscreen)
   
   
 
@@ -29,15 +30,16 @@ Contents
 
 
  An all-in-one meeting capture tool.
-![](src\meetingcapturedemo\Assets\Images\meeting-capture-logo-full%403x.png)
 
 This tool helps you to keep everythin in one place during your meetings.
 
-Key features are:
+Key 
+features are:
 - View meeting details
 - capture notes and pictures of whiteboards
 - assign tasks
-- send meeeting notes to all attendees in one click
+- send meeting notes to 
+all attendees in one click
 
   
 
@@ -85,7 +87,7 @@ With following datasources:
 - Planner
   
   
-**Office 365 Users (Standard)**  
+**Office 365-Benutzer (Standard)**  
   
 sku: Enterprise  
   
@@ -94,7 +96,7 @@ With following datasources:
 - Office365Users
   
   
-**Office 365 Outlook**  
+**Office 365 Outlook (Standard)**  
   
 sku: Enterprise  
   
@@ -108,16 +110,16 @@ With following datasources:
 :::mermaid  
 graph LR  
 WelcomeScreen ==> HomePopUpsScreen  
-HomeScreen ==> SketchScreen  
+HomeScreen ==> Sketch Screen  
 HomeScreen ==> CameraScreen  
 HomeScreen ==> EmailScreen  
 HomeScreen ==> AttachmentsScreen  
 HomeScreen ==> ExportScreen  
 HomeScreen ==> HomePopUpsScreen  
-SketchScreen ==> HomeScreen  
-SketchScreen ==> CameraScreen  
+Sketch Screen ==> HomeScreen  
+Sketch Screen ==> CameraScreen  
 CameraScreen ==> HomeScreen  
-CameraScreen ==> SketchScreen  
+CameraScreen ==> Sketch Screen  
 EmailScreen ==> ConfirmScreen  
 ConfirmScreen ==> HomeScreen  
 ConfirmScreen ==> FollowUpScreen  
@@ -206,7 +208,6 @@ The main screen for meeting captures during a meeting.
 
 
 ```
-/*if any additional meeting is captured in the same session, guarantees no confirmation screens are shown in error*/
 Set(FollowUpConfirmed, false);
 Set(EmailConfirmed, false);
 Set(ExportConfirmed, false)
@@ -239,7 +240,7 @@ Set(ExportConfirmed, false)
 
 
 ```
-=Navigate(SketchScreen, None)
+=Navigate('Sketch Screen', None)
 ```
 ### NavPhotos1 As image
 
@@ -356,13 +357,17 @@ Set(ShowOverlay, true)
 ```
 ### TaskTitle As text
 
-## SketchScreen
+## Sketch Screen
   
 ---
-### SketchScreen As screen
+### 'Sketch Screen' As screen
 
 
 Create a sketch during a meeting.
+
+The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names 
+with blank
+
 #### OnVisible
 
 
@@ -479,7 +484,7 @@ Set(ShowTakenImage, false)
 
 
 ```
-=Navigate(SketchScreen, None)
+=Navigate('Sketch Screen', None)
 ```
 ### NavPhotos3 As image
 
@@ -1210,3 +1215,8 @@ Navigate(ExportScreen, None)
 
 
 This screen lists all collections and variables used inside the app
+
+## TestEmptyScreen
+  
+---
+### TestEmptyScreen As screen

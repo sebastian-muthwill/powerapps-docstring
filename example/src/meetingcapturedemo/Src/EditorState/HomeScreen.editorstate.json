@@ -7144,7 +7144,7 @@
     "LayoutName": "",
     "MetaDataIDKey": "",
     "Name": "NavSketch1",
-    "ParentIndex": 10,
+    "ParentIndex": 12,
     "PersistMetaDataIDKey": false,
     "Properties": [
       {
@@ -8157,7 +8157,7 @@
     "LayoutName": "",
     "MetaDataIDKey": "",
     "Name": "Progress",
-    "ParentIndex": 12,
+    "ParentIndex": 11,
     "PersistMetaDataIDKey": false,
     "Properties": [
       {
@@ -8297,7 +8297,7 @@
     "LayoutName": "",
     "MetaDataIDKey": "",
     "Name": "ProgressBkg",
-    "ParentIndex": 11,
+    "ParentIndex": 10,
     "PersistMetaDataIDKey": false,
     "Properties": [
       {

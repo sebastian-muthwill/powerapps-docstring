@@ -65,9 +65,14 @@ class Docstring():
                     rel_obj_key = rel_obj
                     break
 
+            # key is header
             if rel_obj_key != None:
                 # we found a header
                 self.md_file.new_header(level=3, title=key)
+
+                # check if value has content (deals with blank screens)
+                if not value:
+                    return
 
                 for sub_dict_key, sub_dict_item in value.items():
                     if sub_dict_key in self.relevant_objects.get(rel_obj_key):
@@ -135,7 +140,7 @@ class Docstring():
                 for item in list_of_onselects:
                     if "Navigate(" in item:
 
-                        item = item.strip().replace("\n", "").replace("\t", "").replace(" ", "")
+                        item = item.strip().replace("\n", "").replace("\t", "")
                         navigate_occurences = [m.start() for m in re.finditer('Navigate\(', item)]
 
                         for occurence in navigate_occurences:
@@ -147,9 +152,9 @@ class Docstring():
                                 end = item[start:].find(")")
                             end = end + start
                             to_screen = item[start:end]
+                            to_screen = to_screen.replace("\n", "").replace("\t", "").replace(")", "").replace("'", "")
                             if to_screen != None and to_screen != "" and not to_screen.startswith("[@") and to_screen not in self.config["ScreenFlow"]["ExcludeScreens"]:
-                                to_screen = to_screen.replace("\n", "").replace("\t", "").replace(" ", "").replace(")", "")
-                                screenflow_list.append(from_screen + " ==> " + to_screen.replace("\n", "").replace("\t", "").replace(" ", ""))
+                                screenflow_list.append(from_screen + " ==> " + to_screen)
                 
         screenflow_list.append(":::")
 
