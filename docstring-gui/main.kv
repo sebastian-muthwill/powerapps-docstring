@@ -1,0 +1,90 @@
+#:include screens/result_screen/result_screen.kv
+ 
+ScreenManager:
+    MainScreen:
+    ResultScreen:
+
+<MainScreen>
+    name: "main-screen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: False
+        spacing: 50
+
+        MDToolbar:
+            title: "Power Apps - Docstring"
+            MDIconButton:
+                halign: "right"
+                pos_hint: { 'center_y' : .5}
+                icon: "close"
+                theme_text_color: "Custom"
+                text_color: "white"
+                on_press: app.stop()
+
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint: (0.8, 1)
+            pos_hint: { 'left' : .9, 'right': .9}
+            adaptive_height: False   
+
+            MDLabel:
+                text: "Create documentation from Power Apps source code."
+                font_style: "H5"
+                halign: "center"
+                pos_hint: { 'center_y' : .1}
+            
+            MDLabel:
+                text: "Provide the path to your source folder of your unpacked Power App as well as the output folder where the documentation is stored. Additionaly the path to a config.yaml can be spcified."
+                halign: "center"
+            
+            MDTextField:
+                hint_text: "Source path"
+                #mode: "rectangle"
+                required: True
+                helper_text: "/path/to/src/app"
+                helper_text_mode: "persistent"
+            
+            MDTextField:
+                hint_text: "Output path"
+                #mode: "rectangle"
+                required: True
+                helper_text: "./output/"
+                helper_text_mode: "persistent"
+            
+            MDTextField:
+                hint_text: "Config path"
+                #mode: "rectangle"
+                required: False
+                helper_text: "/path/to/config.yaml"
+                helper_text_mode: "persistent"
+            
+            MDBoxLayout:
+                orientation: "vertical"
+
+                MDProgressBar:
+                    orientation: "horizontal"
+                    value: 20
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    #size_hint: (0.8, 1)
+                    #pos_hint: { 'right': .9}
+                    adaptive_height: False
+
+                    MDLabel:
+                        text: "Step 1"
+                        halign: "left"
+                        pos_hint: { 'center_y' : .5}
+                
+                    MDRaisedButton:
+                        text: "Next step"
+                        halign: "right"
+                        background_color : 0, 0, 0, 1
+                        #padding_y: 50
+                        pos_hint: { 'top' : .8}
+                        on_press:
+                            root.manager.transition.direction = 'left'
+                            root.manager.current = "result-screen"
+                

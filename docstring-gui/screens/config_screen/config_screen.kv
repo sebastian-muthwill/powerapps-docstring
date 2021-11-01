@@ -1,0 +1,26 @@
+<ConfigScreen>
+    name: "config-screen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: False
+        spacing: 50
+
+
+        MDToolbar:
+            title: "Configuration "
+
+
+        MDLabel:
+            text: "Create documentation from Power Apps source code."
+            halign: "center"
+            valign: "top"
+
+        MDRaisedButton:
+            text: "create documentation"
+            background_color : 0, 0, 0, 1
+            #padding: 50
+            pos_hint: { 'top' : .9, 'right': .9}
+            on_press: 
+                root.manager.transition.direction = 'right'
+                root.manager.current = "main-screen"
