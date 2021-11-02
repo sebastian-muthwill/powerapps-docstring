@@ -2,6 +2,7 @@ import os, sys, getopt
 import yaml
 from powerapps_docstring.powerapp import PowerApp, UnknownSourceException
 from powerapps_docstring.documentation import Docstring
+from docstring_gui import main as gui_main
 
 def main(argv):
     """main
@@ -19,7 +20,7 @@ def main(argv):
 
     # if programm started without arguments, we end with the help message
     if len(opts) == 0:
-        print_help()
+        gui_main()
         sys.exit(1)
 
     source_path = None

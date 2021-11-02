@@ -33,13 +33,11 @@ Contents
 
 This tool helps you to keep everythin in one place during your meetings.
 
-Key 
-features are:
+Key features are:
 - View meeting details
 - capture notes and pictures of whiteboards
 - assign tasks
-- send meeting notes to 
-all attendees in one click
+- send meeting notes to all attendees in one click
 
   
 
@@ -365,8 +363,7 @@ Set(ShowOverlay, true)
 
 Create a sketch during a meeting.
 
-The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names 
-with blank
+The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names with blank
 
 #### OnVisible
 

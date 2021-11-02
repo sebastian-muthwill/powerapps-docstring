@@ -1,6 +1,8 @@
 <ResultScreen>
     name: "result-screen"
 
+    output_file: output_file
+
     MDBoxLayout:
         orientation: "vertical"
         adaptive_height: False
@@ -38,6 +40,13 @@
                 text: "Documentation created!"
                 halign: "center"
                 pos_hint: { 'top' : .1}
+            
+            MDFlatButton:
+                id: output_file
+                text: "placeholder"
+                halign: "center"
+                pos_hint: { 'top' : .1, 'center_x': .5}
+                #on_press: root.open_file(self.text)
 
             MDBoxLayout:
                 orientation: "vertical"
