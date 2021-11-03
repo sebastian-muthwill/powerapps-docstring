@@ -20,3 +20,11 @@ ScreenFlow:
     # By default all screens from CanvasManifest.json will be used in same sequence.
     # If screens shall be excluded from the graph, list them here. 
     ExcludeScreens: []
+
+# Changing the document structure.
+# usually there are at least (App, Connections and Screens available (in this order))
+# the sequence of the chapters can be changed here. 
+DocumentStructure:
+- App
+- Connections
+- Screens
