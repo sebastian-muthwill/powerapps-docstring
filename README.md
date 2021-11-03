@@ -29,7 +29,6 @@ The example [Meeting Capture Demo-doc.md](example/Meeting Capture Demo-doc.md) i
 
 
 ### Known issues / optimizations
-- screens are not in the order as in Power Apps Studio see: #10
 - mermaid graph looks wierd whe to many screens and is not displayed in github since github currently does not support mermaid
 - currently not tested with modell driven apps
 

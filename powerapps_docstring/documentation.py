@@ -164,20 +164,7 @@ class Docstring():
 
         return screenflow_list  #"\n".join(screenflow_list)
 
-
-
-    def create_documentation(self, format=None):
-        if format == None:
-            self.format = "markdown"
-        else:
-            self.format = format
-
-        # instantiate the md file
-        # TODO: get title from docstring variable
-        app_name = self.manifest_file["PublishInfo"]["AppName"]
-        self.md_file = MdUtils(file_name=self.output_path +
-                          f'/{app_name}-doc', title='Power App Documentation')
-
+    def _create_chapter_app(self, app_name):
         # # APP # #
         # get contents from App.fx.yaml
         app_screen = self.parser.get_screen_objects("App.fx.yaml")
@@ -195,7 +182,9 @@ class Docstring():
             self.md_file.new_line("")
             self.md_file.new_header(level=2, title="OnStart")
             self.md_file.insert_code(appinfo[2])
-            
+
+    
+    def _create_chapter_connections(self):
         # # Connections # #
         # writing connections header
         self.md_file.new_header(level=1, title="Connections")
@@ -221,6 +210,8 @@ class Docstring():
                 self.md_file.new_list([x for x in connection[1]["dataSources"]])
                 self.md_file.new_line("")
 
+
+    def _create_chapter_screens(self):
         # # Screen # #
         self.md_file.new_header(level=1, title="Screens")
         # TODO: add screenflow visualization
@@ -234,6 +225,27 @@ class Docstring():
         for file in self._get_screen_files():
             screen_objects = self.parser.get_screen_objects(file)
             self._extract_screen_content_to_markdown(screen_objects)
+
+
+    def create_documentation(self, format=None):
+        if format == None:
+            self.format = "markdown"
+        else:
+            self.format = format
+
+        # instantiate the md file
+        # TODO: get title from docstring variable
+        app_name = self.manifest_file["PublishInfo"]["AppName"]
+        self.md_file = MdUtils(file_name=self.output_path +
+                          f'/{app_name}-doc', title='Power App Documentation')
+
+        for chapter in self.config["DocumentStructure"]:
+            if chapter == "App":
+                self._create_chapter_app(app_name=app_name)
+            elif chapter == "Connections":
+                self._create_chapter_connections()
+            elif chapter == "Screens":
+                self._create_chapter_screens()
         
         # write toc + file
         self.md_file.new_table_of_contents(table_title='Contents', depth=2)

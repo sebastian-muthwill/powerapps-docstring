@@ -20,7 +20,7 @@ class PowerApp():
         elif self.source_type == "zip":
             # TODO: unzip and unpack msssap to retrieve src folder
             pass
-        elif self.source_type == "mssap":
+        elif self.source_type == "msapp":
             # TODO: unpack msssap to retrieve src folder
             pass
 
@@ -29,10 +29,10 @@ class PowerApp():
     def _check_source_type(self) -> str:
         if os.path.isdir(self.source):
             return "directory"
-        elif os.path.isfile(self.source) and self.source.endswith(".Zip"):
+        elif os.path.isfile(self.source) and self.source.endswith(".zip"):
             return "zip"
-        elif os.path.isfile(self.source) and self.source.endswith(".mssap"):
-            return "mssap"
+        elif os.path.isfile(self.source) and self.source.endswith(".msapp"):
+            return "msapp"
         else:
             raise UnknownSourceException
 
