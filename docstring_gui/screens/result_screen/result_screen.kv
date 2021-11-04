@@ -1,0 +1,84 @@
+<ResultScreen>
+    name: "result-screen"
+
+    output_file: output_file
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: False
+        spacing: 50
+
+
+        MDToolbar:
+            title: "Power Apps - Docstring"
+            
+            MDIconButton:
+                halign: "right"
+                pos_hint: { 'center_y' : .5}
+                icon: "close"
+                theme_text_color: "Custom"
+                text_color: "white"
+                on_press: app.stop()
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint: (0.8, 1)
+            pos_hint: { 'left' : .9, 'right': .9}
+            adaptive_height: False   
+
+            MDLabel:
+                text: ""
+                halign: "center"
+
+            MDIconButton:
+                pos_hint: { 'center_x' : .5, 'center_y': .5}
+                icon: "check-decagram"
+                theme_text_color: "Custom"
+                text_color: "green"
+                user_font_size: 128
+
+            MDLabel:
+                text: "Documentation created!"
+                halign: "center"
+                pos_hint: { 'top' : .1}
+            
+            MDFlatButton:
+                id: output_file
+                text: "placeholder"
+                halign: "center"
+                pos_hint: { 'top' : .1, 'center_x': .5}
+                #on_press: root.open_file(self.text)
+
+            MDBoxLayout:
+                orientation: "vertical"
+
+                MDProgressBar:
+                    orientation: "horizontal"
+                    value: 100
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    spacing: 25
+                    adaptive_height: False
+
+                    MDLabel:
+                        text: ""
+                        halign: "left"
+                        pos_hint: { 'center_y' : .5}
+                
+                    MDFlatButton:
+                        text: "back"
+                        halign: "right"
+                        background_color : 0, 0, 0, 1
+                        #padding_y: 50
+                        pos_hint: { 'top' : .8}
+                        on_press:
+                            root.manager.transition.direction = 'right'
+                            root.manager.current = "main-screen"
+
+                    MDRaisedButton:
+                        text: "Close"
+                        background_color : 0, 0, 0, 1
+                        #padding: 50
+                        pos_hint: { 'top' : .8}
+                        on_press: app.stop()

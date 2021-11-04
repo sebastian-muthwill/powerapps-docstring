@@ -236,6 +236,7 @@ class Docstring():
         # instantiate the md file
         # TODO: get title from docstring variable
         app_name = self.manifest_file["PublishInfo"]["AppName"]
+        output_file = self.output_path + f'/{app_name}-doc'
         self.md_file = MdUtils(file_name=self.output_path +
                           f'/{app_name}-doc', title='Power App Documentation')
 
@@ -250,3 +251,5 @@ class Docstring():
         # write toc + file
         self.md_file.new_table_of_contents(table_title='Contents', depth=2)
         self.md_file.create_md_file()
+
+        return output_file + ".md"
