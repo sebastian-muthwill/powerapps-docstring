@@ -2,7 +2,7 @@ import os, sys, getopt
 import yaml
 from powerapps_docstring.powerapp import PowerApp, UnknownSourceException
 from powerapps_docstring.documentation import Docstring
-from docstring_gui import main as gui_main
+
 
 def main(argv):
     """main
@@ -18,9 +18,11 @@ def main(argv):
         print_help()
         sys.exit(2)
 
-    # if programm started without arguments, we end with the help message
+    # if programm started without arguments, we run the GUI
     if len(opts) == 0:
+        from docstring_gui import main as gui_main
         gui_main()
+
         sys.exit(1)
 
     source_path = None
@@ -60,8 +62,13 @@ def main(argv):
         sys.exit(1)
 
     # check config file
+    # set temp path to configfile if running as exe
+    if hasattr(sys, '_MEIPASS'):
+        temp_path = os.path.join(sys._MEIPASS)
+        config_file = temp_path + "\config.yaml"
+
     if not os.path.isfile(config_file):
-        print("The config file is not valid.")
+        print(f"The config file: {config_file} is not valid.")
         print("Refere to the help with -h or --help")
         sys.exit(1)
     else:
@@ -76,4 +83,4 @@ def print_help():
     print(main.__doc__)
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    main(sys.argv[1:])

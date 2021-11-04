@@ -18,6 +18,32 @@ ScreenManager:
 
         MDToolbar:
             title: "Power Apps - Docstring"
+
+            MDRectangleFlatIconButton:
+                icon: "bug-outline"
+                text: "Issue"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                line_color: 0, 0, 0, 0
+                icon_color: 1, 1, 1, 1
+                pos_hint: { 'center_y' : .5}
+                halign: "right"
+                padding: [0, 0, 50, 0]
+                on_press: root.open_new_issue()
+
+            MDRectangleFlatIconButton:
+                icon: "github"
+                text: "Documentation"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                line_color: 0, 0, 0, 0
+                icon_color: 1, 1, 1, 1
+                pos_hint: { 'center_y' : .5}
+                halign: "right"
+                padding: [0, 0, 50, 0]
+                on_press: root.open_github()
+
+
             MDIconButton:
                 halign: "right"
                 pos_hint: { 'center_y' : .5}
@@ -35,12 +61,12 @@ ScreenManager:
             spacing: 20
 
             MDLabel:
-                text: "Create documentation from Power Apps source code."
+                text: "Create documentation from Power Apps source code"
                 font_style: "H5"
                 halign: "center"
             
             MDLabel:
-                text: "Provide the path to your source folder of your unpacked Power App as well as the output folder where the documentation is stored. Additionaly the path to a config.yaml can be spcified."
+                text: "Provide the path to your source folder of your unpacked Power App as well as the output folder where the documentation is stored. Additionaly the path to a config.yaml can be spcified. If no custom config is provided, standard config.yaml will be used. Please find a detailed description on GitHub."
                 halign: "center"
             
             MDTextField:
@@ -48,7 +74,7 @@ ScreenManager:
                 hint_text: "Source path"
                 mode: "fill"
                 required: True
-                helper_text: "/path/to/src/app"
+                helper_text: "/path/to/src/app/"
                 helper_text_mode: "on_focus"
             
             MDTextField:
@@ -94,6 +120,4 @@ ScreenManager:
                         pos_hint: {'center_y' : .8}
                         on_press:
                             root.create_documentation()
-                            root.manager.transition.direction = 'left'
-                            root.manager.current = "result-screen"
                 
