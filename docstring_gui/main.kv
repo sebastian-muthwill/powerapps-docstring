@@ -1,0 +1,123 @@
+#:include docstring_gui/screens/result_screen/result_screen.kv
+ 
+ScreenManager:
+    MainScreen:
+    ResultScreen:
+
+<MainScreen>
+    name: "main-screen"
+
+    source: source
+    output: output
+    config: config
+
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: False
+        spacing: 20
+
+        MDToolbar:
+            title: "Power Apps - Docstring"
+
+            MDRectangleFlatIconButton:
+                icon: "bug-outline"
+                text: "Issue"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                line_color: 0, 0, 0, 0
+                icon_color: 1, 1, 1, 1
+                pos_hint: { 'center_y' : .5}
+                halign: "right"
+                padding: [0, 0, 50, 0]
+                on_press: root.open_new_issue()
+
+            MDRectangleFlatIconButton:
+                icon: "github"
+                text: "Documentation"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                line_color: 0, 0, 0, 0
+                icon_color: 1, 1, 1, 1
+                pos_hint: { 'center_y' : .5}
+                halign: "right"
+                padding: [0, 0, 50, 0]
+                on_press: root.open_github()
+
+
+            MDIconButton:
+                halign: "right"
+                pos_hint: { 'center_y' : .5}
+                icon: "close"
+                theme_text_color: "Custom"
+                text_color: "white"
+                on_press: app.stop()
+
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint: (0.8, 1)
+            pos_hint: { 'left' : .9, 'right': .9}
+            adaptive_height: False
+            spacing: 20
+
+            MDLabel:
+                text: "Create documentation from Power Apps source code"
+                font_style: "H5"
+                halign: "center"
+            
+            MDLabel:
+                text: "Provide the path to your source folder of your unpacked Power App as well as the output folder where the documentation is stored. Additionaly the path to a config.yaml can be spcified. If no custom config is provided, standard config.yaml will be used. Please find a detailed description on GitHub."
+                halign: "center"
+            
+            MDTextField:
+                id: source
+                hint_text: "Source path"
+                mode: "fill"
+                required: True
+                helper_text: "/path/to/src/app/"
+                helper_text_mode: "on_focus"
+            
+            MDTextField:
+                id: output
+                hint_text: "Output path"
+                mode: "fill"
+                required: True
+                helper_text: "./output/"
+                helper_text_mode: "on_focus"
+            
+            MDTextField:
+                id: config
+                hint_text: "Config path (optional)"
+                mode: "fill"
+                required: False
+                helper_text: "/path/to/config.yaml"
+                helper_text_mode: "on_focus"
+            
+            
+            MDBoxLayout:
+                orientation: "vertical"
+
+                MDProgressBar:
+                    orientation: "horizontal"
+                    value: 50
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    #size_hint: (0.8, 1)
+                    #pos_hint: { 'right': .9}
+                    adaptive_height: False
+
+                    MDLabel:
+                        text: "Step 1"
+                        halign: "left"
+                        pos_hint: { 'center_y' : .8}
+                
+                    MDRaisedButton:
+                        text: "Create"
+                        halign: "right"
+                        background_color : 0, 0, 0, 1
+                        #padding_y: 50
+                        pos_hint: {'center_y' : .8}
+                        on_press:
+                            root.create_documentation()
+                
