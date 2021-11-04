@@ -1,5 +1,4 @@
 src/*
 __pycache*
 build/*
-dist/*
 .vscode/*
