@@ -2,5 +2,5 @@ src/*
 __pycache*
 build/*
 .vscode/*
-dist/d/*
+dist/*
 *.code-workspace

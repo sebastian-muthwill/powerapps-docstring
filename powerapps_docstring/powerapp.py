@@ -5,17 +5,12 @@ class UnknownSourceException(Exception):
 
 class PowerApp():
     def __init__(self, source) -> None:
-        self.source = source
+        self.source = os.path.normpath(source)
         self.source_type = self._check_source_type()
         
     def get_pa_src_path(self):
         source_path = None
         if self.source_type == "directory":
-            # TODO: check if directory contains powerapp content
-            
-            if self.source[-1] != "/":
-                self.source = self.source + "/"
-
             source_path = self.source
         elif self.source_type == "zip":
             # TODO: unzip and unpack msssap to retrieve src folder

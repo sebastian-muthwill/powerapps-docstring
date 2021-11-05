@@ -21,7 +21,11 @@ def main(argv):
     # if programm started without arguments, we run the GUI
     if len(opts) == 0:
         from docstring_gui import main as gui_main
-        gui_main()
+        try:
+            gui_main()
+        except TypeError:
+            # when donwstream application is terminated, it will thro a TypeError exception. 
+            pass
 
         sys.exit(1)
 
