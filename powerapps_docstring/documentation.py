@@ -8,8 +8,8 @@ from powerapps_docstring.parser import Parser
 
 class Docstring():
     def __init__(self, source, output, config) -> None:
-        self.source_path = source
-        self.output_path = output
+        self.source_path = os.path.normpath(source)
+        self.output_path = os.path.normpath(output)
         self.parser = Parser(self.source_path)
         self.config = config
         self.manifest_file = self.parser.get_canvas_manifest()
@@ -18,7 +18,7 @@ class Docstring():
 
     def _get_screen_files(self):
         screen_files = []
-        screens_path = self.source_path + "/Src/"
+        screens_path = os.path.join(self.source_path, "Src")
 
         # read screen order from manifest and check if files exists
         screen_order = self.manifest_file["ScreenOrder"]
@@ -128,7 +128,6 @@ class Docstring():
         screenflow_list = [":::mermaid", "graph LR"]
 
         screen_files = self._get_screen_files()
-        screens_path = self.source_path + "/Src/"
 
         for screen in screen_files:
             # check if screen has been excluded
@@ -221,7 +220,6 @@ class Docstring():
             self.md_file.new_line(scr_flow)
 
         # loop thru all screens and create markdown
-        screens_path = self.source_path + "/Src/"
         for file in self._get_screen_files():
             screen_objects = self.parser.get_screen_objects(file)
             self._extract_screen_content_to_markdown(screen_objects)
@@ -236,8 +234,8 @@ class Docstring():
         # instantiate the md file
         # TODO: get title from docstring variable
         app_name = self.manifest_file["PublishInfo"]["AppName"]
-        self.md_file = MdUtils(file_name=self.output_path +
-                          f'/{app_name}-doc', title='Power App Documentation')
+        output_file = os.path.join(self.output_path, f'{app_name}-doc')
+        self.md_file = MdUtils(file_name=output_file, title='Power App Documentation')
 
         for chapter in self.config["DocumentStructure"]:
             if chapter == "App":
@@ -250,3 +248,5 @@ class Docstring():
         # write toc + file
         self.md_file.new_table_of_contents(table_title='Contents', depth=2)
         self.md_file.create_md_file()
+
+        return output_file + ".md"
