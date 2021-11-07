@@ -31,8 +31,9 @@ class PowerApp():
         if os.path.isdir(self.source):
             if not os.path.isfile(os.path.join(self.source, "CanvasManifest.json")):
                 path_to_canvas_manifest = self.find("CanvasManifest.json", self.source)
-                print(f"CanvasManifest.json could not be found in provided source path: {self.source}")
-                print(f"did you ment: {path_to_canvas_manifest}")
+                if path_to_canvas_manifest != None:
+                    print(f"CanvasManifest.json could not be found in provided source path: {self.source}")
+                    print(f"did you ment: {path_to_canvas_manifest}")
                 raise CanvasManifestNotFoundInSourceException()
             return "directory"
         elif os.path.isfile(self.source) and self.source.endswith(".zip"):
