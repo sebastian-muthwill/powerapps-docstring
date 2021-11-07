@@ -1,6 +1,6 @@
 import os, sys, getopt
 import yaml
-from powerapps_docstring.powerapp import PowerApp, UnknownSourceException
+from powerapps_docstring.powerapp import PowerApp, UnknownSourceException, CanvasManifestNotFoundInSourceException
 from powerapps_docstring.documentation import Docstring
 
 
@@ -56,6 +56,10 @@ def main(argv):
         print(pa_src_path)
     except UnknownSourceException:
         print("The source type is not valid")
+        print("Refere to the help with -h or --help")
+        sys.exit(1)
+    except CanvasManifestNotFoundInSourceException:
+        print("Exception: CanvasManifestNotFoundInSourceException: CanvasManifest.json not found in source folder!")
         print("Refere to the help with -h or --help")
         sys.exit(1)
 
