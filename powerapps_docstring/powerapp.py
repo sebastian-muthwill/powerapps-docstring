@@ -1,7 +1,13 @@
 import os
 
+
 class UnknownSourceException(Exception):
     pass
+
+
+class CanvasManifestNotFoundInSourceException(Exception):
+    pass
+
 
 class PowerApp():
     def __init__(self, source) -> None:
@@ -23,6 +29,12 @@ class PowerApp():
 
     def _check_source_type(self) -> str:
         if os.path.isdir(self.source):
+            if not os.path.isfile(os.path.join(self.source, "CanvasManifest.json")):
+                path_to_canvas_manifest = self.find("CanvasManifest.json", self.source)
+                if path_to_canvas_manifest != None:
+                    print(f"CanvasManifest.json could not be found in provided source path: {self.source}")
+                    print(f"did you ment: {path_to_canvas_manifest}")
+                raise CanvasManifestNotFoundInSourceException()
             return "directory"
         elif os.path.isfile(self.source) and self.source.endswith(".zip"):
             return "zip"
@@ -35,5 +47,11 @@ class PowerApp():
     def _unpack_zip(self):
         pass
 
+
     def _unpack_mssap(self):
         pass
+
+    def find(self, name, path):
+        for root, dirs, files in os.walk(path):
+            if name in files:
+                return root
