@@ -3,5 +3,4 @@ __pycache*
 build/*
 .vscode/*
 dist/*
-dist/*.exe
 *.code-workspace
