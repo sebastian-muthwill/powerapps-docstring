@@ -109,28 +109,28 @@ With following datasources:
   
 :::mermaid  
 graph LR  
-WelcomeScreen ==> HomePopUpsScreen  
-HomeScreen ==> Sketch Screen  
-HomeScreen ==> CameraScreen  
-HomeScreen ==> EmailScreen  
-HomeScreen ==> AttachmentsScreen  
-HomeScreen ==> ExportScreen  
-HomeScreen ==> HomePopUpsScreen  
-Sketch Screen ==> HomeScreen  
-Sketch Screen ==> CameraScreen  
-CameraScreen ==> HomeScreen  
-CameraScreen ==> Sketch Screen  
-EmailScreen ==> ConfirmScreen  
-ConfirmScreen ==> HomeScreen  
-ConfirmScreen ==> FollowUpScreen  
-ConfirmScreen ==> WelcomeScreen  
-ExportScreen ==> HomeScreen  
-ExportScreen ==> ExportPopUpsScreen  
-FollowUpScreen ==> FollowUpTimesScreen  
-FollowUpTimesScreen ==> ConfirmScreen  
-HomePopUpsScreen ==> HomeScreen  
-ExportPopUpsScreen ==> ExportScreen  
-ExportPopUpsScreen ==> ConfirmScreen  
+WelcomeScreen(WelcomeScreen) --> HomePopUpsScreen(HomePopUpsScreen)  
+HomeScreen(HomeScreen) --> SketchScreen(Sketch Screen)  
+HomeScreen(HomeScreen) --> CameraScreen(CameraScreen)  
+HomeScreen(HomeScreen) --> EmailScreen(EmailScreen)  
+HomeScreen(HomeScreen) --> AttachmentsScreen(AttachmentsScreen)  
+HomeScreen(HomeScreen) --> ExportScreen(ExportScreen)  
+HomeScreen(HomeScreen) --> HomePopUpsScreen(HomePopUpsScreen)  
+SketchScreen(Sketch Screen) --> HomeScreen(HomeScreen)  
+SketchScreen(Sketch Screen) --> CameraScreen(CameraScreen)  
+CameraScreen(CameraScreen) --> HomeScreen(HomeScreen)  
+CameraScreen(CameraScreen) --> SketchScreen(Sketch Screen)  
+EmailScreen(EmailScreen) --> ConfirmScreen(ConfirmScreen)  
+ConfirmScreen(ConfirmScreen) --> HomeScreen(HomeScreen)  
+ConfirmScreen(ConfirmScreen) --> FollowUpScreen(FollowUpScreen)  
+ConfirmScreen(ConfirmScreen) --> WelcomeScreen(WelcomeScreen)  
+ExportScreen(ExportScreen) --> HomeScreen(HomeScreen)  
+ExportScreen(ExportScreen) --> ExportPopUpsScreen(ExportPopUpsScreen)  
+FollowUpScreen(FollowUpScreen) --> FollowUpTimesScreen(FollowUpTimesScreen)  
+FollowUpTimesScreen(FollowUpTimesScreen) --> ConfirmScreen(ConfirmScreen)  
+HomePopUpsScreen(HomePopUpsScreen) --> HomeScreen(HomeScreen)  
+ExportPopUpsScreen(ExportPopUpsScreen) --> ExportScreen(ExportScreen)  
+ExportPopUpsScreen(ExportPopUpsScreen) --> ConfirmScreen(ConfirmScreen)  
 :::
 ## WelcomeScreen
   

@@ -153,7 +153,11 @@ class Docstring():
                             to_screen = item[start:end]
                             to_screen = to_screen.replace("\n", "").replace("\t", "").replace(")", "").replace("'", "")
                             if to_screen != None and to_screen != "" and not to_screen.startswith("[@") and to_screen not in self.config["ScreenFlow"]["ExcludeScreens"]:
-                                screenflow_list.append(from_screen + " ==> " + to_screen)
+                                screenflow_list.append(
+                                            "".join(from_screen.split()) + "(" + from_screen + ")" + 
+                                            " --> " + 
+                                            "".join(to_screen.split()) + "(" + to_screen + ")"
+                                            )
                 
         screenflow_list.append(":::")
 
