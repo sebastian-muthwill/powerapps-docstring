@@ -167,13 +167,24 @@ class Docstring():
         # # APP # #
         # get contents from App.fx.yaml
         app_screen = self.parser.get_screen_objects("App.fx.yaml")
+        
+        # read StartScreen and OnStart propperties from App
+        start_screen = app_screen[1]["App As appinfo"].get("StartScreen")
         on_start = app_screen[1]["App As appinfo"].get("OnStart")
-
+        
         # create heading for app info
         self.md_file.new_line("")
         self.md_file.new_line("")
         self.md_file.new_header(level=1, title=app_name)
+        
         # write app info
+        if start_screen != None:
+            appinfo = self._extract_parts_from_propperty(start_screen)
+            self.md_file.new_line("")
+            self.md_file.new_header(level=2, title="StartScreen")
+            self.md_file.insert_code(appinfo[2],language='typescript')
+            self.md_file.new_line("")
+        
         if on_start != None:
             appinfo = self._extract_parts_from_propperty(on_start)
             if appinfo[1] != None:
