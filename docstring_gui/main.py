@@ -12,6 +12,7 @@ from kivy.resources import resource_add_path, resource_find
 
 # import powerapps classes
 from powerapps_docstring.documentation import Docstring
+from powerapps_docstring.powerapp import PowerApp
 
 # import screen classes
 from docstring_gui.screens.result_screen.result_screen import ResultScreen
@@ -28,11 +29,10 @@ class MainScreen(Screen):
 
         # Spot check on CanvasManifest.json file. If this exists, it should be
         # a correct power apps source path
-        if not os.path.isfile(self.source.text + "CanvasManifest.json"):
+        source_path = PowerApp(self.source.text).get_pa_src_path()
+        if not os.path.isfile(os.path.join(source_path, "CanvasManifest.json")):
             self.source.error = True
             self.source.helper_text = "Path is not an Power Apps source"
-            if not self.source.text.endswith("\\"):
-                self.source.text = self.source.text + "\\"
             return
         else:
             self.source.error = False
@@ -59,7 +59,7 @@ class MainScreen(Screen):
 
         # create documentation
         # TODO: add try block and show error page if somethin went wrong
-        docstring = Docstring(self.source.text, self.output.text, config_instance)
+        docstring = Docstring(source_path, self.output.text, config_instance)
         output_file_path = docstring.create_documentation()
 
         # navigate to succeed page

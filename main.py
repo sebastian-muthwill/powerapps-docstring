@@ -1,6 +1,6 @@
 import os, sys, getopt
 import yaml
-from powerapps_docstring.powerapp import PowerApp, UnknownSourceException
+from powerapps_docstring.powerapp import PowerApp, UnknownSourceException, CanvasManifestNotFoundInSourceException
 from powerapps_docstring.documentation import Docstring
 
 
@@ -21,7 +21,11 @@ def main(argv):
     # if programm started without arguments, we run the GUI
     if len(opts) == 0:
         from docstring_gui import main as gui_main
-        gui_main()
+        try:
+            gui_main()
+        except TypeError:
+            # when donwstream application is terminated, it will thro a TypeError exception. 
+            pass
 
         sys.exit(1)
 
@@ -54,6 +58,10 @@ def main(argv):
         print("The source type is not valid")
         print("Refere to the help with -h or --help")
         sys.exit(1)
+    except CanvasManifestNotFoundInSourceException:
+        print("Exception: CanvasManifestNotFoundInSourceException: CanvasManifest.json not found in source folder!")
+        print("Refere to the help with -h or --help")
+        sys.exit(1)
 
     # check output path
     if not os.path.isdir(output_path):
@@ -75,9 +83,16 @@ def main(argv):
         with open(config_file, "r", encoding='utf8') as file:
             config = yaml.safe_load(file)
 
-
-    docstring = Docstring(pa_src_path, output_path, config)
-    docstring.create_documentation()
+    # run documentation creation process
+    print(f"Creating documentation for {pa_src_path}")
+    try:
+        docstring = Docstring(pa_src_path, output_path, config)
+        documentation_output_path = docstring.create_documentation()
+        print(f"Documentation created successfully: {documentation_output_path}")
+        sys.exit(0)
+    except Exception as e:
+        print("Error occured within documentation creation")
+        raise e
 
 def print_help():
     print(main.__doc__)

@@ -8,8 +8,8 @@ from powerapps_docstring.parser import Parser
 
 class Docstring():
     def __init__(self, source, output, config) -> None:
-        self.source_path = source
-        self.output_path = output
+        self.source_path = os.path.normpath(source)
+        self.output_path = os.path.normpath(output)
         self.parser = Parser(self.source_path)
         self.config = config
         self.manifest_file = self.parser.get_canvas_manifest()
@@ -18,7 +18,7 @@ class Docstring():
 
     def _get_screen_files(self):
         screen_files = []
-        screens_path = self.source_path + "/Src/"
+        screens_path = os.path.join(self.source_path, "Src")
 
         # read screen order from manifest and check if files exists
         screen_order = self.manifest_file["ScreenOrder"]
@@ -128,7 +128,6 @@ class Docstring():
         screenflow_list = [":::mermaid", "graph LR"]
 
         screen_files = self._get_screen_files()
-        screens_path = self.source_path + "/Src/"
 
         for screen in screen_files:
             # check if screen has been excluded
@@ -154,7 +153,11 @@ class Docstring():
                             to_screen = item[start:end]
                             to_screen = to_screen.replace("\n", "").replace("\t", "").replace(")", "").replace("'", "")
                             if to_screen != None and to_screen != "" and not to_screen.startswith("[@") and to_screen not in self.config["ScreenFlow"]["ExcludeScreens"]:
-                                screenflow_list.append(from_screen + " ==> " + to_screen)
+                                screenflow_list.append(
+                                            "".join(from_screen.split()) + "(" + from_screen + ")" + 
+                                            " --> " + 
+                                            "".join(to_screen.split()) + "(" + to_screen + ")"
+                                            )
                 
         screenflow_list.append(":::")
 
@@ -168,13 +171,24 @@ class Docstring():
         # # APP # #
         # get contents from App.fx.yaml
         app_screen = self.parser.get_screen_objects("App.fx.yaml")
+        
+        # read StartScreen and OnStart propperties from App
+        start_screen = app_screen[1]["App As appinfo"].get("StartScreen")
         on_start = app_screen[1]["App As appinfo"].get("OnStart")
-
+        
         # create heading for app info
         self.md_file.new_line("")
         self.md_file.new_line("")
         self.md_file.new_header(level=1, title=app_name)
+        
         # write app info
+        if start_screen != None:
+            appinfo = self._extract_parts_from_propperty(start_screen)
+            self.md_file.new_line("")
+            self.md_file.new_header(level=2, title="StartScreen")
+            self.md_file.insert_code(appinfo[2],language='typescript')
+            self.md_file.new_line("")
+        
         if on_start != None:
             appinfo = self._extract_parts_from_propperty(on_start)
             if appinfo[1] != None:
@@ -221,7 +235,6 @@ class Docstring():
             self.md_file.new_line(scr_flow)
 
         # loop thru all screens and create markdown
-        screens_path = self.source_path + "/Src/"
         for file in self._get_screen_files():
             screen_objects = self.parser.get_screen_objects(file)
             self._extract_screen_content_to_markdown(screen_objects)
@@ -236,9 +249,8 @@ class Docstring():
         # instantiate the md file
         # TODO: get title from docstring variable
         app_name = self.manifest_file["PublishInfo"]["AppName"]
-        output_file = self.output_path + f'/{app_name}-doc'
-        self.md_file = MdUtils(file_name=self.output_path +
-                          f'/{app_name}-doc', title='Power App Documentation')
+        output_file = os.path.join(self.output_path, f'{app_name}-doc')
+        self.md_file = MdUtils(file_name=output_file, title='Power App Documentation')
 
         for chapter in self.config["DocumentStructure"]:
             if chapter == "App":

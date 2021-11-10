@@ -12,7 +12,7 @@ class Parser():
         """
         connections = {}    # create empty dict
 
-        connections_file = self.source_path + "Connections/Connections.json"
+        connections_file = os.path.join(self.source_path, "Connections", "Connections.json")
         if os.path.isfile(connections_file):
             with open(connections_file, "r") as file:
                 connections = json.load(file)
@@ -20,7 +20,7 @@ class Parser():
         return connections
 
     def _get_screen_content(self, screen_name):
-        screen_path = self.source_path + "src/" + screen_name
+        screen_path = os.path.join(self.source_path, "src", screen_name)
         screen_content = {}
 
         with open(screen_path, "r", encoding='utf8') as file:
@@ -35,10 +35,10 @@ class Parser():
         return screen_name, screen_content
 
     def get_canvas_manifest(self):
-        app_name = "PowerApp_Documentation"
         # get name from CanvasManifest.json
-        if os.path.isfile(self.source_path + "CanvasManifest.json"):
-            with open(self.source_path + "CanvasManifest.json", "r", encoding="utf-8") as file:
+        manifest_file = os.path.join(self.source_path, "CanvasManifest.json")
+        if os.path.isfile(manifest_file):
+            with open(manifest_file, "r", encoding="utf-8") as file:
                 canvas_manifest = json.load(file)
 
         return canvas_manifest
