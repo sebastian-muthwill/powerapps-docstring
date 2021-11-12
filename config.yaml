@@ -20,6 +20,8 @@ ScreenFlow:
     # By default all screens from CanvasManifest.json will be used in same sequence.
     # If screens shall be excluded from the graph, list them here. 
     ExcludeScreens: []
+    # Show variables created / updated within this screen
+    ShowVariables: true
 
 # Changing the document structure.
 # usually there are at least (App, Connections and Screens available (in this order))

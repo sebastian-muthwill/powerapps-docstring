@@ -55,6 +55,16 @@ class Docstring():
     def _extract_screen_content_to_markdown(self, screen_objects) -> None:
         self.md_file.new_header(level=2, title=screen_objects[0])
         self.md_file.new_line("---")
+        
+        # add variables to screen if enabled in config
+        if self.config["ScreenFlow"]["ShowVariables"]:
+            # find variable with regex pattern
+            global_variables = re.findall(r"Set\((.[^,]*)", str(screen_objects[1]))
+            global_variables = list(set(global_variables))
+            self.md_file.new_header(level=3, title="Global variables")
+            self.md_file.new_line("Following variables have been created / or updated on this screen")
+            self.md_file.new_list(global_variables)
+            
 
         def _recursive(key, value):
             # check for object

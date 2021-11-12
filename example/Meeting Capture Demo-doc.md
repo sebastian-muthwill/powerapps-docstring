@@ -33,11 +33,13 @@ Contents
 
 This tool helps you to keep everythin in one place during your meetings.
 
-Key features are:
+Key 
+features are:
 - View meeting details
 - capture notes and pictures of whiteboards
 - assign tasks
-- send meeting notes to all attendees in one click
+- send meeting notes to 
+all attendees in one click
 
   
 
@@ -133,6 +135,16 @@ ExportPopUpsScreen(ExportPopUpsScreen) --> ConfirmScreen(ConfirmScreen)
 ## WelcomeScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowDataLossWarning
+- ExportConfirmed
+- EmailConfirmed
+- AutoSelectMeeting
+- SelectedMeeting
+- FollowUpConfirmed
+
 ### WelcomeScreen As screen
 
 
@@ -193,6 +205,22 @@ ClearCollect(Templates,
 ## HomeScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ProgressBarPosition
+- ShowOverlay
+- TaskSelected
+- MultiRecipients
+- ExportConfirmed
+- UserSelected
+- SelectedUserTasks
+- EmailConfirmed
+- SelectedTask
+- SecondsRemain
+- UserSelectedFromTasks
+- FollowUpConfirmed
+
 ### HomeScreen As screen
 
 
@@ -358,12 +386,19 @@ Set(ShowOverlay, true)
 ## Sketch Screen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowSketchSaved
+- SketchNumber
+
 ### 'Sketch Screen' As screen
 
 
 Create a sketch during a meeting.
 
-The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names with blank
+The screen name "Sketch Screen" (notice the blank) akt's as a test for screen names 
+with blank
 
 #### OnVisible
 
@@ -436,6 +471,13 @@ Set(ShowSketchSaved, true)
 ## CameraScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowImageSaved
+- ShowTakenImage
+- PhotoNumber
+
 ### CameraScreen As screen
 
 
@@ -494,6 +536,11 @@ Set(ShowTakenImage, false)
 ## EmailScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- EmailConfirmed
+
 ### EmailScreen As screen
 
 
@@ -546,6 +593,13 @@ Navigate(ConfirmScreen, None)
 ## AttachmentsScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowOverlay
+- AttachmentDeleteConfirm
+- SelectedImage
+
 ### AttachmentsScreen As screen
 
 
@@ -648,6 +702,11 @@ RemoveIf(Photos, SelectedImage.Name = Name)
 ## ConfirmScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- Loading
+
 ### ConfirmScreen As screen
 
 
@@ -708,6 +767,17 @@ If(ExportConfirmed,
 ## ExportScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowOverlay
+- SelectedPlan
+- ShowPlanner
+- SelectedBucket
+- SelectedSection
+- SelectedNoteBook
+- ShowOneNote
+
 ### ExportScreen As screen
 
 
@@ -858,6 +928,11 @@ Navigate(ExportPopUpsScreen, None)
 ## FollowUpScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ExportConfirmed
+
 ### FollowUpScreen As screen
 
 
@@ -930,6 +1005,15 @@ ClearCollect(FollowUpMeetingAttendees, MeetingAttendees)
 ## FollowUpTimesScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowMeetingTimes
+- FollowUpStart
+- FollowUpEnd
+- Loading
+- FollowUpConfirmed
+
 ### FollowUpTimesScreen As screen
 
 
@@ -1015,6 +1099,18 @@ Set(Loading, false)
 ## HomePopUpsScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowOverlay
+- SelectedMeetingDuration
+- TaskSelected
+- Loading
+- UserSelected
+- SelectedUser
+- ShowDataLossWarning
+- UserSelectedFromTasks
+
 ### HomePopUpsScreen As screen
 
 
@@ -1157,6 +1253,18 @@ Navigate(HomeScreen, None)
 ## ExportPopUpsScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+- ShowOverlay
+- SelectedPlan
+- ShowPlanner
+- ExportConfirmed
+- SelectedBucket
+- SelectedSection
+- SelectedNoteBook
+- ShowOneNote
+
 ### ExportPopUpsScreen As screen
 
 ### ExportCancel_1 As button
@@ -1208,6 +1316,10 @@ Navigate(ExportScreen, None)
 ## CollectionsAndVariables
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+
 ### CollectionsAndVariables As screen
 
 
@@ -1216,4 +1328,8 @@ This screen lists all collections and variables used inside the app
 ## TestEmptyScreen
   
 ---
+### Global variables
+  
+Following variables have been created / or updated on this screen
+
 ### TestEmptyScreen As screen
