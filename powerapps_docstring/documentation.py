@@ -135,7 +135,8 @@ class Docstring():
             return fields_found
 
         # create header for mermaid graph
-        screenflow_list = [":::mermaid", "graph LR"]
+        screenflow_list = [self.config["MermaidPrefix"]]
+        screenflow_list.append("graph LR")
 
         screen_files = self._get_screen_files()
 
@@ -169,7 +170,7 @@ class Docstring():
                                             "".join(to_screen.split()) + "(" + to_screen + ")"
                                             )
                 
-        screenflow_list.append(":::")
+        screenflow_list.append(self.config["MermaidSuffix"])
 
         # to avoid double entrys in the graph
         # the doubled items are removed by convertig to dict and back to list
@@ -282,7 +283,8 @@ class Docstring():
         self.md_file.new_line("Usage of global variables is shown based on the screen(s) where this variable is set and the screen(s) where it is used. ")
         
         for variable in all_global_variables:
-            variable_mermaid = [r":::mermaid", "graph LR"]
+            variable_mermaid = [self.config["MermaidPrefix"]]
+            variable_mermaid.append("graph LR")
             
             for key, value in screen_set_variables.items():
                 if variable in value:
@@ -300,7 +302,7 @@ class Docstring():
                         "Use" + "".join(key.split()) + r"(" + key + r")"
                     )
 
-            variable_mermaid.append(r":::")
+            variable_mermaid.append(self.config["MermaidSuffix"])
         
             variable_mermaid = list(dict.fromkeys(variable_mermaid))
             
