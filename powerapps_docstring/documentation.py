@@ -296,7 +296,7 @@ class Docstring():
                 if variable in value:
                     variable_mermaid.append(
                         "".join(variable.split()) + r"[/" + variable + r"/]" +
-                        "-- use -->" +
+                        "-. use .->" +
                         "Use" + "".join(key.split()) + r"(" + key + r")"
                     )
 
