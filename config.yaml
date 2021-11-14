@@ -30,3 +30,18 @@ DocumentStructure:
 - App
 - Connections
 - Screens
+- GlobalVariables
+
+# Mermaid prefix / suffix differes depending on platform implementation. 
+# Azure devops:
+# :::mermaid
+# <mermaid>
+# :::
+#
+# Chrome extension for github:
+# ```mermaid
+# <mermaid>
+# ```
+# based on this, the prefix / suffix can be set here    
+MermaidPrefix: ":::mermaid"
+MermaidSuffix: ":::"

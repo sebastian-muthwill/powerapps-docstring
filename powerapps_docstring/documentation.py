@@ -135,7 +135,8 @@ class Docstring():
             return fields_found
 
         # create header for mermaid graph
-        screenflow_list = [":::mermaid", "graph LR"]
+        screenflow_list = [self.config["MermaidPrefix"]]
+        screenflow_list.append("graph LR")
 
         screen_files = self._get_screen_files()
 
@@ -169,7 +170,7 @@ class Docstring():
                                             "".join(to_screen.split()) + "(" + to_screen + ")"
                                             )
                 
-        screenflow_list.append(":::")
+        screenflow_list.append(self.config["MermaidSuffix"])
 
         # to avoid double entrys in the graph
         # the doubled items are removed by convertig to dict and back to list
@@ -248,6 +249,68 @@ class Docstring():
         for file in self._get_screen_files():
             screen_objects = self.parser.get_screen_objects(file)
             self._extract_screen_content_to_markdown(screen_objects)
+            
+    
+    def _create_global_variables(self):
+        screen_set_variables = {}
+        screen_use_variables = {}
+        
+        for file in self._get_screen_files():
+            # check on which screen variables are set
+            screen_objects = self.parser.get_screen_objects(file)
+            global_variables_on_screen = re.findall(r"Set\((.[^,]*)", str(screen_objects[1]))
+            global_variables_on_screen = list(set(global_variables_on_screen))
+            screen_set_variables[screen_objects[0]] = global_variables_on_screen    
+
+        # get all set global variables
+        all_global_variables = [item for sublist in screen_set_variables.values() for item in sublist]
+        all_global_variables = list(set(all_global_variables))
+        
+        for file in self._get_screen_files():
+            screen_objects = self.parser.get_screen_objects(file)
+            used_variables_on_screen = []
+            
+            # check if variables are used on this screen
+            for variable in all_global_variables:
+                used_variables_on_screen = used_variables_on_screen + re.findall(f"(?<!Set\(){variable}", str(screen_objects[1]))
+            
+            # remove duplicates
+            used_variables_on_screen = list(set(used_variables_on_screen))
+            screen_use_variables[screen_objects[0]] = used_variables_on_screen
+            
+        # create mermaid for each variable (where set and where used)
+        self.md_file.new_header(level=1, title="Global Variables")
+        self.md_file.new_line("Usage of global variables is shown based on the screen(s) where this variable is set and the screen(s) where it is used. ")
+        
+        for variable in all_global_variables:
+            variable_mermaid = [self.config["MermaidPrefix"]]
+            variable_mermaid.append("graph LR")
+            
+            for key, value in screen_set_variables.items():
+                if variable in value:
+                    variable_mermaid.append(
+                        "Set" + "".join(key.split()) + r"(" + key + r")" +
+                        "-- set -->" +
+                        "".join(variable.split()) + r"[/" + variable + r"/]"
+                    )
+            
+            for key, value in screen_use_variables.items():
+                if variable in value:
+                    variable_mermaid.append(
+                        "".join(variable.split()) + r"[/" + variable + r"/]" +
+                        "-. use .->" +
+                        "Use" + "".join(key.split()) + r"(" + key + r")"
+                    )
+
+            variable_mermaid.append(self.config["MermaidSuffix"])
+        
+            variable_mermaid = list(dict.fromkeys(variable_mermaid))
+            
+            if len(variable_mermaid) > 2:
+                self.md_file.new_header(level=2, title=variable)
+            
+                for line in variable_mermaid:
+                    self.md_file.new_line(line)
 
 
     def create_documentation(self, format=None):
@@ -269,6 +332,8 @@ class Docstring():
                 self._create_chapter_connections()
             elif chapter == "Screens":
                 self._create_chapter_screens()
+            elif chapter == "GlobalVariables":
+                self._create_global_variables()
         
         # write toc + file
         self.md_file.new_table_of_contents(table_title='Contents', depth=2)
