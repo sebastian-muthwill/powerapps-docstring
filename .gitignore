@@ -4,3 +4,4 @@ build/*
 .vscode/*
 dist/*
 *.code-workspace
+.venv/*

@@ -1,0 +1,1 @@
+Create Documneation for Usage of Power Apps Variabels (Set) and Collections(Collect). Showing for each Variable and Collection on which screen / element in which property they are defined (Set, Collect) and where they are used inside the app. (property)
