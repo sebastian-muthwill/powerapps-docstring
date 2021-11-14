@@ -31,6 +31,7 @@ DocumentStructure:
 - Connections
 - Screens
 - GlobalVariables
+- GlobalCollects
 
 # Mermaid prefix / suffix differes depending on platform implementation. 
 # Azure devops:
