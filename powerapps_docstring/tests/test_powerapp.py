@@ -1,8 +1,8 @@
 import pytest
 
 SOURCE_PATH_SRC = "example/src/meetingcapturedemo/"
-SOURCE_PATH_MSAPP = "example/src/meetingcapturedemo.msapp"
-SOURCE_PATH_ZIP = "example/src/meetingcapturedemo.zip"
+SOURCE_PATH_MSAPP = "example/src/MeetingCaptureDemoMsapp.msapp"
+SOURCE_PATH_ZIP = "example/src/MeetingCaptureDemoZip.zip"
 
 def test_class_init():
     from powerapps_docstring.powerapp import PowerApp
