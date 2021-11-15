@@ -1,3 +1,12 @@
+# Changing the document structure.
+# usually there are at least (App, Connections and Screens available (in this order))
+# the sequence of the chapters can be changed here. 
+DocumentStructure:
+- App
+- Connections
+- Screens
+- GlobalVariables
+
 # Holds all objects and their corresponding propperties that are considered
 # for documentation (sequence has no influence)
 RelevantObjects:
@@ -23,15 +32,6 @@ ScreenFlow:
     # Show variables created / updated within this screen
     ShowVariables: true
 
-# Changing the document structure.
-# usually there are at least (App, Connections and Screens available (in this order))
-# the sequence of the chapters can be changed here. 
-DocumentStructure:
-- App
-- Connections
-- Screens
-- GlobalVariables
-
 # Mermaid prefix / suffix differes depending on platform implementation. 
 # Azure devops:
 # :::mermaid
@@ -42,6 +42,6 @@ DocumentStructure:
 # ```mermaid
 # <mermaid>
 # ```
-# based on this, the prefix / suffix can be set here    
+# based on this, the prefix / suffix can be set here
 MermaidPrefix: ":::mermaid"
 MermaidSuffix: ":::"
