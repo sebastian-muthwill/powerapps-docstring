@@ -20,7 +20,7 @@ class Parser():
         return connections
 
     def _get_screen_content(self, screen_name):
-        screen_path = os.path.join(self.source_path, "src", screen_name)
+        screen_path = os.path.join(self.source_path, "Src", screen_name)
         screen_content = {}
 
         with open(screen_path, "r", encoding='utf8') as file:
