@@ -61,7 +61,7 @@ If you would like to submit your idea, feel free to create an issue.
   - zip
   - mssap
   - ~~src~~
-- usable via Azure DevOps CI-CD pipeline (not tested yet)
+- usable via Azure DevOps CI-CD pipeline
 
 ## Follow this topic
 Get in touch with me on: [Twitter](https://twitter.com/waszumkuckuck)
