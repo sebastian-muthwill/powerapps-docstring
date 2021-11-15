@@ -1,0 +1,28 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Autotag
+      # You may pin to the exact commit or the version.
+      # uses: phish108/autotag-action@f36ee28f5ae9fed02e5b3477271a06eb3e94ac2c
+      uses: phish108/autotag-action@1.1.37
+      with:
+        # the GH token to connect to github from the action
+        github-token: ${{ github.token }}
+        # use version prefix
+        with-v: TRUE # optional, default is FALSE
+        # provide the names from which branches to release
+        release-branch: main # optional, default is main,master
