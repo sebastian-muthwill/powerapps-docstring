@@ -1,3 +1,12 @@
+# Changing the document structure.
+# usually there are at least (App, Connections and Screens available (in this order))
+# the sequence of the chapters can be changed here. 
+DocumentStructure:
+- App
+- Connections
+- Screens
+- GlobalVariables
+
 # Holds all objects and their corresponding propperties that are considered
 # for documentation (sequence has no influence)
 RelevantObjects:
@@ -20,11 +29,19 @@ ScreenFlow:
     # By default all screens from CanvasManifest.json will be used in same sequence.
     # If screens shall be excluded from the graph, list them here. 
     ExcludeScreens: []
+    # Show variables created / updated within this screen
+    ShowVariables: true
 
-# Changing the document structure.
-# usually there are at least (App, Connections and Screens available (in this order))
-# the sequence of the chapters can be changed here. 
-DocumentStructure:
-- App
-- Connections
-- Screens
+# Mermaid prefix / suffix differes depending on platform implementation. 
+# Azure devops:
+# :::mermaid
+# <mermaid>
+# :::
+#
+# Chrome extension for github:
+# ```mermaid
+# <mermaid>
+# ```
+# based on this, the prefix / suffix can be set here
+MermaidPrefix: ":::mermaid"
+MermaidSuffix: ":::"
