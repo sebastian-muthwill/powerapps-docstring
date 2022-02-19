@@ -140,7 +140,7 @@ With following datasources:
 
 # Screens
   
-:::mermaid  
+```mermaid  
 graph LR  
 WelcomeScreen(WelcomeScreen) --> HomePopUpsScreen(HomePopUpsScreen)  
 HomeScreen(HomeScreen) --> SketchScreen(Sketch Screen)  
@@ -164,7 +164,7 @@ FollowUpTimesScreen(FollowUpTimesScreen) --> ConfirmScreen(ConfirmScreen)
 HomePopUpsScreen(HomePopUpsScreen) --> HomeScreen(HomeScreen)  
 ExportPopUpsScreen(ExportPopUpsScreen) --> ExportScreen(ExportScreen)  
 ExportPopUpsScreen(ExportPopUpsScreen) --> ConfirmScreen(ConfirmScreen)  
-:::
+```
 ## WelcomeScreen
   
 ---
