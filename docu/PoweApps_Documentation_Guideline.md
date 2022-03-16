@@ -1,7 +1,7 @@
 # Documentation Guideline for Power Apps
 
 ## What to document?
-Based on the recomendation from Microsoft within the [learning path](https://docs.microsoft.com/en-us/learn/modules/document-test-powerapps-app/04-engage-customer), the following types of documentation should be considered. Not all of them can be created automatically. However [powerapps-docstring](https://github.com/sebastian-muthwill/powerapps-docstring) can provide a functionality to created at least a view of them.
+Based on the recomendation from Microsoft within the [learning path](https://docs.microsoft.com/en-us/learn/modules/document-test-powerapps-app/04-engage-customer), the following types of documentation should be considered. Not all of them can be created automatically. However [powerapps-docstring](https://github.com/sebastian-muthwill/powerapps-docstring) can provide a functionality to create at least a view of them.
 
 - **Definitions**
 - Architecture and design (partly)
@@ -28,12 +28,12 @@ A bare minimun are comments withing the Power Apps functions itself. Each create
 
 Taking this a step further, each screen, and main objects on the screen should be explained in a way, a person without knowledge of this application could get a good overview within a short period of time.
 
-To reduce efforts and to avoid manuel documentation creation, a good practice is to embed the documentation creation into the development process of the application.
+To reduce efforts and to avoid manual documentation creation, a good practice is to embed the documentation creation into the development process of the application.
 
 ### Docstring and commenting convention
 Based on the following conventions [powerapps-docstring](https://github.com/sebastian-muthwill/powerapps-docstring) is able to extract the docstrings from the code and create a documentation file automatically. 
 
-Therefor documentation strings should be placed at the beginning of a property enclosed in /* This is the docstring */
+Therefore documentation strings should be placed at the beginning of a property enclosed in /* This is the docstring */
 
 Following the good practice for docstrings in Python [https://www.python.org/dev/peps/pep-0257/#id17](https://www.python.org/dev/peps/pep-0257/#id17)
 
